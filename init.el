@@ -73,6 +73,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'tabbar)
 (require-package 'tabbar-ruler)
 (require-package 'sr-speedbar)
+(require-package 'scheme-here)
 
 
 
@@ -181,6 +182,18 @@ re-downloaded in order to locate PACKAGE."
 
 
 ;;----------------------------------------------------------------------------
+;; scheme
+;;----------------------------------------------------------------------------
+(require 'scheme-here)
+(add-hook 'scheme-mode-hook
+  (lambda ()
+    ; (paredit-mode 1)
+    (define-key scheme-mode-map (kbd "<f5>") 'scheme-here-send-sexp)
+    (define-key scheme-mode-map (kbd "<f6>") 'scheme-here-eval-buffer)))
+
+
+
+;;----------------------------------------------------------------------------
 ;; Dired
 ;;----------------------------------------------------------------------------
 (setq dired-recursive-deletes 'always)
@@ -267,7 +280,7 @@ re-downloaded in order to locate PACKAGE."
 ;; Displaying Line Numbers and Column Number
 ;;----------------------------------------------------------------------------
 
-                                        ; always show line numbers
+; always show line numbers
 (global-linum-mode 1)
 
 ;; show cursor position within line
@@ -381,7 +394,7 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "C-M-c") 'comment-or-uncomment-region-or-line)
 
 ;;----------------------------------------------------------------------------
-;; When splitting window, show (other-buffer) in the new window
+;; When splitting window, show (other-buffer) in the new window and move cursor
 ;;----------------------------------------------------------------------------
 (eval-when-compile (require 'cl))
 
@@ -390,7 +403,8 @@ re-downloaded in order to locate PACKAGE."
     (lambda ()
       (interactive)
       (funcall s-f)
-      (set-window-buffer (next-window) (other-buffer)))))
+      (set-window-buffer (next-window) (other-buffer))
+      (other-window 1))))
 
 (global-set-key (kbd "C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
 (global-set-key (kbd "C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
