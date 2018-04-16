@@ -79,6 +79,14 @@
 ;; turn on bracket match highlight
 (show-paren-mode 1)
 
+;; highlight enclosing parens
+(define-advice show-paren-function (:around (fn) fix-show-paren-function)
+  "Highlight enclosing parens."
+  (cond ((looking-at-p "\\s(") (funcall fn))
+    (t (save-excursion
+         (ignore-errors (backward-up-list))
+         (funcall fn)))))
+
 ;; remember cursor position, for emacs 25.1 or later
 (save-place-mode 1)
 
@@ -143,7 +151,68 @@
 (electric-indent-mode 1)
 
 ;; toggle on/off globally for current emacs session.
-; (global-whitespace-mode 1)
+;; (global-whitespace-mode 1)
+
+;; tab region like visual studio
+(defun indent-region-custom(numSpaces)
+  (progn 
+					; default to start and end of current line
+    (setq regionStart (line-beginning-position))
+    (setq regionEnd (line-end-position))
+
+					; if there's a selection, use that instead of the current line
+    (when (use-region-p)
+      (setq regionStart (region-beginning))
+      (setq regionEnd (region-end))
+      )
+
+    (save-excursion ; restore the position afterwards            
+      (goto-char regionStart) ; go to the start of region
+      (setq start (line-beginning-position)) ; save the start of the line
+      (goto-char regionEnd) ; go to the end of region
+      (setq end (line-end-position)) ; save the end of the line
+
+      (indent-rigidly start end numSpaces) ; indent between start and end
+      (setq deactivate-mark nil) ; restore the selected region
+      )
+    )
+  )
+
+(defun untab-region (N)
+  (interactive "p")
+  (indent-region-custom -4)
+  )
+
+(defun tab-region (N)
+  (interactive "p")
+  (if (active-minibuffer-window)
+      (minibuffer-complete)    ; tab is pressed in minibuffer window -> do completion
+					; else
+    (if (string= (buffer-name) "*shell*")
+        (comint-dynamic-complete) ; in a shell, use tab completion
+					; else
+      (if (use-region-p)    ; tab is pressed is any other buffer -> execute with space insertion
+	  (indent-region-custom 4) ; region was selected, call indent-region
+        (insert "    ") ; else insert four spaces as expected
+	)))
+  )
+
+(global-set-key (kbd "<backtab>") 'untab-region)
+(global-set-key (kbd "<tab>") 'tab-region)
+
+;;----------------------------------------------------------------------------
+;; Comment/Uncomment
+;;----------------------------------------------------------------------------
+(defun comment-or-uncomment-region-or-line ()
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+	(setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
+
+(global-set-key (kbd "C-M-c") 'comment-or-uncomment-region-or-line)
 
 ;;----------------------------------------------------------------------------
 ;; Type y/n instead of yes/no
@@ -173,11 +242,13 @@
 ;; save minibuffer history
 (savehist-mode 1)
 
-
 ;;----------------------------------------------------------------------------
-;; Default Window (frame) Size
+;; Frame size and features
 ;;----------------------------------------------------------------------------
+;; no-splash
+(setq inhibit-splash-screen 1)
 
+;; frame size
 (if (display-graphic-p)
     (progn
       (setq initial-frame-alist
@@ -192,17 +263,15 @@
               (height . 40)
               ))))
 
+;; frame title use buffer name
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
 ;;----------------------------------------------------------------------------
-;; misc
+;; Hippie-expand setup
 ;;----------------------------------------------------------------------------
-
-;; set cursor to i-beam
-(setq-default cursor-type 'bar)
-
-;; no-splash
-(setq inhibit-splash-screen 1)
-
-;; hippie-expand setup
 (setq hippie-expand-try-functions-list
       '(
         try-expand-dabbrev
@@ -216,6 +285,26 @@
         ;; try-expand-list
         ;; try-expand-line
         ))
+
+;;----------------------------------------------------------------------------
+;; misc
+;;----------------------------------------------------------------------------
+
+;; set cursor to i-beam
+(setq-default cursor-type 'bar)
+
+;; open windows explorer in the current directory
+(defun open-folder-in-explorer ()  
+  "Call when editing a file in a buffer. Open windows explorer in the current directory and select the current file"  
+  (interactive)  
+  (w32-shell-execute 
+   "open" "explorer"  
+   (concat "/e,/select," (convert-standard-filename buffer-file-name))
+   )
+  )
+
+;; turn off ring bell
+(setq ring-bell-function 'ignore)
 
 ;; Use F2 open init.el
 (defun open-init-file()
