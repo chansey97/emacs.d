@@ -72,6 +72,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'undo-tree)
 (require-package 'tabbar)
 (require-package 'tabbar-ruler)
+(require-package 'sr-speedbar)
 
 
 
@@ -163,11 +164,19 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; (require 'tabbar-ruler)
 (setq tabbar-ruler-global-tabbar t)    ; get tabbar
-(setq tabbar-ruler-global-ruler t)     ; get global ruler
+;; (setq tabbar-ruler-global-ruler t)     ; get global ruler
 ;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
 ;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
 ;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
 (require 'tabbar-ruler)
+
+;;----------------------------------------------------------------------------
+;; sr-speedbar
+;;----------------------------------------------------------------------------
+(require 'sr-speedbar)
+
+(setq sr-speedbar-width-x 40)
+(setq sr-speedbar-width-console 40)
 
 
 
