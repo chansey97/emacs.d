@@ -411,6 +411,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'tabbar-ruler)
 (require-package 'sr-speedbar)
 (require-package 'scheme-here)
+(require-package 'projectile)
 
 
 
@@ -515,6 +516,12 @@ re-downloaded in order to locate PACKAGE."
 
 (setq sr-speedbar-width-x 40)
 (setq sr-speedbar-width-console 40)
+
+;;----------------------------------------------------------------------------
+;; projectile
+;;----------------------------------------------------------------------------
+(require 'projectile)
+(setq-default projectile-completion-system 'ivy)
 
 
 
