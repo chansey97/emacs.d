@@ -19,6 +19,32 @@
   )
 
 ;;----------------------------------------------------------------------------
+;; Path
+;;----------------------------------------------------------------------------
+
+;; use grep/gtags/.. in windows
+
+(when (eq system-type 'windows-nt)
+  ;; (add-to-list 'exec-path "c:/env/gnu-win/glo662wb/bin")
+  ;; (add-to-list 'exec-path "C:/cygwin64/bin")
+  ;; (setenv "PATH"
+  ;;         (concat
+  ;;          "C:\\env\\gnu-win\\glo662wb\\bin" path-separator
+  ;;          "C:\\cygwin64\\bin" path-separator
+  ;;          (getenv "PATH")))
+  
+  (add-to-list 'exec-path "C:/cygwin64/usr/local/bin")
+  (add-to-list 'exec-path "C:/cygwin64/bin")
+  (setenv "PATH"
+          (concat
+           "C:\\cygwin64\\usr\\local\\bin" path-separator
+           "C:\\cygwin64\\bin" path-separator
+           (getenv "PATH")))
+  (load-file (expand-file-name "cygwin-mount.el" user-emacs-directory))
+  (cygwin-mount-activate)
+)
+
+;;----------------------------------------------------------------------------
 ;; Dired
 ;;----------------------------------------------------------------------------
 (setq dired-recursive-deletes 'always)
@@ -320,6 +346,7 @@
         ;; try-expand-line
         ))
 
+
 ;;----------------------------------------------------------------------------
 ;; misc
 ;;----------------------------------------------------------------------------
@@ -409,9 +436,11 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'undo-tree)
 (require-package 'tabbar)
 (require-package 'tabbar-ruler)
-(require-package 'sr-speedbar)
 (require-package 'scheme-here)
 (require-package 'projectile)
+(require-package 'ggtags)
+(require-package 'sr-speedbar)
+(require-package 'projectile-speedbar)
 
 
 
@@ -509,13 +538,6 @@ re-downloaded in order to locate PACKAGE."
 ;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
 (require 'tabbar-ruler)
 
-;;----------------------------------------------------------------------------
-;; sr-speedbar
-;;----------------------------------------------------------------------------
-(require 'sr-speedbar)
-
-(setq sr-speedbar-width-x 40)
-(setq sr-speedbar-width-console 40)
 
 ;;----------------------------------------------------------------------------
 ;; projectile
@@ -525,14 +547,19 @@ re-downloaded in order to locate PACKAGE."
 (setq projectile-enable-caching t)
 (setq-default projectile-completion-system 'ivy)
 
-;; use cygwin grep in windows
-(when (eq system-type 'windows-nt)
-  (setenv "PATH" (concat "C:\\cygwin64\\bin;" (getenv "PATH")))
-  (setq exec-path (append '("C:/cygwin64/bin") exec-path))
-)
-
-(global-set-key (kbd "<f4>") 'projectile-find-file)
+(global-set-key (kbd "<f3>") 'projectile-find-file)
 (global-set-key (kbd "C-S-f") 'projectile-grep)
+
+;;----------------------------------------------------------------------------
+;; speedbar sr-speedbar projectile-speedbar
+;;----------------------------------------------------------------------------
+(require 'sr-speedbar)
+
+(setq sr-speedbar-width-x 40)
+(setq sr-speedbar-width-console 40)
+
+(require 'projectile-speedbar)
+(global-set-key (kbd "<f4>") 'projectile-speedbar-open-current-buffer-in-tree)
 
 
 
