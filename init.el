@@ -521,7 +521,18 @@ re-downloaded in order to locate PACKAGE."
 ;; projectile
 ;;----------------------------------------------------------------------------
 (require 'projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
 (setq-default projectile-completion-system 'ivy)
+
+;; use cygwin grep in windows
+(when (eq system-type 'windows-nt)
+  (setenv "PATH" (concat "C:\\cygwin64\\bin;" (getenv "PATH")))
+  (setq exec-path (append '("C:/cygwin64/bin") exec-path))
+)
+
+(global-set-key (kbd "<f4>") 'projectile-find-file)
+(global-set-key (kbd "C-S-f") 'projectile-grep)
 
 
 
