@@ -374,6 +374,14 @@
    )
   )
 
+;; get current file’s path
+(defun get-current-file-path ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (message (buffer-file-name))
+  (kill-new (file-truename buffer-file-name))
+)
+
 ;; Use F2 open init.el
 (defun open-init-file()
   (interactive)
@@ -528,15 +536,20 @@ re-downloaded in order to locate PACKAGE."
 (defalias 'redo 'undo-tree-redo)
 
 ;;----------------------------------------------------------------------------
-;; tabbar & tabbar-ruler
+;; tabbar
 ;;----------------------------------------------------------------------------
+(require 'tabbar)
+(tabbar-mode)
+
 ;; TODO: doesn't work in terminal?
-(require 'tabbar-ruler)
-(setq tabbar-ruler-global-tabbar t)    ; get tabbar
-;; (setq tabbar-ruler-global-ruler t)     ; get global ruler
-;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
-;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
-;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
+(when (display-graphic-p)
+  (require 'tabbar-ruler)
+  (setq tabbar-ruler-global-tabbar t)    ; get tabbar
+  ;; (setq tabbar-ruler-global-ruler t)     ; get global ruler
+  ;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
+  ;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
+  ;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
+)
 
 ;;----------------------------------------------------------------------------
 ;; projectile
