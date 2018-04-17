@@ -4,6 +4,8 @@
 (when (version< emacs-version "24.5")
   (message "Your Emacs is old, and some functionality in this config will be disabled. Please upgrade if possible."))
 
+
+
 ;;----------------------------------------------------------------------------
 ;; Adjust garbage collection
 ;;----------------------------------------------------------------------------
@@ -15,183 +17,6 @@
   ;; show gc info for debugging
   (setq garbage-collection-messages t)
   )
-
-
-
-;;----------------------------------------------------------------------------
-;; Standard package repositories
-;;----------------------------------------------------------------------------
-
-(require 'package)
-
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (if (< emacs-major-version 24)
-      (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))
-    (unless no-ssl
-      ;; Force SSL for GNU ELPA
-      (setcdr (assoc "gnu" package-archives) "https://elpa.gnu.org/packages/"))))
-
-
-;;----------------------------------------------------------------------------
-;; Auto install packages
-;;----------------------------------------------------------------------------
-(setq package-enable-at-startup nil)
-(package-initialize)
-
-(defun require-package (package &optional min-version no-refresh)
-  "Install given PACKAGE, optionally requiring MIN-VERSION.
-If NO-REFRESH is non-nil, the available package lists will not be
-re-downloaded in order to locate PACKAGE."
-  (if (package-installed-p package min-version)
-      t
-    (if (or (assoc package package-archive-contents) no-refresh)
-        (if (boundp 'package-selected-packages)
-            ;; Record this as a package the user installed explicitly
-            (package-install package nil)
-          (package-install package))
-      (progn
-        (package-refresh-contents)
-        (require-package package min-version t)))))
-
-(require-package 'avy)
-(require-package 'company)
-(require-package 'ivy)
-(require-package 'counsel)
-(require-package 'swiper)
-(require-package 'expand-region)
-(require-package 'hungry-delete)
-(require-package 'popwin)
-(require-package 'symbol-overlay)
-(require-package 'markdown-mode)
-(require-package 'smartparens)
-(require-package 'ace-window)
-(require-package 'undo-tree)
-(require-package 'tabbar)
-(require-package 'tabbar-ruler)
-(require-package 'sr-speedbar)
-(require-package 'scheme-here)
-
-
-
-;;----------------------------------------------------------------------------
-;; avy
-;;----------------------------------------------------------------------------
-(require 'avy)
-(global-set-key (kbd "C-:") 'avy-goto-char)
-
-;;----------------------------------------------------------------------------
-;; company
-;;----------------------------------------------------------------------------
-(require 'company)
-(global-company-mode 1)
-(setq company-idle-delay 0.1)
-(setq company-minimum-prefix-length 1)
-
-;;----------------------------------------------------------------------------
-;; ivy & counsel & swiper
-;;----------------------------------------------------------------------------
-(require 'ivy)
-(require 'counsel)
-(require 'counsel)
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(global-set-key (kbd "C-f") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-h f") 'counsel-describe-function)
-(global-set-key (kbd "C-h v") 'counsel-describe-variable)
-
-;; IDO-style directory navigation
-(define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
-(define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
-
-;;----------------------------------------------------------------------------
-;; expand-region
-;;----------------------------------------------------------------------------
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
-
-;;----------------------------------------------------------------------------
-;; hungry-delete
-;;----------------------------------------------------------------------------
-(require 'hungry-delete)
-(setq hungry-delete-chars-to-skip " \t")
-(global-hungry-delete-mode)
-
-;;----------------------------------------------------------------------------
-;; popwin 
-;;----------------------------------------------------------------------------
-(require 'popwin)
-(popwin-mode t)
-
-;;----------------------------------------------------------------------------
-;; symbol-overlay
-;;----------------------------------------------------------------------------
-(require 'symbol-overlay)
-(add-hook 'prog-mode-hook 'symbol-overlay-mode)
-(setq symbol-overlay-idle-time 0.1)
-
-;;----------------------------------------------------------------------------
-;; symbol-overlay
-;;----------------------------------------------------------------------------
-(require 'smartparens-config)
-(add-hook 'prog-mode-hook 'smartparens-mode)
-(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-(sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
-
-;;----------------------------------------------------------------------------
-;; ace-window
-;;----------------------------------------------------------------------------
-(require 'ace-window)
-(global-set-key (kbd "C-o") 'ace-window)
-(global-set-key (kbd "M-o") 'ace-swap-window)
-(set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
-
-;;----------------------------------------------------------------------------
-;; undo-tree
-;;----------------------------------------------------------------------------
-(require 'undo-tree)
-(global-undo-tree-mode 1)
-
-(defalias 'redo 'undo-tree-redo)
-
-;;----------------------------------------------------------------------------
-;; tabbar & tabbar-ruler
-;;----------------------------------------------------------------------------
-;; (require 'tabbar-ruler)
-(setq tabbar-ruler-global-tabbar t)    ; get tabbar
-;; (setq tabbar-ruler-global-ruler t)     ; get global ruler
-;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
-;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
-;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
-(require 'tabbar-ruler)
-
-;;----------------------------------------------------------------------------
-;; sr-speedbar
-;;----------------------------------------------------------------------------
-(require 'sr-speedbar)
-
-(setq sr-speedbar-width-x 40)
-(setq sr-speedbar-width-console 40)
-
-
-
-;;----------------------------------------------------------------------------
-;; scheme
-;;----------------------------------------------------------------------------
-(require 'scheme-here)
-(add-hook 'scheme-mode-hook
-  (lambda ()
-    ; (paredit-mode 1)
-    (define-key scheme-mode-map (kbd "<f5>") 'scheme-here-send-sexp)
-    (define-key scheme-mode-map (kbd "<f6>") 'scheme-here-eval-buffer)))
-
-
 
 ;;----------------------------------------------------------------------------
 ;; Dired
@@ -218,6 +43,20 @@ re-downloaded in order to locate PACKAGE."
   ;; Select All. was move-beginning-of-line
   (global-set-key (kbd "C-a") 'mark-whole-buffer)
 
+  ;; search forward with Ctrl-f. was forward-char
+  (global-set-key (kbd "C-f") 'isearch-forward)
+  (define-key isearch-mode-map [(control f)] (lookup-key isearch-mode-map "\C-s"))
+  (define-key minibuffer-local-isearch-map [(control f)]
+    (lookup-key minibuffer-local-isearch-map "\C-s"))
+
+  ;; search backward with Alt-f. 
+  (global-set-key (kbd "M-f") 'isearch-backward)
+  (define-key isearch-mode-map [(meta f)] (lookup-key isearch-mode-map "\C-r"))
+  (define-key minibuffer-local-isearch-map [(meta f)]
+    (lookup-key minibuffer-local-isearch-map "\C-r"))
+  
+  (define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
+  
   ;; Save. was isearch-forward
   (global-set-key (kbd "C-s") 'save-buffer)
 
@@ -275,6 +114,12 @@ re-downloaded in order to locate PACKAGE."
 ;; UTF-8 as default encoding
 ;; (set-language-environment "UTF-8")
 ;; (set-default-coding-systems 'utf-8)
+
+;;----------------------------------------------------------------------------
+;; Font
+;;----------------------------------------------------------------------------
+(set-fontset-font "fontset-default"
+                  'symbol (font-spec :family "Symbola"))
 
 ;;----------------------------------------------------------------------------
 ;; Displaying Line Numbers and Column Number
@@ -442,14 +287,14 @@ re-downloaded in order to locate PACKAGE."
     (progn
       (setq initial-frame-alist
             '(
-              (width . 140) ; chars
-              (height . 40) ; lines
+              (width . 150) ; chars
+              (height . 50) ; lines
               ))
 
       (setq default-frame-alist
             '(
-              (width . 140)
-              (height . 40)
+              (width . 150)
+              (height . 50)
               ))))
 
 ;; frame title use buffer name
@@ -508,6 +353,180 @@ re-downloaded in order to locate PACKAGE."
   (find-file "~/.emacs.d/init.el"))
 
 (global-set-key (kbd "<f2>") 'open-init-file)
+
+;;----------------------------------------------------------------------------
+;; Standard package repositories
+;;----------------------------------------------------------------------------
+
+(require 'package)
+
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (if (< emacs-major-version 24)
+      (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))
+    (unless no-ssl
+      ;; Force SSL for GNU ELPA
+      (setcdr (assoc "gnu" package-archives) "https://elpa.gnu.org/packages/"))))
+
+
+
+;;----------------------------------------------------------------------------
+;; Auto install packages
+;;----------------------------------------------------------------------------
+(setq package-enable-at-startup nil)
+(package-initialize)
+
+(defun require-package (package &optional min-version no-refresh)
+  "Install given PACKAGE, optionally requiring MIN-VERSION.
+If NO-REFRESH is non-nil, the available package lists will not be
+re-downloaded in order to locate PACKAGE."
+  (if (package-installed-p package min-version)
+      t
+    (if (or (assoc package package-archive-contents) no-refresh)
+        (if (boundp 'package-selected-packages)
+            ;; Record this as a package the user installed explicitly
+            (package-install package nil)
+          (package-install package))
+      (progn
+        (package-refresh-contents)
+        (require-package package min-version t)))))
+
+(require-package 'avy)
+(require-package 'company)
+(require-package 'ivy)
+(require-package 'counsel)
+(require-package 'swiper)
+(require-package 'expand-region)
+(require-package 'hungry-delete)
+(require-package 'popwin)
+(require-package 'symbol-overlay)
+(require-package 'markdown-mode)
+(require-package 'smartparens)
+(require-package 'ace-window)
+(require-package 'undo-tree)
+(require-package 'tabbar)
+(require-package 'tabbar-ruler)
+(require-package 'sr-speedbar)
+(require-package 'scheme-here)
+
+
+
+;;----------------------------------------------------------------------------
+;; avy
+;;----------------------------------------------------------------------------
+(require 'avy)
+(global-set-key (kbd "C-:") 'avy-goto-char)
+
+;;----------------------------------------------------------------------------
+;; company
+;;----------------------------------------------------------------------------
+(require 'company)
+(global-company-mode 1)
+(setq company-idle-delay 0.1)
+(setq company-minimum-prefix-length 1)
+
+;;----------------------------------------------------------------------------
+;; ivy & counsel & swiper
+;;----------------------------------------------------------------------------
+(require 'ivy)
+(require 'counsel)
+(require 'counsel)
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(global-set-key (kbd "C-f") 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-h f") 'counsel-describe-function)
+(global-set-key (kbd "C-h v") 'counsel-describe-variable)
+
+;; IDO-style directory navigation
+(define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+(define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
+
+;;----------------------------------------------------------------------------
+;; expand-region
+;;----------------------------------------------------------------------------
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;;----------------------------------------------------------------------------
+;; hungry-delete
+;;----------------------------------------------------------------------------
+(require 'hungry-delete)
+(setq hungry-delete-chars-to-skip " \t")
+(global-hungry-delete-mode)
+
+;;----------------------------------------------------------------------------
+;; popwin 
+;;----------------------------------------------------------------------------
+(require 'popwin)
+(popwin-mode t)
+
+;;----------------------------------------------------------------------------
+;; symbol-overlay
+;;----------------------------------------------------------------------------
+(require 'symbol-overlay)
+(add-hook 'prog-mode-hook 'symbol-overlay-mode)
+(setq symbol-overlay-idle-time 0.1)
+
+;;----------------------------------------------------------------------------
+;; symbol-overlay
+;;----------------------------------------------------------------------------
+(require 'smartparens-config)
+(add-hook 'prog-mode-hook 'smartparens-mode)
+(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+(sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
+
+;;----------------------------------------------------------------------------
+;; ace-window
+;;----------------------------------------------------------------------------
+(require 'ace-window)
+(global-set-key (kbd "C-o") 'ace-window)
+(global-set-key (kbd "M-o") 'ace-swap-window)
+(set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
+
+;;----------------------------------------------------------------------------
+;; undo-tree
+;;----------------------------------------------------------------------------
+(require 'undo-tree)
+(global-undo-tree-mode 1)
+
+(defalias 'redo 'undo-tree-redo)
+
+;;----------------------------------------------------------------------------
+;; tabbar & tabbar-ruler
+;;----------------------------------------------------------------------------
+;; (require 'tabbar-ruler)
+(setq tabbar-ruler-global-tabbar t)    ; get tabbar
+;; (setq tabbar-ruler-global-ruler t)     ; get global ruler
+;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
+;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
+;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
+(require 'tabbar-ruler)
+
+;;----------------------------------------------------------------------------
+;; sr-speedbar
+;;----------------------------------------------------------------------------
+(require 'sr-speedbar)
+
+(setq sr-speedbar-width-x 40)
+(setq sr-speedbar-width-console 40)
+
+
+
+;;----------------------------------------------------------------------------
+;; scheme
+;;----------------------------------------------------------------------------
+(require 'scheme-here)
+(add-hook 'scheme-mode-hook
+  (lambda ()
+    ; (paredit-mode 1)
+    (define-key scheme-mode-map (kbd "<f5>") 'scheme-here-send-sexp)
+    (define-key scheme-mode-map (kbd "<f6>") 'scheme-here-eval-buffer)))
 
 
 
