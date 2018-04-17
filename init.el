@@ -559,7 +559,7 @@ re-downloaded in order to locate PACKAGE."
 (setq sr-speedbar-width-console 40)
 
 (require 'projectile-speedbar)
-(global-set-key (kbd "<f4>") 'projectile-speedbar-open-current-buffer-in-tree)
+(global-set-key (kbd "<f4>") 'projectile-speedbar-toggle)
 
 
 
