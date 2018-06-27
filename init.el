@@ -305,6 +305,9 @@
 ;;----------------------------------------------------------------------------
 ;; Frame size and features
 ;;----------------------------------------------------------------------------
+;; show menu
+(menu-bar-mode 1)
+
 ;; no-splash
 (setq inhibit-splash-screen 1)
 
@@ -440,15 +443,20 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'symbol-overlay)
 (require-package 'markdown-mode)
 (require-package 'smartparens)
+;; (require-package 'paredit)
 (require-package 'ace-window)
 (require-package 'undo-tree)
 (require-package 'tabbar)
 (require-package 'tabbar-ruler)
-(require-package 'scheme-here)
 (require-package 'projectile)
 (require-package 'ggtags)
 (require-package 'sr-speedbar)
 (require-package 'projectile-speedbar)
+(require-package 'sml-mode)
+(require-package 'racket-mode)
+(require-package 'yasnippet)
+(require-package 'yasnippet-snippets)
+
 
 
 
@@ -465,6 +473,21 @@ re-downloaded in order to locate PACKAGE."
 (global-company-mode 1)
 (setq company-idle-delay 0.1)
 (setq company-minimum-prefix-length 1)
+
+
+;; Add yasnippet support for all company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+
 
 ;;----------------------------------------------------------------------------
 ;; ivy & counsel & swiper
@@ -512,12 +535,21 @@ re-downloaded in order to locate PACKAGE."
 (setq symbol-overlay-idle-time 0.1)
 
 ;;----------------------------------------------------------------------------
-;; symbol-overlay
+;; smartparens
 ;;----------------------------------------------------------------------------
 (require 'smartparens-config)
 (add-hook 'prog-mode-hook 'smartparens-mode)
 (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
+(sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
+
+;;----------------------------------------------------------------------------
+;; paredit (install paredit because C-right and M-r is very useful)
+;;----------------------------------------------------------------------------
+;; (require 'paredit)
+;; (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+;; (add-hook 'lisp-interaction-mode 'paredit-mode)
+;; (add-hook 'scheme-mode-hook 'paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; ace-window
@@ -573,17 +605,31 @@ re-downloaded in order to locate PACKAGE."
 (require 'projectile-speedbar)
 (global-set-key (kbd "<f4>") 'projectile-speedbar-toggle)
 
+;;----------------------------------------------------------------------------
+;; smooth-scroll
+;;----------------------------------------------------------------------------
+;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+;; (setq scroll-step 1) ;; keyboard scroll one line at a time
+
+
 
 
+
 ;;----------------------------------------------------------------------------
-;; scheme
+;; racket-mode
 ;;----------------------------------------------------------------------------
-(require 'scheme-here)
-(add-hook 'scheme-mode-hook
-  (lambda ()
-    ; (paredit-mode 1)
-    (define-key scheme-mode-map (kbd "<f5>") 'scheme-here-send-sexp)
-    (define-key scheme-mode-map (kbd "<f6>") 'scheme-here-eval-buffer)))
+(require 'racket-mode)
+(setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
+;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+
+;;----------------------------------------------------------------------------
+;; racket-modeyasnippet
+;;----------------------------------------------------------------------------
+(require 'yasnippet)
+(yas-global-mode 1)
 
 
 
@@ -594,7 +640,7 @@ re-downloaded in order to locate PACKAGE."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smartparens symbol-overlay page-break-lines popwin hungry-delete expand-region counsel company avy))))
+    (yasnippet smartparens symbol-overlay page-break-lines popwin hungry-delete expand-region counsel company avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
