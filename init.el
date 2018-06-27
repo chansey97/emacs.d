@@ -298,6 +298,11 @@
 (global-set-key (kbd "C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
 (global-set-key (kbd "C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
 
+;; when resolution is high, emacs automatically split window
+;; http://blog.mpacula.com/2012/01/28/howto-prevent-emacs-from-splitting-windows/
+;; (setq split-height-threshold 1200)
+;; (setq split-width-threshold 2000)
+
 ;;----------------------------------------------------------------------------
 ;; disable warnings
 ;;----------------------------------------------------------------------------
@@ -468,13 +473,12 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'tabbar-ruler)
 (require-package 'projectile)
 (require-package 'ggtags)
-(require-package 'sr-speedbar)
-(require-package 'projectile-speedbar)
 (require-package 'sml-mode)
 (require-package 'racket-mode)
 (require-package 'yasnippet)
 (require-package 'yasnippet-snippets)
-;; (require-package 'srefactor)
+(require-package 'treemacs)
+(require-package 'treemacs-projectile)
 
 
 
@@ -643,16 +647,6 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "<f3>") 'projectile-find-file)
 (global-set-key (kbd "C-S-f") 'projectile-grep)
 
-;;----------------------------------------------------------------------------
-;; speedbar sr-speedbar projectile-speedbar
-;;----------------------------------------------------------------------------
-(require 'sr-speedbar)
-
-(setq sr-speedbar-width-x 40)
-(setq sr-speedbar-width-console 40)
-
-(require 'projectile-speedbar)
-(global-set-key (kbd "<f4>") 'projectile-speedbar-toggle)
 
 ;;----------------------------------------------------------------------------
 ;; smooth-scroll
@@ -681,23 +675,54 @@ re-downloaded in order to locate PACKAGE."
 (yas-global-mode 1)
 
 ;;----------------------------------------------------------------------------
-;; srefactor
+;; treemacs
 ;;----------------------------------------------------------------------------
-;; (require 'srefactor)
-;; (require 'srefactor-lisp)
+(require 'treemacs)
+(with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+(progn
+  (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
+        treemacs-file-event-delay           5000
+        treemacs-follow-after-init          t
+        treemacs-follow-recenter-distance   0.1
+        treemacs-goto-tag-strategy          'refetch-index
+        treemacs-indentation                2
+        treemacs-indentation-string         " "
+        treemacs-is-never-other-window      nil
+        treemacs-no-png-images              nil
+        treemacs-project-follow-cleanup     nil
+        treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+        treemacs-recenter-after-file-follow nil
+        treemacs-recenter-after-tag-follow  nil
+        treemacs-show-hidden-files          t
+        treemacs-silent-filewatch           nil
+        treemacs-silent-refresh             nil
+        treemacs-sorting                    'alphabetic-desc
+        treemacs-space-between-root-nodes   t
+        treemacs-tag-follow-cleanup         t
+        treemacs-tag-follow-delay           1.5
+        treemacs-width                      35)
 
-;; ;; OPTIONAL: ADD IT ONLY IF YOU USE C/C++. 
-;; (semantic-mode 1) ;; -> this is optional for Lisp
+  ;; The default width and height of the icons is 22 pixels. If you are
+  ;; using a Hi-DPI display, uncomment this to double the icon size.
+  (treemacs-resize-icons 44)
 
-;; ;; (define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
-;; ;; (define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
-;; ;; (global-set-key (kbd "M-RET o") 'srefactor-lisp-one-line)
-;; ;; (global-set-key (kbd "M-RET m") 'srefactor-lisp-format-sexp)
-;; ;; (global-set-key (kbd "M-RET d") 'srefactor-lisp-format-defun)
-;; ;; (global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode t)
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null (executable-find "python3"))))
+    (`(t . t)
+     (treemacs-git-mode 'extended))
+    (`(t . _)
+     (treemacs-git-mode 'simple))))
 
-
-
+(define-key global-map (kbd "M-0") 'treemacs-select-window)
+(define-key global-map (kbd "C-x t 1") 'treemacs-delete-other-windows)
+(define-key global-map (kbd "C-x t t") 'treemacs)
+(define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
+(define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
+(define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
 
 
 
