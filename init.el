@@ -42,7 +42,7 @@
            (getenv "PATH")))
   (load-file (expand-file-name "cygwin-mount.el" user-emacs-directory))
   (cygwin-mount-activate)
-)
+  )
 
 ;;----------------------------------------------------------------------------
 ;; Dired
@@ -53,7 +53,7 @@
 ;; dired not create multiple buffers
 (put 'dired-find-alternate-file 'disabled nil)
 (with-eval-after-load 'dired
-    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
 
 ;;----------------------------------------------------------------------------
 ;; Text Editing
@@ -191,7 +191,7 @@
 ;; if indent-tabs-mode is t, it means it may use tab, resulting mixed space and tab
 
 ;; set default tab char's display width to 4 spaces
-(setq-default tab-width 4) ; emacs 23.1, 24.2, default to 8
+(setq-default tab-width 2) ; emacs 23.1, 24.2, default to 8
 
 ;; make tab key call indent command or insert tab character, depending on cursor position
 (setq-default tab-always-indent nil)
@@ -230,7 +230,7 @@
 
 (defun untab-region (N)
   (interactive "p")
-  (indent-region-custom -4)
+  (indent-region-custom -2)
   )
 
 (defun tab-region (N)
@@ -242,13 +242,31 @@
         (comint-dynamic-complete) ; in a shell, use tab completion
                                         ; else
       (if (use-region-p)    ; tab is pressed is any other buffer -> execute with space insertion
-          (indent-region-custom 4) ; region was selected, call indent-region
+          (indent-region-custom 2) ; region was selected, call indent-region
         (insert "    ") ; else insert four spaces as expected
         )))
   )
 
 (global-set-key (kbd "<backtab>") 'untab-region)
 (global-set-key (kbd "<tab>") 'tab-region)
+
+;; indent whole buffer (replace some code pretty plugins)
+(defun indent-buffer()
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(defun indent-region-or-buffer()
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (progn
+          (indent-region (region-beginning) (region-end))
+          (message "Indent selected region."))
+      (progn
+        (indent-buffer)
+        (message "Indent buffer.")))))
+
+(global-set-key (kbd "C-M-l") 'indent-region-or-buffer)
 
 ;;----------------------------------------------------------------------------
 ;; Comment/Uncomment
@@ -383,7 +401,7 @@
   (interactive)
   (message (buffer-file-name))
   (kill-new (file-truename buffer-file-name))
-)
+  )
 
 ;; Use F2 open init.el
 (defun open-init-file()
@@ -402,7 +420,7 @@
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+                                        ; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (if (< emacs-major-version 24)
       (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))
     (unless no-ssl
@@ -443,7 +461,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'symbol-overlay)
 (require-package 'markdown-mode)
 (require-package 'smartparens)
-;; (require-package 'paredit)
+(require-package 'paredit)
 (require-package 'ace-window)
 (require-package 'undo-tree)
 (require-package 'tabbar)
@@ -456,7 +474,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'racket-mode)
 (require-package 'yasnippet)
 (require-package 'yasnippet-snippets)
-
+;; (require-package 'srefactor)
 
 
 
@@ -544,12 +562,43 @@ re-downloaded in order to locate PACKAGE."
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
 
 ;;----------------------------------------------------------------------------
-;; paredit (install paredit because C-right and M-r is very useful)
+;; paredit
 ;;----------------------------------------------------------------------------
-;; (require 'paredit)
-;; (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-;; (add-hook 'lisp-interaction-mode 'paredit-mode)
-;; (add-hook 'scheme-mode-hook 'paredit-mode)
+(require 'paredit)
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'lisp-interaction-mode 'paredit-mode)
+(add-hook 'scheme-mode-hook 'paredit-mode)
+(add-hook 'racket-mode-hook 'paredit-mode)
+
+;; making paredit work with delete-selection-mode
+(put 'paredit-forward-delete 'delete-selection 'supersede)
+(put 'paredit-backward-delete 'delete-selection 'supersede)
+(put 'paredit-newline 'delete-selection t)
+
+;; C-) eat right expression
+;; C-( eat left expression
+;; C-} spit out right expression
+;; C-{ spit out left expression
+;; M-r raise-sexp (remove one level outer parentheses)
+
+;; Change nasty paredit keybindings (s means superkey, S means shift)
+(defvar my-nasty-paredit-keybindings-remappings
+  '(("M-s"         "s-s"         paredit-splice-sexp)
+    ("M-<up>"      "s-<up>"      paredit-splice-sexp-killing-backward)
+    ("M-<down>"    "s-<down>"    paredit-splice-sexp-killing-forward)
+    ("C-<right>"   "s-<right>"   paredit-forward-slurp-sexp)
+    ("C-<left>"    "s-<left>"    paredit-forward-barf-sexp)
+    ("C-M-<left>"  "s-S-<left>"  paredit-backward-slurp-sexp)
+    ("C-M-<right>" "s-S-<right>" paredit-backward-barf-sexp)))
+
+;; (define-key paredit-mode-map (kbd "s-r") 'paredit-raise-sexp)
+
+(--each my-nasty-paredit-keybindings-remappings
+  (let ((original (car it))
+        (replacement (cadr it))
+        (command (car (last it))))
+    (define-key paredit-mode-map (read-kbd-macro original) nil)
+    (define-key paredit-mode-map (read-kbd-macro replacement) command)))
 
 ;;----------------------------------------------------------------------------
 ;; ace-window
@@ -581,7 +630,7 @@ re-downloaded in order to locate PACKAGE."
   ;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
   ;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
   ;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
-)
+  )
 
 ;;----------------------------------------------------------------------------
 ;; projectile
@@ -626,10 +675,30 @@ re-downloaded in order to locate PACKAGE."
 ;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
 
 ;;----------------------------------------------------------------------------
-;; racket-modeyasnippet
+;; yasnippet
 ;;----------------------------------------------------------------------------
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;;----------------------------------------------------------------------------
+;; srefactor
+;;----------------------------------------------------------------------------
+;; (require 'srefactor)
+;; (require 'srefactor-lisp)
+
+;; ;; OPTIONAL: ADD IT ONLY IF YOU USE C/C++. 
+;; (semantic-mode 1) ;; -> this is optional for Lisp
+
+;; ;; (define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
+;; ;; (define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
+;; ;; (global-set-key (kbd "M-RET o") 'srefactor-lisp-one-line)
+;; ;; (global-set-key (kbd "M-RET m") 'srefactor-lisp-format-sexp)
+;; ;; (global-set-key (kbd "M-RET d") 'srefactor-lisp-format-defun)
+;; ;; (global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
+
+
+
+
 
 
 
