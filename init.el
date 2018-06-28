@@ -13,7 +13,7 @@
 (when (eq system-type 'windows-nt)
   (setq gc-cons-threshold (* 512 1024 1024))
   (setq gc-cons-percentage 0.5)
-  (run-with-idle-timer 5 t #'garbage-collect)
+  (run-with-idle-timer 30 t #'garbage-collect)
   ;; show gc info for debugging
   (setq garbage-collection-messages t)
   )
@@ -192,9 +192,10 @@
 
 ;; set default tab char's display width to 4 spaces
 (setq-default tab-width 2) ; emacs 23.1, 24.2, default to 8
-
+    
 ;; make tab key call indent command or insert tab character, depending on cursor position
 (setq-default tab-always-indent nil)
+
 
 ;; make return key also do indent, globally
 (electric-indent-mode 1)
@@ -203,7 +204,7 @@
 ;; (global-whitespace-mode 1)
 ;; (global-whitespace-newline-mode 1)
 
-;; tab region like visual studio
+;; tab region like visual studio (means: use customized tab instead of emacs' tab)
 (defun indent-region-custom(numSpaces)
   (progn
     ;; default to start and end of current line
@@ -243,12 +244,13 @@
                                         ; else
       (if (use-region-p)    ; tab is pressed is any other buffer -> execute with space insertion
           (indent-region-custom 2) ; region was selected, call indent-region
-        (insert "    ") ; else insert four spaces as expected
+        (insert "  ") ; else insert 2 spaces as expected
         )))
   )
 
 (global-set-key (kbd "<backtab>") 'untab-region)
 (global-set-key (kbd "<tab>") 'tab-region)
+
 
 ;; indent whole buffer (replace some code pretty plugins)
 (defun indent-buffer()
@@ -631,7 +633,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'tabbar)
 (tabbar-mode)
-
+ 
 ;; TODO: doesn't work in terminal?
 (when (display-graphic-p)
   (require 'tabbar-ruler)
