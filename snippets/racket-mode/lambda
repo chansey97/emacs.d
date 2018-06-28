@@ -2,4 +2,4 @@
 # name: (lambda (...) ...)
 # key: lambda
 # --
-(lambda (${1:parameters}) ${2:#f))
+(lambda (${1:parameters}) ${2:#f})
