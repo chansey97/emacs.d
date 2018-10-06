@@ -44,6 +44,22 @@
   (cygwin-mount-activate)
   )
 
+
+;;----------------------------------------------------------------------------
+;; Back-button
+;;----------------------------------------------------------------------------
+;; press the plus sign in the toolbar to create a mark
+;; press the arrows in the toolbar to navigate marks
+;; or use C-x C-Space as usual, then try C-x C-<right>
+;; to reverse the operation
+
+(when (eq system-type 'windows-nt)
+  (load-file (expand-file-name "back-button.el" user-emacs-directory))
+  )
+
+(require 'back-button)
+(back-button-mode 1)
+
 ;;----------------------------------------------------------------------------
 ;; Dired
 ;;----------------------------------------------------------------------------
@@ -151,7 +167,7 @@
 ;; Displaying Line Numbers and Column Number
 ;;----------------------------------------------------------------------------
 
-; always show line numbers
+                                        ; always show line numbers
 (global-linum-mode 1)
 
 ;; show cursor position within line
@@ -192,7 +208,7 @@
 
 ;; set default tab char's display width to 4 spaces
 (setq-default tab-width 2) ; emacs 23.1, 24.2, default to 8
-    
+
 ;; make tab key call indent command or insert tab character, depending on cursor position
 (setq-default tab-always-indent nil)
 
@@ -418,7 +434,7 @@
 (global-set-key (kbd "<f2>") 'open-init-file)
 
 ;; automatically add an Imenu menu to the menu bar
- (defun try-to-add-imenu ()
+(defun try-to-add-imenu ()
   (condition-case nil (imenu-add-to-menubar "imenu") (error nil)))
 (add-hook 'prog-mode-hook 'try-to-add-imenu)
 
@@ -538,6 +554,11 @@ re-downloaded in order to locate PACKAGE."
 (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
 (define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
 
+;; disable wildcard when C-f
+(setq ivy-re-builders-alist
+      '((swiper . regexp-quote)
+        ))
+
 ;;----------------------------------------------------------------------------
 ;; expand-region
 ;;----------------------------------------------------------------------------
@@ -612,6 +633,9 @@ re-downloaded in order to locate PACKAGE."
     (define-key paredit-mode-map (read-kbd-macro original) nil)
     (define-key paredit-mode-map (read-kbd-macro replacement) command)))
 
+;; don't hijack \ please (eg: ^S\)
+(define-key paredit-mode-map (kbd "\\") nil)
+
 ;;----------------------------------------------------------------------------
 ;; ace-window
 ;;----------------------------------------------------------------------------
@@ -633,7 +657,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'tabbar)
 (tabbar-mode)
- 
+
 ;; TODO: doesn't work in terminal?
 (when (display-graphic-p)
   (require 'tabbar-ruler)
@@ -655,6 +679,17 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "<f3>") 'projectile-find-file)
 (global-set-key (kbd "C-S-f") 'projectile-grep)
 
+
+(defun ch-remove-grep--command ()
+  (save-excursion
+    (goto-char 1)
+    (search-forward "Grep started at " nil t)
+    (line-move 2)
+    (delete-region (line-beginning-position) (line-end-position))
+    )
+  )
+
+(add-hook 'compilation-filter-hook 'ch-remove-grep--command)
 
 ;;----------------------------------------------------------------------------
 ;; smooth-scroll
@@ -687,7 +722,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'treemacs)
 (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
 (progn
   (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
         treemacs-file-event-delay           5000
@@ -709,8 +744,8 @@ re-downloaded in order to locate PACKAGE."
         treemacs-space-between-root-nodes   t
         treemacs-tag-follow-cleanup         t
         treemacs-tag-follow-delay           1.5
-        treemacs-width                      35)
-
+        treemacs-width                      40)
+  
   ;; The default width and height of the icons is 22 pixels. If you are
   ;; using a Hi-DPI display, uncomment this to double the icon size.
   (treemacs-resize-icons 44)

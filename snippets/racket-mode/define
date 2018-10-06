@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: (define ... ...)
+# name: (define (proc ...) ...)
 # key: define
 # --
 (define (${1:name} ${2:parameters})
