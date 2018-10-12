@@ -434,9 +434,9 @@
 (global-set-key (kbd "<f2>") 'open-init-file)
 
 ;; automatically add an Imenu menu to the menu bar
-;; (defun try-to-add-imenu ()
-;;   (condition-case nil (imenu-add-to-menubar "imenu") (error nil)))
-;; (add-hook 'prog-mode-hook 'try-to-add-imenu)
+(defun try-to-add-imenu ()
+  (condition-case nil (imenu-add-to-menubar "imenu") (error nil)))
+(add-hook 'prog-mode-hook 'try-to-add-imenu)
 
 ;;----------------------------------------------------------------------------
 ;; Standard package repositories
@@ -765,25 +765,6 @@ re-downloaded in order to locate PACKAGE."
 (define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
 (define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
 (define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
-
-;;----------------------------------------------------------------------------
-;; imenu-list
-;;----------------------------------------------------------------------------
-;; Note:I can't download it from elpa, I don't know why...
-;; So I download from github: https://github.com/bmag/imenu-list/tree/v0.8
-
-(when (eq system-type 'windows-nt)
-  (load-file (expand-file-name "imenu-list.el" user-emacs-directory))
-  )
-
-(require 'imenu-list)
-(setq imenu-list-idle-update-delay-time 2)
-;; (setq imenu-list-auto-resize t)
-;; (setq imenu-list-position 'below)
-(setq imenu-list-size 0.25)
-
-(global-set-key (kbd "C-'") #'imenu-list-minor-mode)
-;; (global-set-key (kbd "C-'") #'imenu-list-smart-toggle)
 
 
 
