@@ -539,7 +539,6 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'ivy)
 (require 'counsel)
-(require 'counsel)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
@@ -548,6 +547,9 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "C-h f") 'counsel-describe-function)
 (global-set-key (kbd "C-h v") 'counsel-describe-variable)
+
+;; tab complete in counsel-find-file-map
+(define-key counsel-find-file-map (kbd "<tab>") #'ivy-insert-current)
 
 ;; IDO-style directory navigation
 (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
