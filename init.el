@@ -197,6 +197,9 @@
 ;; save/restore opened files
 (desktop-save-mode 1)
 
+(setq desktop-base-lock-name
+      (convert-standard-filename (format ".emacs.desktop.lock-%d" (emacs-pid))))
+
 ;;----------------------------------------------------------------------------
 ;; Tabs, Space, Indentation, Keyword Completion
 ;;----------------------------------------------------------------------------
@@ -548,8 +551,9 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "C-h f") 'counsel-describe-function)
 (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 
-;; tab complete in counsel-find-file-map
+;; tab complete in counsel
 (define-key counsel-find-file-map (kbd "<tab>") #'ivy-insert-current)
+(define-key counsel-describe-map (kbd "<tab>") #'ivy-insert-current)
 
 ;; IDO-style directory navigation
 (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
@@ -711,6 +715,12 @@ re-downloaded in order to locate PACKAGE."
 (setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
 ;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
 ;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+
+(add-hook 'racket-mode-hook
+          (lambda ()
+            (define-key racket-mode-map (kbd "<f5>")'racket-run)
+            (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
+            ))
 
 ;;----------------------------------------------------------------------------
 ;; yasnippet
