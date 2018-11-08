@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (module+ main ...)
+# key: module
+# --
+(module+ ${1:main} $0)

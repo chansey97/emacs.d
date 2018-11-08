@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (define-synatx name ...)
+# key: define-synatx
+# --
+(define-synatx ${1:name} 
+	(syntax-rules ()
+		[(${2:pattern1}) ${3:skeleton1}]
+		[(${4:pattern2}) ${5:skeleton2}]))

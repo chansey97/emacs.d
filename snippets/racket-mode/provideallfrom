@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (provide (all-from-out ...))
+# key: provide
+# --
+(provide (all-from-out $0))
+
