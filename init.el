@@ -713,6 +713,8 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'racket-mode)
 (setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
+(add-hook 'scheme-mode-hook 'racket-mode)
+
 ;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
 ;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
 
