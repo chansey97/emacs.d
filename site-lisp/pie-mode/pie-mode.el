@@ -7,6 +7,7 @@
   
   )
 
+;;;###autoload
 (progn
   (add-to-list 'auto-mode-alist '("\\.pie\\'" . pie-mode))
   (modify-coding-system-alist 'file "\\.pie\\'"  'utf-8))
