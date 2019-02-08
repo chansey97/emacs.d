@@ -133,8 +133,8 @@ Supplies CONTEXT-LEVEL to the back-end ,run command; see run.rkt.
 If supplied, WHAT-TO-RUN should be a buffer filename, or a cons
 of a file name to a list of submodule symbols. Otherwise, the
 `racket--what-to-run' is used."
-  (unless (eq major-mode 'racket-mode)
-    (user-error "Current buffer is not a racket-mode buffer"))
+  ;; (unless (eq major-mode 'racket-mode)
+  ;;   (user-error "Current buffer is not a racket-mode buffer"))
   (when (or (buffer-modified-p)
             (and (racket--buffer-file-name)
                  (not (file-exists-p (racket--buffer-file-name)))))
