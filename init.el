@@ -22,8 +22,15 @@
 ;; Path
 ;;----------------------------------------------------------------------------
 
-;; use grep/gtags/.. in windows
+;; load path
+(defun add-subdirs-to-load-path (dir)
+  "Recursive add directories to `load-path'."
+  (let ((default-directory (file-name-as-directory dir)))
+    (add-to-list 'load-path dir)
+    (normal-top-level-add-subdirs-to-load-path)))
+(add-subdirs-to-load-path (concat user-emacs-directory "site-lisp"))
 
+;; use grep/gtags/.. in windows
 (when (eq system-type 'windows-nt)
   ;; (add-to-list 'exec-path "c:/env/gnu-win/glo662wb/bin")
   ;; (add-to-list 'exec-path "C:/cygwin64/bin")
@@ -40,10 +47,8 @@
            "C:\\cygwin64\\usr\\local\\bin" path-separator
            "C:\\cygwin64\\bin" path-separator
            (getenv "PATH")))
-  (load-file (expand-file-name "cygwin-mount.el" user-emacs-directory))
-  (cygwin-mount-activate)
-  )
-
+  (require 'cygwin-mount)
+  (cygwin-mount-activate))
 
 ;;----------------------------------------------------------------------------
 ;; Back-button
@@ -54,11 +59,8 @@
 ;; to reverse the operation
 
 (when (eq system-type 'windows-nt)
-  (load-file (expand-file-name "back-button.el" user-emacs-directory))
-  )
-
-(require 'back-button)
-(back-button-mode 1)
+  (require 'back-button)
+  (back-button-mode 1))
 
 ;;----------------------------------------------------------------------------
 ;; Dired
@@ -500,7 +502,6 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'projectile)
 (require-package 'ggtags)
 (require-package 'sml-mode)
-(require-package 'racket-mode)
 (require-package 'yasnippet)
 (require-package 'yasnippet-snippets)
 (require-package 'treemacs)
@@ -724,6 +725,11 @@ re-downloaded in order to locate PACKAGE."
             (define-key racket-mode-map (kbd "<f5>")'racket-run)
             (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
             ))
+
+;;----------------------------------------------------------------------------
+;; pie-mode (the little typer)
+;;----------------------------------------------------------------------------
+(require 'pie-mode)
 
 ;;----------------------------------------------------------------------------
 ;; yasnippet
