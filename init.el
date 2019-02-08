@@ -713,7 +713,8 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'racket-mode)
 (setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
-(add-hook 'scheme-mode-hook 'racket-mode)
+(add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode))
+(modify-coding-system-alist 'file "\\.scm\\'"  'utf-8)
 
 ;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
 ;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
