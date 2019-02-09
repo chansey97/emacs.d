@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: (let ([name e]+) e)
+# name: (let ([name e]+ ) e)
 # key: let
 # --
 (let ((${1:var1} ${2:exp1}) $3)
