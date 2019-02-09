@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (rec-Nat e e e)
+# key: rec-Nat
+# --
+(rec-Nat ${1:target}
+  ${2:base}
+  ${0:step})

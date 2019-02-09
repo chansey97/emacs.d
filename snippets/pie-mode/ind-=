@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (ind-= e e e)
+# key: ind-=
+# --
+(ind-= ${1:target}
+  ${2:mot}
+  ${0:base})

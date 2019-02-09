@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (ind-Nat e e e e)
+# key: ind-Nat
+# --
+(ind-Nat ${1:target}
+  ${2:mot}
+  ${3:base}
+  ${0:step})

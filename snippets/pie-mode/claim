@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (claim name e)
+# key: claim
+# --
+(claim ${1:name}
+  ${2:body})

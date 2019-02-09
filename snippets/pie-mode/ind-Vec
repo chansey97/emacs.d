@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (ind-Vec e e e e e)
+# key: ind-Vec
+# --
+(ind-Vec ${1:n} ${2:es}
+  ${3:mot}
+  ${4:base}
+  ${0:step})

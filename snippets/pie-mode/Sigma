@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name: (Sigma ((x e) ...) e)
+#key: Sigma
+# --
+(Sigma ((${1:x} ${2:A}) $3)
+  ${0:D})

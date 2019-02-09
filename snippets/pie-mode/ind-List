@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (ind-List e e e e)
+# key: ind-List
+# --
+(ind-List ${1:target}
+  ${2:mot}
+  ${3:base}
+  ${0:step})

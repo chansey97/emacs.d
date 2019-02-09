@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (ind-Absurd e e)
+# key: ind-Absurd
+# --
+(ind-Absurd ${1:target}
+  ${0:mot})

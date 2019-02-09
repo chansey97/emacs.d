@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name: (Pi ((y e) ...) e)
+#key: Pi
+# --
+(Pi ((${1:y} ${2:Y}) $3)
+  ${0:X})

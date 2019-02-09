@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (iter-Nat e e e)
+# key: iter-Nat
+# --
+(iter-Nat ${1:target}
+  ${2:base}
+  ${0:step})

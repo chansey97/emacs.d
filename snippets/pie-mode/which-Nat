@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (which-Nat e e e)
+# key: which-Nat
+# --
+(which-Nat ${1:target}
+  ${2:base}
+  ${0:step})
