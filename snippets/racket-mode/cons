@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (cons e e)
+#key: cons
+# --
+(cons $1 $0)

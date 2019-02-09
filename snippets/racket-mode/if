@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: (if ... ... ...)
+# name: (if e e e)
 # key: if
 # --
 (if ${1:predicate}

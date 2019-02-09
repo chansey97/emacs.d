@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: (define (proc ...) ...)
+# name: (define (name param+) e)
 # key: define
 # --
-(define (${1:name} ${2:parameters})
-  ${3:body})
+(define (${1:name} ${2:parameter} $3)
+  ${0:body})

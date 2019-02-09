@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
-# name: (define var ...)
+# name: (define name ...)
 # key: define
 # --
-(define ${1:name} ${2:expression})
+(define ${1:name}
+  ${0:body})
