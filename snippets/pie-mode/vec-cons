@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (vec:: e e)
+# key: vec::
+# --
+(vec:: ${1:e} ${0:es})

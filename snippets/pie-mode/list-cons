@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (:: e e)
+# key: ::
+# --
+(:: ${0:e} ${0:es})

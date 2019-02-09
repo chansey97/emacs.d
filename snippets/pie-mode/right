@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (right e)
+# key: right
+# --
+(right $0)

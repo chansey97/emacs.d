@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (= e e e)
+# key: =
+# --
+(= ${1:X} ${2:from} ${0:to})

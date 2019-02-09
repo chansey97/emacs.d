@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (replace e e e)
+# key: replace
+# --
+(replace ${1:target}
+  ${2:mot}
+  ${0:base})

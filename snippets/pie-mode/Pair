@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (Pair e e)
+# key: Pair
+# --
+(Pair ${1:A}} ${0:D})

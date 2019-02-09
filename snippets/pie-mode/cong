@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (cong e e)
+# key: cong
+# --
+(cong ${1:target} ${0:f})

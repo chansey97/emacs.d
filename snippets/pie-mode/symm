@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (symm e)
+# key: symm
+# --
+(symm ${0:target})

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (trans e e)
+# key: trans
+# --
+(trans ${1:t1} ${0:t2})

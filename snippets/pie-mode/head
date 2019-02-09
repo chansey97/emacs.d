@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (head e)
+# key: head
+# --
+(head ${0:es})

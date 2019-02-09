@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (add1 e)
+# key: add1
+# --
+(add1 ${0:n})

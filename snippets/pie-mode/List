@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (List e)
+# key: List
+# --
+(List ${0:E})
