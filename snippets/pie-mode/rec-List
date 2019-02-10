@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (rec-List e e e)
+# key: rec-List
+# --
+(rec-List ${1:target}
+  ${2:base}
+  ${0:step})
