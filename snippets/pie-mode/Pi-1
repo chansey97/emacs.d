@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-#name: (Pi ((y e)+ ) e)
+#name: (Pi ((y e)+) e)
 #key: Pi
 # --
 (Pi ((${1:y} ${2:Y}))

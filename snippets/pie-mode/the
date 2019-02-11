@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (the e e)
+# key: the
+# --
+(the ${1:X} ${0:e})
