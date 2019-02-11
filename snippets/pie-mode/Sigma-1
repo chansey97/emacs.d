@@ -2,5 +2,5 @@
 #name: (Sigma ((x e)+ ) e)
 #key: Sigma
 # --
-(Sigma ((${1:x} ${2:A}))
-  ${0:D})
+(Sigma ((${1:x A}))
+  ${2:D})$0
