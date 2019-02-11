@@ -16,7 +16,7 @@
   (put 'Pair 'racket-indent-function 1)
   (put 'Sigma 'racket-indent-function 1)
   (put 'cons 'racket-indent-function 1)
-  (put '-> 'racket-indent-function 1)
+  ;; (put '-> 'racket-indent-function 0) ; TODO: -> is currying, indent last argument instead of first n arguments 
   (put 'Pi 'racket-indent-function 1)
   (put 'add1 'racket-indent-function 1)
   (put 'which-Nat 'racket-indent-function 1)
@@ -30,6 +30,7 @@
   (put 'Vec 'racket-indent-function 1)
   (put 'vec:: 'racket-indent-function 1)
   (put 'ind-Vec 'racket-indent-function 1)
+  (put '= 'racket-indent-function 1)
   (put 'cong 'racket-indent-function 1)
   (put 'replace 'racket-indent-function 1)
   (put 'trans 'racket-indent-function 1)
