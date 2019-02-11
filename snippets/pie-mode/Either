@@ -2,4 +2,4 @@
 #name: (Either e e)
 #key: Either
 # --
-(Either ${1:L} ${0:R})
+(Either ${1:L} ${2:R})

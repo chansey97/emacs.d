@@ -2,4 +2,4 @@
 # name: (same e)
 # key: same
 # --
-(same $0)
+(same ${1:e})

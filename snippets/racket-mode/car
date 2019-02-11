@@ -2,4 +2,4 @@
 #name: (car e)
 #key: car
 # --
-(car $0)
+(car ${1:e})

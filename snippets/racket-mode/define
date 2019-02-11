@@ -3,4 +3,4 @@
 # key: define
 # --
 (define (${1:name} ${2:param+})
-  ${0:body})
+  ${3:body})

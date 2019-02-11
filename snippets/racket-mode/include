@@ -2,4 +2,4 @@
 # name: (include ...)
 # key: include
 # --
-(include $0)
+(include $1)

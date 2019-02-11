@@ -3,4 +3,4 @@
 # key: lambda
 # --
 (lambda (${1:param+})
-  ${0:body})
+  ${2:body})

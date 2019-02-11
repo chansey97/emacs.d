@@ -6,4 +6,4 @@
       (${3:predicate2} ${4:consequent2})
       (${5:predicate3} ${6:consequent3})
       (${7:predicate4} ${8:consequent4}) 
-      (else ${0:otherwise}))
+      (else ${9:otherwise}))

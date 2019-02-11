@@ -5,4 +5,4 @@
 (ind-List ${1:target}
   ${2:mot}
   ${3:base}
-  ${0:step})
+  ${4:step})

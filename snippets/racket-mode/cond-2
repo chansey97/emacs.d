@@ -4,4 +4,4 @@
 # --
 (cond (${1:predicate1} ${2:consequent1})
       (${3:predicate2} ${4:consequent2})
-      (else ${0:otherwise}))
+      (else ${5:otherwise}))

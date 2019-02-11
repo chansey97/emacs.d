@@ -2,4 +2,4 @@
 # name: (symm e)
 # key: symm
 # --
-(symm ${0:target})
+(symm ${1:target})

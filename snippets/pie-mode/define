@@ -3,4 +3,4 @@
 # key: define
 # --
 (define ${1:name}
-  ${0:body})
+  ${2:body})

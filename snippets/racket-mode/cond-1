@@ -3,4 +3,4 @@
 # key: cond
 # --
 (cond (${1:predicate1} ${2:consequent1})
-      (else ${0:otherwise}))
+      (else ${3:otherwise}))

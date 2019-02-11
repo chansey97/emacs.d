@@ -2,4 +2,4 @@
 # name: (head e)
 # key: head
 # --
-(head ${0:es})
+(head ${1:es})

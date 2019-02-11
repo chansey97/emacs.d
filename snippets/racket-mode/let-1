@@ -3,4 +3,4 @@
 # key: let
 # --
 (let ((${1:var exp}))
-  ${2:body})$0
+  ${2:body})

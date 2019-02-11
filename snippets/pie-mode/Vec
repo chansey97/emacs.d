@@ -2,4 +2,4 @@
 # name: (Vec e e)
 # key: Vec
 # --
-(Vec ${1:E} ${0:k})
+(Vec ${1:E} ${2:k})

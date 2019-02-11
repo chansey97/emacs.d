@@ -4,4 +4,4 @@
 # --
 (let ((${1:var1 exp1})
       (${2:var2 exp2}))
-  ${3:body})$0
+  ${3:body})

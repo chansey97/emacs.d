@@ -5,4 +5,4 @@
 (ind-Vec ${1:n} ${2:es}
   ${3:mot}
   ${4:base}
-  ${0:step})
+  ${5:step})

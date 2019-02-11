@@ -2,4 +2,4 @@
 # name: (left e)
 # key: left
 # --
-(left $0)
+(left ${1:lt})

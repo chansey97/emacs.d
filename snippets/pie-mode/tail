@@ -2,4 +2,4 @@
 # name: (tail e)
 # key: tail
 # --
-(tail ${0:es})
+(tail ${1:es})

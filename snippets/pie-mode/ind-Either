@@ -5,4 +5,4 @@
 (ind-Either ${1:target}
   ${2:mot}
   ${3:base-left}
-  ${0:base-right})
+  ${4:base-right})

@@ -4,4 +4,4 @@
 # --
 (replace ${1:target}
   ${2:mot}
-  ${0:base})
+  ${3:base})

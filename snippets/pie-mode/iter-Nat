@@ -4,4 +4,4 @@
 # --
 (iter-Nat ${1:target}
   ${2:base}
-  ${0:step})
+  ${3:step})

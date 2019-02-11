@@ -2,4 +2,4 @@
 # name: (provide ...)
 # key: provide
 # --
-(provide $0)
+(provide $1)

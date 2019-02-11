@@ -2,5 +2,6 @@
 # name: (ind-Absurd e e)
 # key: ind-Absurd
 # --
-(ind-Absurd ${1:target}
-  ${0:mot})
+(ind-Absurd 
+  ${1:target}
+  ${2:mot})

@@ -5,4 +5,4 @@
 (define-syntax ${1:name} 
 	(syntax-rules (${2:})
 		[(${3:pattern1}) ${4:skeleton1}]
-		[(${5:pattern2}) ${6:skeleton2}] $0))
+		[(${5:pattern2}) ${6:skeleton2}] ${7:body}))

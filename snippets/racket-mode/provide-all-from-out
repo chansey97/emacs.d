@@ -2,5 +2,5 @@
 # name: (provide (all-from-out ...))
 # key: provide
 # --
-(provide (all-from-out $0))
+(provide (all-from-out $1))
 

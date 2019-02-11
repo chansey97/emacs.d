@@ -2,4 +2,4 @@
 #name: (cdr e)
 #key: cdr
 # --
-(cdr $0)
+(cdr ${1:e})
