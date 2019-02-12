@@ -537,6 +537,14 @@ re-downloaded in order to locate PACKAGE."
 
 (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
+;; Add company-yasnippet-autoparens
+(defun company-mode/backend-with-yas-ap (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet-autoparens backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet-autoparens))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas-ap company-backends))
 
 ;;----------------------------------------------------------------------------
 ;; ivy & counsel & swiper
