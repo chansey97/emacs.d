@@ -2,5 +2,5 @@
 # name: (let ([name e]+) e)
 # key: let
 # --
-(let ((${1:var exp}))
-  ${2:body})
+(let ((${1:var exp})$2)
+  ${3:body})

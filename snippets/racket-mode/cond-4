@@ -5,5 +5,5 @@
 (cond (${1:predicate1} ${2:consequent1})
       (${3:predicate2} ${4:consequent2})
       (${5:predicate3} ${6:consequent3})
-      (${7:predicate4} ${8:consequent4}) 
-      (else ${9:otherwise}))
+      (${7:predicate4} ${8:consequent4})$9
+      (else ${10:otherwise}))
