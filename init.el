@@ -484,7 +484,6 @@ re-downloaded in order to locate PACKAGE."
         (require-package package min-version t)))))
 
 (require-package 'avy)
-(require-package 'company)
 (require-package 'ivy)
 (require-package 'counsel)
 (require-package 'swiper)
@@ -811,3 +810,11 @@ re-downloaded in order to locate PACKAGE."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+
+
+
+
+
+
