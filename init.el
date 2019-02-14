@@ -522,6 +522,7 @@ re-downloaded in order to locate PACKAGE."
 (setq company-idle-delay 0.1)
 (setq company-minimum-prefix-length 1)
 
+(add-to-list 'company-backends '(company-capf company-dabbrev))
 
 ;; Add yasnippet support for all company backends
 ;; https://github.com/syl20bnr/spacemacs/pull/179
@@ -810,11 +811,4 @@ re-downloaded in order to locate PACKAGE."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-
-
-
-
-
-
 
