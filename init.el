@@ -521,15 +521,16 @@ re-downloaded in order to locate PACKAGE."
 (global-company-mode 1)
 (setq company-idle-delay 0.1)
 (setq company-minimum-prefix-length 1)
+
+;; Add company-dabbrev
+(push '(company-capf :with company-dabbrev) company-backends)
 (setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+")
 
-(push '(company-capf :with company-dabbrev) company-backends)
-
-;; ;; Add yasnippet support for all company backends
-;; ;; https://github.com/syl20bnr/spacemacs/pull/179
+;; Add company-yasnippet
 (defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
+"Enable yasnippet for all backends.")
 
+;; Add yasnippet support for all company backends
 (defun company-mode/backend-with-yas (backend)
   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
       backend
