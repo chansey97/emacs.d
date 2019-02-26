@@ -2,4 +2,4 @@
 # name: (Pair e e)
 # key: Pair
 # --
-(Pair ${1:A}} ${2:D})
+(Pair ${1:A} ${2:D})
