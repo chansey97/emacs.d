@@ -1,3 +1,5 @@
+;; (setq debug-on-error t)
+
 (let ((minver "24.3"))
   (when (version< emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
@@ -10,13 +12,14 @@
 ;; Adjust garbage collection
 ;;----------------------------------------------------------------------------
 
-(when (eq system-type 'windows-nt)
-  (setq gc-cons-threshold (* 512 1024 1024))
-  (setq gc-cons-percentage 0.5)
-  (run-with-idle-timer 30 t #'garbage-collect)
-  ;; show gc info for debugging
-  (setq garbage-collection-messages t)
-  )
+;; (when (eq system-type 'windows-nt)
+;;   (setq gc-cons-threshold (* 512 1024 1024))
+;;   (setq gc-cons-percentage 0.5)
+;;   (run-with-idle-timer 30 t #'garbage-collect)
+;;   ;; show gc info for debugging
+;;   (setq garbage-collection-messages t)
+;;   )
+
 
 ;;----------------------------------------------------------------------------
 ;; Path
@@ -49,6 +52,16 @@
            (getenv "PATH")))
   (require 'cygwin-mount)
   (cygwin-mount-activate))
+
+
+;;----------------------------------------------------------------------------
+;; Font
+;;----------------------------------------------------------------------------
+(setq inhibit-compacting-font-caches t)
+
+(dolist (charset '(kana han symbol cjk-misc bopomofo))
+  (set-fontset-font (frame-parameter nil 'font)
+                    charset (font-spec :family "Microsoft Yahei" :size 14)))
 
 ;;----------------------------------------------------------------------------
 ;; Back-button
@@ -156,8 +169,8 @@
 ;;----------------------------------------------------------------------------
 
 ;; UTF-8 as default encoding
-;; (set-language-environment "UTF-8")
-;; (set-default-coding-systems 'utf-8)
+(set-language-environment "utf-8")
+(set-default-coding-systems 'utf-8)
 
 ;;----------------------------------------------------------------------------
 ;; Font
@@ -295,13 +308,13 @@
 ;; Comment/Uncomment
 ;;----------------------------------------------------------------------------
 (defun comment-or-uncomment-region-or-line ()
-  "Comments or uncomments the region or the current line if there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
+ "Comments or uncomments the region or the current line if there's no active region."
+ (interactive)
+ (let (beg end)
+   (if (region-active-p)
+       (setq beg (region-beginning) end (region-end))
+     (setq beg (line-beginning-position) end (line-end-position)))
+   (comment-or-uncomment-region beg end)))
 
 (global-set-key (kbd "C-M-c") 'comment-or-uncomment-region-or-line)
 
@@ -446,14 +459,13 @@
 ;;----------------------------------------------------------------------------
 ;; Standard package repositories
 ;;----------------------------------------------------------------------------
-
 (require 'package)
 
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-                                        ; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (if (< emacs-major-version 24)
       (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))
     (unless no-ssl
@@ -505,6 +517,10 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'yasnippet-snippets)
 (require-package 'treemacs)
 (require-package 'treemacs-projectile)
+(require-package 'tuareg)
+(require-package 'el-search)
+(require-package 'haskell-mode)
+(require-package 'company-math)
 
 
 
@@ -570,10 +586,10 @@ re-downloaded in order to locate PACKAGE."
 (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
 (define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
 
-;; disable wildcard when C-f
-(setq ivy-re-builders-alist
-      '((swiper . regexp-quote)
-        ))
+;; ;; disable wildcard when C-f
+;; (setq ivy-re-builders-alist
+;;       '((swiper . regexp-quote)
+;;         ))
 
 ;;----------------------------------------------------------------------------
 ;; expand-region
@@ -755,7 +771,7 @@ re-downloaded in order to locate PACKAGE."
   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
 (progn
   (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
-        treemacs-file-event-delay           5000
+        treemacs-file-event-delay           2000
         treemacs-follow-after-init          t
         treemacs-follow-recenter-distance   0.1
         treemacs-goto-tag-strategy          'refetch-index
@@ -797,6 +813,47 @@ re-downloaded in order to locate PACKAGE."
 (define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
 (define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
 
+
+;;----------------------------------------------------------------------------
+;; haskell-mode
+;;----------------------------------------------------------------------------
+;; (setq haskell-process-log t)
+(require 'haskell-mode)
+(require 'haskell-interactive-mode)
+(require 'haskell-process)
+(setq haskell-process-suggest-remove-import-lines t
+      haskell-process-auto-import-loaded-modules t
+      haskell-process-type 'ghci)
+
+(define-key haskell-mode-map (kbd "M-.") 'haskell-mode-jump-to-def)
+(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+
+(defun haskell-process-toggle ()
+  "Toggle GHCi process between cabal and ghci"
+  (interactive)
+  (if (equal 'ghci haskell-process-type)
+      (progn (setq haskell-process-type 'cabal-repl)
+             (message "Using cabal repl"))
+    (progn (setq haskell-process-type 'ghci)
+           (message "Using GHCi"))))
+
+;;----------------------------------------------------------------------------
+;; OCaml (tuareg)
+;;----------------------------------------------------------------------------
+(require 'tuareg)
+(setq tuareg-indent-align-with-first-arg t
+      tuareg-match-patterns-aligned t)
+
+(add-hook 'tuareg-mode-hook
+          (lambda ()
+            (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)))
+
+;;----------------------------------------------------------------------------
+;; company-math 
+;;----------------------------------------------------------------------------
+(require 'company-math)
+(add-to-list 'company-backends 'company-math-symbols-unicode)
+
 
 
 (custom-set-variables
@@ -813,3 +870,4 @@ re-downloaded in order to locate PACKAGE."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
