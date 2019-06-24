@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: (with-handlers ([exception? handler]) body)
-# key: with-handlers
-# --
-(with-handlers ([${1:exn?} ${2:handler}]$3)
- ${4:body})
