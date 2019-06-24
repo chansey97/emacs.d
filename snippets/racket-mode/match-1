@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (match e [pat body]+)
+# key: match
+# --
+(match ${1:val-expr}
+    [${2:pat} ${3:body}]$4)

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (let-values ([(name+) e]+) e)
+# key: let-values
+# --
+(let-values ([(${1:var1 ...}) ${2:exp1}]$3)
+  ${4:body})

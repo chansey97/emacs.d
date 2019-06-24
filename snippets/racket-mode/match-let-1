@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (match-let ([pat expr]+) e)
+# key: match-let 
+# --
+(match-let ([${1:pat} ${2:expr}]$3)
+  ${4:body})
