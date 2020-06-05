@@ -55,6 +55,11 @@
 
 
 ;;----------------------------------------------------------------------------
+;; Recycle Bin
+;;----------------------------------------------------------------------------
+(setq delete-by-moving-to-trash t)
+
+;;----------------------------------------------------------------------------
 ;; Font
 ;;----------------------------------------------------------------------------
 (setq inhibit-compacting-font-caches t)
@@ -640,11 +645,11 @@ re-downloaded in order to locate PACKAGE."
 (put 'paredit-backward-delete 'delete-selection 'supersede)
 (put 'paredit-newline 'delete-selection t)
 
-;; C-) eat right expression
-;; C-( eat left expression
-;; C-} spit out right expression
-;; C-{ spit out left expression
-;; M-r raise-sexp (remove one level outer parentheses)
+;; C-) eat right expression i.e. ctrl + shift + )
+;; C-( eat left expression i.e. ctrl + shift + (
+;; C-} spit out right expression i.e. ctrl + shift + }
+;; C-{ spit out left expression i.e. ctrl + shift + (
+;; M-r raise-sexp (remove one level outer parentheses) i.e. alt + r
 
 ;; Change nasty paredit keybindings (s means superkey, S means shift)
 (defvar my-nasty-paredit-keybindings-remappings
