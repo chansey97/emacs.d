@@ -526,6 +526,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'el-search)
 (require-package 'haskell-mode)
 (require-package 'company-math)
+(require-package 'slime)
 
 
 
@@ -854,10 +855,17 @@ re-downloaded in order to locate PACKAGE."
             (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)))
 
 ;;----------------------------------------------------------------------------
+;; Common Lisp 
+;;----------------------------------------------------------------------------
+;; (load (expand-file-name "C:\\Users\\Chansey\\quicklisp\\slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
+
+;;----------------------------------------------------------------------------
 ;; company-math 
 ;;----------------------------------------------------------------------------
 (require 'company-math)
 (add-to-list 'company-backends 'company-math-symbols-unicode)
+
 
 
 
@@ -868,7 +876,7 @@ re-downloaded in order to locate PACKAGE."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yasnippet smartparens symbol-overlay page-break-lines popwin hungry-delete expand-region counsel company avy))))
+    (slime yasnippet smartparens symbol-overlay page-break-lines popwin hungry-delete expand-region counsel company avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
