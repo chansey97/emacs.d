@@ -632,6 +632,7 @@ re-downloaded in order to locate PACKAGE."
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
 
+
 ;;----------------------------------------------------------------------------
 ;; paredit
 ;;----------------------------------------------------------------------------
@@ -640,6 +641,7 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'lisp-interaction-mode 'paredit-mode)
 (add-hook 'scheme-mode-hook 'paredit-mode)
 (add-hook 'racket-mode-hook 'paredit-mode)
+(add-hook 'slime-mode-hook 'paredit-mode)
 
 ;; making paredit work with delete-selection-mode
 (put 'paredit-forward-delete 'delete-selection 'supersede)
