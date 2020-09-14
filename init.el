@@ -525,7 +525,6 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'tuareg)
 (require-package 'el-search)
 (require-package 'haskell-mode)
-(require-package 'company-math)
 (require-package 'slime)
 
 
