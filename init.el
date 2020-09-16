@@ -757,6 +757,8 @@ re-downloaded in order to locate PACKAGE."
           (lambda ()
             (define-key racket-mode-map (kbd "<f5>")'racket-run)
             (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
+            
+            (put 'variant-case 'racket-indent-function 1) ; just for eopl/1ed
             ))
 
 ;;----------------------------------------------------------------------------
