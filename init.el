@@ -760,6 +760,7 @@ re-downloaded in order to locate PACKAGE."
             (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
             
             (put 'variant-case 'racket-indent-function 1) ; just for eopl/1ed
+            (put 'pmatch 'racket-indent-function 1) ; just for eopl/2ed
             ))
 
 ;;----------------------------------------------------------------------------
