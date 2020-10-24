@@ -12,13 +12,14 @@
 ;; Adjust garbage collection
 ;;----------------------------------------------------------------------------
 
-;; (when (eq system-type 'windows-nt)
-;;   (setq gc-cons-threshold (* 512 1024 1024))
-;;   (setq gc-cons-percentage 0.5)
-;;   (run-with-idle-timer 30 t #'garbage-collect)
-;;   ;; show gc info for debugging
-;;   (setq garbage-collection-messages t)
-;;   )
+(when (eq system-type 'windows-nt)
+  (setq gc-cons-threshold 80000000) ;; original value *100 = 80MB
+  ;; (setq gc-cons-threshold (* 512 1024 1024))
+  ;;   (setq gc-cons-percentage 0.5)
+  ;;   (run-with-idle-timer 30 t #'garbage-collect)
+  ;;   ;; show gc info for debugging
+  ;;   (setq garbage-collection-messages t)
+  )
 
 
 ;;----------------------------------------------------------------------------
