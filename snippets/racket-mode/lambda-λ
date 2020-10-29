@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: (λ (param+) e)
+# name: (λ (param*) body)
 # key: lambda
 # --
-(λ (${1:param+}) ${2:body})
+(λ (${1:param*}) ${2:body})

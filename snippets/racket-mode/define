@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: (define (name param+) e)
+# name: (define (name param*) body)
 # key: define
 # --
-(define (${1:name} ${2:param+})
+(define (${1:name} ${2:param*})
   ${3:body})
