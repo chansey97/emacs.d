@@ -136,21 +136,23 @@ corresponding unicode symbol."
            (company-math--make-candidates math-symbol-list-extended company-math-symbol-prefix)))
   "List of LaTeX math completion candidates.")
 
-(defconst company-math--symbols-extra
-  (delete-dups
-   (append
-    ;; fourier of math-symbol-list-packages:
-    (company-math--make-candidates
-     (mapcar (lambda (xs) (cons (concat (car xs) "/" (cadr xs)) (cddr xs)))
-             (seq-filter (lambda (xs) (string= "fourier" (car xs))) math-symbol-list-packages))
-     company-math-symbol-prefix)
-    ;; others:
-    ;; (company-math--make-candidates
-    ;;  '(("others" "\\llbracket" #X301A "〚")  ; https://www.fileformat.info/info/unicode/char/301a/index.htm
-    ;;    ("others" "\\rrbracket" #X301B "〛")) ; https://www.fileformat.info/info/unicode/char/301b/index.htm
-    ;;  company-math-symbol-prefix)
-    '()))
-  "List of LaTeX math completion candidates extra.")
+;; I commented company-math--symbols-extra, 
+;; because "\\llbracket" and "\\rrbracket" are the same as "\\lBrack" "\\rBrack" in fourier
+;; (defconst company-math--symbols-extra
+;;   (delete-dups
+;;    (append
+;;     ;; fourier of math-symbol-list-packages:
+;;     (company-math--make-candidates
+;;      (mapcar (lambda (xs) (cons (concat (car xs) "/" (cadr xs)) (cddr xs)))
+;;              (seq-filter (lambda (xs) (string= "fourier" (car xs))) math-symbol-list-packages))
+;;      company-math-symbol-prefix)
+;;     ;; others:
+;;     ;; (company-math--make-candidates
+;;     ;;  '(("others" "\\llbracket" #X301A "〚")  ; https://www.fileformat.info/info/unicode/char/301a/index.htm
+;;     ;;    ("others" "\\rrbracket" #X301B "〛")) ; https://www.fileformat.info/info/unicode/char/301b/index.htm
+;;     ;;  company-math-symbol-prefix)
+;;     '()))
+;;   "List of LaTeX math completion candidates extra.")
 
 (defconst company-math--unicode
   (append
@@ -161,7 +163,8 @@ corresponding unicode symbol."
              (company-math--make-candidates math-symbol-list-superscripts company-math-superscript-prefix))
            (company-math--make-candidates math-symbol-list-superscripts (concat company-math-symbol-prefix "^")))
    company-math--symbols
-   company-math--symbols-extra)
+   ;; company-math--symbols-extra
+   )
   "List of math completion candidates for unicode backend.")
 
 (defun company-math--prefix (regexp allow-faces disallow-faces)
