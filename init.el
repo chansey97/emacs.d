@@ -191,7 +191,7 @@
 ;; Displaying Line Numbers and Column Number
 ;;----------------------------------------------------------------------------
 
-                                        ; always show line numbers
+; always show line numbers
 (global-linum-mode 1)
 
 ;; show cursor position within line
