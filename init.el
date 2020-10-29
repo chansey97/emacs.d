@@ -155,6 +155,7 @@
 
 ;; turn on highlighting current line
 (global-hl-line-mode 1)
+(set-face-background 'hl-line "#fef8df")
 
 ;; turn on bracket match highlight
 (show-paren-mode 1)
