@@ -182,6 +182,8 @@
 ;;----------------------------------------------------------------------------
 ;; Font
 ;;----------------------------------------------------------------------------
+;; Symbola include many Mathematical Alphanumeric Symbols, but windows has no this font by default.
+;; So install it, if use windows. https://fontlibrary.org/en/font/symbola
 (set-fontset-font "fontset-default"
                   'symbol (font-spec :family "Symbola"))
 
