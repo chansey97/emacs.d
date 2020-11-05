@@ -650,12 +650,13 @@ re-downloaded in order to locate PACKAGE."
 (put 'paredit-forward-delete 'delete-selection 'supersede)
 (put 'paredit-backward-delete 'delete-selection 'supersede)
 (put 'paredit-newline 'delete-selection t)
-
 ;; C-) eat right expression i.e. ctrl + shift + )
 ;; C-( eat left expression i.e. ctrl + shift + (
 ;; C-} spit out right expression i.e. ctrl + shift + }
 ;; C-{ spit out left expression i.e. ctrl + shift + (
 ;; M-r raise-sexp (remove one level outer parentheses) i.e. alt + r
+;; C-M-f cursor forward
+;; C-M-b cursor backward
 
 ;; Change nasty paredit keybindings (s means superkey, S means shift)
 (defvar my-nasty-paredit-keybindings-remappings
