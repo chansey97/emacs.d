@@ -139,4 +139,8 @@ U+ 	0030 	1D7CE 	1D7D8 	1D7E2 	1D7EC 	1D7F6
 9 	9 	𝟗 	𝟡 	𝟫 	𝟵 	𝟿 
 
 
+https://en.wikipedia.org/wiki/Overline
+̅ U+0305 "\\overbar"
 
+https://en.wikipedia.org/wiki/Underscore
+_ U+005F
