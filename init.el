@@ -191,7 +191,7 @@
 ;; Displaying Line Numbers and Column Number
 ;;----------------------------------------------------------------------------
 
-; always show line numbers
+;; always show line numbers
 (global-linum-mode 1)
 
 ;; show cursor position within line
@@ -784,6 +784,20 @@ re-downloaded in order to locate PACKAGE."
 (require 'treemacs)
 (with-eval-after-load 'winum
   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+
+;; make scrolling activate the treemacs window so the follow modes don't reset the position all the time
+(if (string-equal system-type "gnu/linux") ;; linux
+    (progn
+	    (define-key treemacs-mode-map [mouse-4] (lambda () (interactive) (treemacs-select-window) (scroll-down 5)))
+	    (define-key treemacs-mode-map [mouse-5] (lambda () (interactive) (treemacs-select-window) (scroll-up 5))))
+  (progn
+    (define-key treemacs-mode-map [wheel-up] (lambda () (interactive) (treemacs-select-window) (scroll-down 5)))
+    (define-key treemacs-mode-map [wheel-down] (lambda () (interactive) (treemacs-select-window) (scroll-up 5)))
+    ))
+
+;; when need resize treemacs' window, select treemacs window and call treemacs-toggle-fixed-width
+;; https://github.com/Alexander-Miller/treemacs/issues/514
+
 (progn
   (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
         treemacs-file-event-delay           2000
@@ -801,12 +815,13 @@ re-downloaded in order to locate PACKAGE."
         treemacs-show-hidden-files          t
         treemacs-silent-filewatch           nil
         treemacs-silent-refresh             nil
-        treemacs-sorting                    'alphabetic-desc
+        treemacs-sorting                    'alphabetic-asc
         treemacs-space-between-root-nodes   t
         treemacs-tag-follow-cleanup         t
         treemacs-tag-follow-delay           1.5
-        treemacs-width                      40)
-  
+        treemacs-width                      40
+        )
+
   ;; The default width and height of the icons is 22 pixels. If you are
   ;; using a Hi-DPI display, uncomment this to double the icon size.
   (treemacs-resize-icons 44)
