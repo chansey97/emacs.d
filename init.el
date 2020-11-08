@@ -60,14 +60,6 @@
 ;;----------------------------------------------------------------------------
 (setq delete-by-moving-to-trash t)
 
-;;----------------------------------------------------------------------------
-;; Font
-;;----------------------------------------------------------------------------
-(setq inhibit-compacting-font-caches t)
-
-(dolist (charset '(kana han symbol cjk-misc bopomofo))
-  (set-fontset-font (frame-parameter nil 'font)
-                    charset (font-spec :family "Microsoft Yahei" :size 14)))
 
 ;;----------------------------------------------------------------------------
 ;; Back-button
@@ -182,6 +174,12 @@
 ;;----------------------------------------------------------------------------
 ;; Font
 ;;----------------------------------------------------------------------------
+(setq inhibit-compacting-font-caches t)
+
+(dolist (charset '(kana han symbol cjk-misc bopomofo))
+  (set-fontset-font (frame-parameter nil 'font)
+                    charset (font-spec :family "Microsoft Yahei" :size 14)))
+
 ;; Symbola include many Mathematical Alphanumeric Symbols, but windows has no this font by default.
 ;; So install it, if use windows. https://fontlibrary.org/en/font/symbola
 (set-fontset-font "fontset-default"
