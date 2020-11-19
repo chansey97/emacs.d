@@ -89,6 +89,7 @@
 ;;----------------------------------------------------------------------------
 
 ;; make {copy, cut, paste, undo} have {C-c, C-x, C-v, C-z} keys
+;; Since I use cua-mode by default, so you can use C-Enter into "cua-set-rectangle-mark" directly.
 (cua-mode 1)
 
 ;; standard keyboard shortcuts for {Open, Close, Save, Save As, Select All, …}
