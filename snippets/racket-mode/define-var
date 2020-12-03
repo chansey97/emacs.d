@@ -2,5 +2,4 @@
 # name: (define name e)
 # key: define
 # --
-(define ${1:name}
-  ${2:body})
+(define ${1:name} ${2:body})
