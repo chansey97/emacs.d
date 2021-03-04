@@ -291,6 +291,7 @@
   )
 
 (global-set-key (kbd "<backtab>") 'untab-region)
+(global-set-key (kbd "<S-tab>") 'untab-region)
 (global-set-key (kbd "<tab>") 'tab-region)
 
 
@@ -316,13 +317,13 @@
 ;; Comment/Uncomment
 ;;----------------------------------------------------------------------------
 (defun comment-or-uncomment-region-or-line ()
- "Comments or uncomments the region or the current line if there's no active region."
- (interactive)
- (let (beg end)
-   (if (region-active-p)
-       (setq beg (region-beginning) end (region-end))
-     (setq beg (line-beginning-position) end (line-end-position)))
-   (comment-or-uncomment-region beg end)))
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
 
 (global-set-key (kbd "C-M-c") 'comment-or-uncomment-region-or-line)
 
@@ -552,7 +553,7 @@ re-downloaded in order to locate PACKAGE."
 
 ;; Add company-yasnippet
 (defvar company-mode/enable-yas t
-"Enable yasnippet for all backends.")
+  "Enable yasnippet for all backends.")
 
 ;; Add yasnippet support for all company backends
 (defun company-mode/backend-with-yas (backend)
