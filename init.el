@@ -314,6 +314,16 @@
 (global-set-key (kbd "C-M-l") 'indent-region-or-buffer)
 
 ;;----------------------------------------------------------------------------
+;; hungry delete
+;;----------------------------------------------------------------------------
+;; (require 'hungry-delete)
+;; (setq hungry-delete-chars-to-skip " \t")
+;; (global-hungry-delete-mode)
+
+;; https://emacs.stackexchange.com/questions/33734/how-to-get-hungry-delete-working-in-paredit-mode
+(setq backward-delete-char-untabify-method 'hungry)
+
+;;----------------------------------------------------------------------------
 ;; Comment/Uncomment
 ;;----------------------------------------------------------------------------
 (defun comment-or-uncomment-region-or-line ()
@@ -509,7 +519,6 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'counsel)
 (require-package 'swiper)
 (require-package 'expand-region)
-(require-package 'hungry-delete)
 (require-package 'popwin)
 (require-package 'symbol-overlay)
 (require-package 'markdown-mode)
@@ -605,13 +614,6 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
-
-;;----------------------------------------------------------------------------
-;; hungry-delete
-;;----------------------------------------------------------------------------
-(require 'hungry-delete)
-(setq hungry-delete-chars-to-skip " \t")
-(global-hungry-delete-mode)
 
 ;;----------------------------------------------------------------------------
 ;; popwin 
@@ -782,6 +784,16 @@ re-downloaded in order to locate PACKAGE."
 ;; treemacs
 ;;----------------------------------------------------------------------------
 (require 'treemacs)
+;; If want to decrease font size in treemacs, use text-scale-decrease in treemacs buffer
+;; current win-emacs has no magick support, so can not decrease icon
+;; https://github.com/Alexander-Miller/treemacs/issues/652
+;; https://github.com/Alexander-Miller/treemacs/issues/842
+(add-hook 'treemacs-mode-hook
+          (lambda ()
+            (message "treemacs-mode-hook `%s'" (current-buffer))
+            (text-scale-increase -1)
+            ))
+
 (with-eval-after-load 'winum
   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
 
