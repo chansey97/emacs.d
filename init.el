@@ -929,6 +929,14 @@ re-downloaded in order to locate PACKAGE."
 (setq inferior-lisp-program "sbcl")
 
 ;;----------------------------------------------------------------------------
+;; Prolog
+;;----------------------------------------------------------------------------
+(require 'prolog)
+(add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
+(add-hook 'prolog-mode-hook
+          (lambda () (local-set-key (kbd "C-M-c") #'comment-region)))
+
+;;----------------------------------------------------------------------------
 ;; company-math 
 ;;----------------------------------------------------------------------------
 (require 'company-math)
