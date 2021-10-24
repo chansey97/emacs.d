@@ -831,7 +831,7 @@ re-downloaded in order to locate PACKAGE."
         treemacs-space-between-root-nodes   t
         treemacs-tag-follow-cleanup         t
         treemacs-tag-follow-delay           1.5
-        treemacs-width                      40
+        treemacs-width                      55
         )
 
   ;; The default width and height of the icons is 22 pixels. If you are
@@ -933,8 +933,13 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'prolog)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
+(setq prolog-system 'swi)
+(setq prolog-electric-if-then-else-flag t)
+
 (add-hook 'prolog-mode-hook
-          (lambda () (local-set-key (kbd "C-M-c") #'comment-region)))
+          (lambda ()
+            (local-set-key (kbd "C-M-c") #'comment-line)
+            ))
 
 ;;----------------------------------------------------------------------------
 ;; company-math 
