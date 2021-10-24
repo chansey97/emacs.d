@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ['filename']
+# key: load
+# --
+['${1:predicate1}']
