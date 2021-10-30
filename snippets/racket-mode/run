@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (run 1 (q) body)
+# key: run
+# --
+(run 1 (q)
+     $1)
