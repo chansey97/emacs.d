@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: (conde (g1) (g2) (g3)*)
+# key: conde
+# --
+(conde
+  (${1:disjuct1})
+  (${2:disjuct2})
+  (${3:disjuct3})$4)
+
+
