@@ -573,14 +573,33 @@ re-downloaded in order to locate PACKAGE."
 
 (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
-;; Add company-yasnippet-autoparens
+;;----------------------------------------------------------------------------
+;; company with company-yasnippet-autoparens
+;;----------------------------------------------------------------------------
+
+;; company-yasnippet-autoparens
 (defun company-mode/backend-with-yas-ap (backend)
   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet-autoparens backend)))
       backend
     (append (if (consp backend) backend (list backend))
             '(:with company-yasnippet-autoparens))))
 
-(setq company-backends (mapcar #'company-mode/backend-with-yas-ap company-backends))
+(setq company-backends-lisp (mapcar #'company-mode/backend-with-yas-ap company-backends))
+
+;; company-yasnippet-autoparens-2
+(defun company-mode/backend-with-yas-ap-2 (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet-autoparens-2 backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet-autoparens-2))))
+
+(setq company-backends-non-lisp (mapcar #'company-mode/backend-with-yas-ap-2 company-backends))
+
+;; company-backends-lisp means auto complete f -> (f)
+;; company-backends-non-lisp means auto complete f -> f()
+;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
+;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
+(setq company-backends company-backends-lisp)
 
 ;;----------------------------------------------------------------------------
 ;; ivy & counsel & swiper
@@ -886,6 +905,8 @@ re-downloaded in order to locate PACKAGE."
             ;; Correct indentation for structures
             ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2014-10/msg00108.html
             (add-function :around (symbol-function 'sml-smie-rules) #'my-sml-rules)
+
+            (setq-local company-backends company-backends-non-lisp)
             ))
 
 ;;----------------------------------------------------------------------------
@@ -934,11 +955,17 @@ re-downloaded in order to locate PACKAGE."
 (require 'prolog)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 (setq prolog-system 'swi)
-(setq prolog-electric-if-then-else-flag t)
 
 (add-hook 'prolog-mode-hook
           (lambda ()
             (local-set-key (kbd "C-M-c") #'comment-line)
+            (local-set-key [f5] #'run-prolog)
+            (setq-local company-backends company-backends-non-lisp)
+            ))
+
+(add-hook 'prolog-inferior-mode-hook
+          (lambda ()
+              (setq-local company-backends company-backends-non-lisp)
             ))
 
 ;;----------------------------------------------------------------------------
