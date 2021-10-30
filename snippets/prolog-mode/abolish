@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: abolish(counter/1).
+# key: abolish
+# --
+abolish(counter/1).

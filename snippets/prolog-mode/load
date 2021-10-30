@@ -2,4 +2,4 @@
 # name: ['filename']
 # key: load
 # --
-['${1:predicate1}']
+['${1:predicate1}'].

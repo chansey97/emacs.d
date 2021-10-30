@@ -3,4 +3,3 @@
 # key: use
 # --
 :- use_module(library(${1:predicate1})).
-
