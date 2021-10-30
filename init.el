@@ -560,22 +560,20 @@ re-downloaded in order to locate PACKAGE."
 (push '(company-capf :with company-dabbrev) company-backends)
 (setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+")
 
-;; Add company-yasnippet
+;;----------------------------------------------------------------------------
+;; company with company-yasnippet and company-yasnippet-autoparens
+;;----------------------------------------------------------------------------
+
+;; company-yasnippet
+
 (defvar company-mode/enable-yas t
   "Enable yasnippet for all backends.")
 
-;; Add yasnippet support for all company backends
 (defun company-mode/backend-with-yas (backend)
   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
       backend
     (append (if (consp backend) backend (list backend))
             '(:with company-yasnippet))))
-
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-
-;;----------------------------------------------------------------------------
-;; company with company-yasnippet-autoparens
-;;----------------------------------------------------------------------------
 
 ;; company-yasnippet-autoparens
 (defun company-mode/backend-with-yas-ap (backend)
@@ -584,8 +582,6 @@ re-downloaded in order to locate PACKAGE."
     (append (if (consp backend) backend (list backend))
             '(:with company-yasnippet-autoparens))))
 
-(setq company-backends-lisp (mapcar #'company-mode/backend-with-yas-ap company-backends))
-
 ;; company-yasnippet-autoparens-2
 (defun company-mode/backend-with-yas-ap-2 (backend)
   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet-autoparens-2 backend)))
@@ -593,10 +589,25 @@ re-downloaded in order to locate PACKAGE."
     (append (if (consp backend) backend (list backend))
             '(:with company-yasnippet-autoparens-2))))
 
-(setq company-backends-non-lisp (mapcar #'company-mode/backend-with-yas-ap-2 company-backends))
+;; Note:
+;; company-mode/backend-with-yas must be added to last (head of company-backends),
+;; otherwise when you type `use` in prolog-mode, the candidates will be
+;; |use -> :- use_module(library(${1:predicate1})).|
+;; |use                                            |
+;; instead of
+;; |use                                            |
+;; |use -> :- use_module(library(${1:predicate1})).|
+;; I don't know why...
+;; company-backends-lisp means auto complete |f -> (f)|
+;; company-backends-non-lisp means auto complete |f -> f()|
+(setq company-backends-lisp (mapcar #'company-mode/backend-with-yas
+                               (mapcar #'company-mode/backend-with-yas-ap
+                                       company-backends)))
 
-;; company-backends-lisp means auto complete f -> (f)
-;; company-backends-non-lisp means auto complete f -> f()
+(setq company-backends-non-lisp (mapcar #'company-mode/backend-with-yas
+                               (mapcar #'company-mode/backend-with-yas-ap-2
+                                       company-backends)))
+
 ;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
 ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
 (setq company-backends company-backends-lisp)
