@@ -734,14 +734,25 @@ re-downloaded in order to locate PACKAGE."
 (require 'tabbar)
 (tabbar-mode)
 
+(defun tabbar-popup-focus-buffer ()
+  (interactive)
+  (let ((buffer (tabbar-tab-value tabbar-last-tab)))
+    (switch-to-buffer buffer))
+  ;;(treemacs--follow-tag-at-point)
+  (treemacs--follow))
+
+(defun tabbar-popup-menu/filter-return (xs)
+  (let ((x (car xs))
+        (xs (cdr xs))
+        (y `["Buffer Focus" tabbar-popup-focus-buffer])
+        )
+    (cons x (cons y xs))))
+
 ;; TODO: doesn't work in terminal?
 (when (display-graphic-p)
   (require 'tabbar-ruler)
-  (setq tabbar-ruler-global-tabbar t)    ; get tabbar
-  ;; (setq tabbar-ruler-global-ruler t)     ; get global ruler
-  ;; (setq tabbar-ruler-popup-menu t)       ; get popup menu.
-  ;; (setq tabbar-ruler-popup-toolbar t)    ; get popup toolbar
-  ;; (setq tabbar-ruler-popup-scrollbar t)  ; show scroll-bar on mouse-move
+  (setq tabbar-ruler-global-tabbar t)
+  (advice-add 'tabbar-popup-menu :filter-return #'tabbar-popup-menu/filter-return)
   )
 
 ;;----------------------------------------------------------------------------
