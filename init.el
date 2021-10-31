@@ -753,8 +753,28 @@ re-downloaded in order to locate PACKAGE."
 (setq-default projectile-completion-system 'ivy)
 
 (global-set-key (kbd "<f3>") 'projectile-find-file)
-(global-set-key (kbd "C-S-f") 'projectile-grep)
 
+(defun projectile-get-project-directories/override () '("./"))
+(defun projectile-prepend-project-name/override (string) (format "[.] %s" string))
+
+(defun projectile-current-directory-grep ()
+  "Perform rgrep in the current directory."
+  (advice-add 'projectile-get-project-directories :override #'projectile-get-project-directories/override)
+  (advice-add 'projectile-prepend-project-name :override #'projectile-prepend-project-name/override)
+  (call-interactively #'projectile-grep)
+  (advice-remove 'projectile-get-project-directories #'projectile-get-project-directories/override)
+  (advice-remove 'projectile-prepend-project-name #'projectile-prepend-project-name/override))
+
+(defun sc/projectile-grep (c)
+  "Perform grep in the current directory (by default) or project."
+  (interactive
+   (list
+    (read-char "Grep in current directory (by default) or project (𝟭): ")))
+  (if (equal c ?1)
+      (call-interactively #'projectile-grep)
+    (projectile-current-directory-grep)))
+
+(global-set-key (kbd "C-S-f") 'sc/projectile-grep)
 
 (defun ch-remove-grep--command ()
   (save-excursion
@@ -981,7 +1001,7 @@ re-downloaded in order to locate PACKAGE."
 
 (add-hook 'prolog-inferior-mode-hook
           (lambda ()
-              (setq-local company-backends company-backends-non-lisp)
+            (setq-local company-backends company-backends-non-lisp)
             ))
 
 ;;----------------------------------------------------------------------------
