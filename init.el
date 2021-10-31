@@ -824,6 +824,9 @@ re-downloaded in order to locate PACKAGE."
             (text-scale-increase -1)
             ))
 
+;; Enable treemacs visibility on by default
+(add-hook 'emacs-startup-hook 'treemacs)
+
 (with-eval-after-load 'winum
   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
 
@@ -884,7 +887,6 @@ re-downloaded in order to locate PACKAGE."
 (define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
 (define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
 (define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
-
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
