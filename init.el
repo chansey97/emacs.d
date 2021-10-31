@@ -987,6 +987,11 @@ re-downloaded in order to locate PACKAGE."
 (require 'company-math)
 (add-to-list 'company-backends 'company-math-symbols-unicode)
 
+;;----------------------------------------------------------------------------
+;; smt (no mode)
+;;----------------------------------------------------------------------------
+(add-to-list 'auto-mode-alist '("\\.smt\\'" . lisp-mode))
+(add-to-list 'auto-mode-alist '("\\.smt2\\'" . lisp-mode))
 
 
 
