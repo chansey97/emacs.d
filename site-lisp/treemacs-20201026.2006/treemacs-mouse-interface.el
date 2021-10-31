@@ -229,6 +229,10 @@ and ignore any prefix argument."
                 ["Open Tags"  treemacs-toggle-node :visible ,(check (memq state '(file-node-closed tag-node-closed)))]
                 ["Close Tags" treemacs-toggle-node :visible ,(check (memq state '(file-node-open tag-node-open)))]
 
+                ["--" #'ignore                                                   :visible ,(check node)]
+                ["Copy Full Path"          treemacs-copy-path-at-point           :visible ,(check node)]
+                ["Copy Directory Path"     treemacs-copy-directory-path-at-point :visible ,(check node)]
+
                 ["--" #'ignore                         :visible ,(check node)]
                 ["Rename"           treemacs-rename    :visible ,(check node)]
                 ["Delete"           treemacs-delete    :visible ,(check node)]

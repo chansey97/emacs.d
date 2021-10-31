@@ -504,6 +504,13 @@ With a prefix ARG simply reset the width of the treemacs window."
       (treemacs-pulse-on-success "Copied path: %s" (propertize it 'face 'font-lock-string-face))
     (treemacs-pulse-on-failure  "There is nothing to copy here")))
 
+(defun treemacs-copy-directory-path-at-point ()
+  "Copy the absolute path of the node at point."
+  (interactive)
+  (--if-let (-some-> (treemacs--prop-at-point :path) (f-full) (f-dirname) (kill-new))
+      (treemacs-pulse-on-success "Copied path: %s" (propertize it 'face 'font-lock-string-face))
+    (treemacs-pulse-on-failure  "There is nothing to copy here")))
+
 (defun treemacs-copy-project-root ()
   "Copy the absolute path of the current treemacs root."
   (interactive)
