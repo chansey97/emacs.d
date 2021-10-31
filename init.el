@@ -466,7 +466,8 @@
 ;; Use F2 open init.el
 (defun open-init-file()
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (find-file "~/.emacs.d/init.el")
+  (treemacs--follow))
 
 (global-set-key (kbd "<f2>") 'open-init-file)
 
@@ -730,7 +731,7 @@ re-downloaded in order to locate PACKAGE."
 ;; tabbar
 ;;----------------------------------------------------------------------------
 (require 'tabbar)
-(tabbar-mode)
+(tabbar-mode t)
 
 (defun tabbar-popup-focus-buffer ()
   (interactive)
@@ -761,7 +762,7 @@ re-downloaded in order to locate PACKAGE."
 (setq projectile-enable-caching t)
 (setq-default projectile-completion-system 'ivy)
 
-(global-set-key (kbd "<f3>") 'projectile-find-file)
+(global-set-key (kbd "<f3>") 'projectile--find-file)
 
 (defun projectile-get-project-directories/override () '("./"))
 (defun projectile-prepend-project-name/override (string) (format "[.] %s" string))
