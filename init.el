@@ -533,8 +533,6 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'sml-mode)
 (require-package 'yasnippet)
 (require-package 'yasnippet-snippets)
-(require-package 'treemacs)
-(require-package 'treemacs-projectile)
 (require-package 'tuareg)
 (require-package 'el-search)
 (require-package 'haskell-mode)
