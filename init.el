@@ -367,6 +367,12 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold nil)
 
+;; split window on startup, assuming the major window is not *scratch*
+(add-hook 'emacs-startup-hook (lambda ()
+                                (switch-to-buffer (get-buffer "\\*scratch\\*"))
+                                (shrink-window-if-larger-than-buffer)
+                                ))
+
 ;;----------------------------------------------------------------------------
 ;; disable warnings
 ;;----------------------------------------------------------------------------
@@ -742,7 +748,7 @@ re-downloaded in order to locate PACKAGE."
 (setq aw-dispatch-always t)
 (set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
 ;; It's useful when a search window lost focus
-(global-set-key (kbd "<f4>") 'ace-window)
+(global-set-key (kbd "M-1") 'ace-window)
 
 ;;----------------------------------------------------------------------------
 ;; undo-tree
