@@ -342,10 +342,11 @@
 (global-set-key (kbd "C-M-c") 'comment-or-uncomment-region-or-line)
 
 ;;----------------------------------------------------------------------------
-;; When splitting window, show (other-buffer) in the new window and move cursor
+;; Split window
 ;;----------------------------------------------------------------------------
 (eval-when-compile (require 'cl))
 
+;; when splitting window, show (other-buffer) in the new window and move cursor
 (defun split-window-func-with-other-buffer (split-function)
   (lexical-let ((s-f split-function))
     (lambda ()
@@ -360,8 +361,11 @@
 
 ;; when resolution is high, emacs automatically split window
 ;; http://blog.mpacula.com/2012/01/28/howto-prevent-emacs-from-splitting-windows/
-(setq split-height-threshold 1200)
-(setq split-width-threshold 2000)
+;; fix the problem about clicking a grep result will split a new window
+;; instead of reusing old window
+;; https://stackoverflow.com/questions/9433013/can-i-make-emacs-grep-windows-just-use-the-other-window-to-open-files-in
+(setq split-height-threshold nil)
+(setq split-width-threshold nil)
 
 ;;----------------------------------------------------------------------------
 ;; disable warnings
