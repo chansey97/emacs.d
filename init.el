@@ -367,12 +367,6 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold nil)
 
-;; split window on startup, assuming the major window is not *scratch*
-(add-hook 'emacs-startup-hook (lambda ()
-                                (switch-to-buffer (get-buffer "\\*scratch\\*"))
-                                (shrink-window-if-larger-than-buffer)
-                                ))
-
 ;;----------------------------------------------------------------------------
 ;; disable warnings
 ;;----------------------------------------------------------------------------
