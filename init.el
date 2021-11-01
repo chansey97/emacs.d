@@ -173,7 +173,7 @@
 (set-default-coding-systems 'utf-8)
 
 ;;----------------------------------------------------------------------------
-;; Font
+;; Font of text
 ;;----------------------------------------------------------------------------
 (setq inhibit-compacting-font-caches t)
 
@@ -185,6 +185,10 @@
 ;; So install it, if use windows. https://fontlibrary.org/en/font/symbola
 (set-fontset-font "fontset-default"
                   'symbol (font-spec :family "Symbola" :size 16))
+
+;; Resize font
+;; Use C-x C-0 to start text-scale-adjust, use + - 0 for further adjustment
+(setq text-scale-mode-step 1.1)         ;finer inc/dec than default 1.2
 
 ;;----------------------------------------------------------------------------
 ;; Displaying Line Numbers and Column Number
@@ -228,9 +232,9 @@
 ;;----------------------------------------------------------------------------
 
 ;; make indentation commands use space only (never tab character)
-(setq-default indent-tabs-mode nil)
-;; emacs 23.1, 24.2, default to t
 ;; if indent-tabs-mode is t, it means it may use tab, resulting mixed space and tab
+;; emacs 23.1, 24.2, default to t
+(setq-default indent-tabs-mode nil)
 
 ;; set default tab char's display width to 4 spaces
 (setq-default tab-width 2) ; emacs 23.1, 24.2, default to 8
@@ -352,11 +356,12 @@
 
 (global-set-key (kbd "C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
 (global-set-key (kbd "C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
+(global-set-key (kbd "C-x 0") 'delete-window) ; by default
 
 ;; when resolution is high, emacs automatically split window
 ;; http://blog.mpacula.com/2012/01/28/howto-prevent-emacs-from-splitting-windows/
-;; (setq split-height-threshold 1200)
-;; (setq split-width-threshold 2000)
+(setq split-height-threshold 1200)
+(setq split-width-threshold 2000)
 
 ;;----------------------------------------------------------------------------
 ;; disable warnings
@@ -383,32 +388,37 @@
 ;;----------------------------------------------------------------------------
 ;; Frame size and features
 ;;----------------------------------------------------------------------------
-;; show menu
-(menu-bar-mode 1)
+
+;; maximize on start-up
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (toggle-frame-maximized)
+
+;; frame size
+;; (if (display-graphic-p)
+;;     (progn
+;;       (setq initial-frame-alist
+;;             '(
+;;               (width . 150) ; chars
+;;               (height . 50) ; lines
+;;               ))
+
+;;       (setq default-frame-alist
+;;             '(
+;;               (width . 150)
+;;               (height . 50)
+;;               ))))
 
 ;; no-splash
 (setq inhibit-splash-screen 1)
-
-;; frame size
-(if (display-graphic-p)
-    (progn
-      (setq initial-frame-alist
-            '(
-              (width . 150) ; chars
-              (height . 50) ; lines
-              ))
-
-      (setq default-frame-alist
-            '(
-              (width . 150)
-              (height . 50)
-              ))))
 
 ;; frame title use buffer name
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
+
+;; show menu
+(menu-bar-mode 1)
 
 ;;----------------------------------------------------------------------------
 ;; Hippie-expand setup
@@ -712,12 +722,13 @@ re-downloaded in order to locate PACKAGE."
 (define-key paredit-mode-map (kbd "\\") nil)
 
 ;;----------------------------------------------------------------------------
-;; ace-window
+;; ace-window (select and swap window)
 ;;----------------------------------------------------------------------------
 (require 'ace-window)
-(global-set-key (kbd "C-o") 'ace-window)
-(global-set-key (kbd "M-o") 'ace-swap-window)
+(setq aw-dispatch-always t)
 (set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
+;; It's useful when a search window lost focus
+(global-set-key (kbd "<f4>") 'ace-window)
 
 ;;----------------------------------------------------------------------------
 ;; undo-tree
@@ -848,10 +859,8 @@ re-downloaded in order to locate PACKAGE."
 ;; - Start
 (add-hook 'emacs-startup-hook 'treemacs)
 
-(with-eval-after-load 'winum
-  (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-
-(setq text-scale-mode-step 1.1)         ;finer inc/dec than default 1.2
+;; (with-eval-after-load 'winum
+;;   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
 
 ;; If want to decrease font size in treemacs, use text-scale-decrease in treemacs buffer
 ;; current win-emacs has no magick support, so can not decrease icon
@@ -867,7 +876,7 @@ re-downloaded in order to locate PACKAGE."
 (setq treemacs-persist-file							 (expand-file-name ".cache/treemacs-persist" user-emacs-directory))
 
 ;; - View
-(setq treemacs-width											 55)
+(setq treemacs-width											 50)
 (setq treemacs-space-between-root-nodes	   t) 
 (setq treemacs-sorting										 'alphabetic-asc) 
 (setq treemacs-no-png-images							 nil) 
