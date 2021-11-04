@@ -2,4 +2,4 @@
 # name: use_module(library(name)).
 # key: use
 # --
-use_module(library(${1:predicate1})).
+use_module(library(${1:name})).
