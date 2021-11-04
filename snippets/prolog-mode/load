@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: ['filename']
+# name: load_files(["filename"])
 # key: load
 # --
-['${1:predicate1}'].
+load_files(["${1:filename}"],[encoding(utf8)]).
