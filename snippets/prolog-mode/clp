@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: use_module(library(clpX)).
+# name: :- use_module(library(clpX)).
 # key: clp
 # --
-use_module(library(clp${1:fd})).
+:- use_module(library(clp${1:fd})).
