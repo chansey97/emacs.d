@@ -51,6 +51,7 @@
            "C:\\cygwin64\\usr\\local\\bin" path-separator
            "C:\\cygwin64\\bin" path-separator
            (getenv "PATH")))
+  ;;  (setenv "LANG" "en_GB.UTF-8")
   (require 'cygwin-mount)
   (cygwin-mount-activate))
 
@@ -443,6 +444,19 @@
 
 
 ;;----------------------------------------------------------------------------
+;; Open windows explorer
+;;----------------------------------------------------------------------------
+(require 'w32-browser)
+;; support directory path and filename path
+;; (w32explore "c:/Users/Chansey/AppData/Roaming/.emacs.d/site-lisp/prolog.el")
+;; (w32explore "c:/Users/Chansey/AppData/Roaming/.emacs.d/site-lisp/")
+
+(defun open-folder-in-explorer ()
+  "Call when editing a file in a buffer. Open windows explorer in the current directory and select the current file"  
+  (interactive)
+  (w32explore (convert-standard-filename buffer-file-name)))
+
+;;----------------------------------------------------------------------------
 ;; misc
 ;;----------------------------------------------------------------------------
 
@@ -458,16 +472,6 @@
 
 ;; type y/n instead of yes/no
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-;; open windows explorer in the current directory
-(defun open-folder-in-explorer ()
-  "Call when editing a file in a buffer. Open windows explorer in the current directory and select the current file"  
-  (interactive)
-  (w32-shell-execute
-   "open" "explorer"
-   (concat "/e,/select," (convert-standard-filename buffer-file-name))
-   )
-  )
 
 ;; get current file’s path
 (defun get-current-file-path ()
@@ -758,19 +762,27 @@ re-downloaded in order to locate PACKAGE."
 (require 'tabbar)
 (tabbar-mode t)
 
-(defun tabbar-popup-focus-buffer ()
+(defun tabbar-popup-source-focus ()
   (interactive)
   (let ((buffer (tabbar-tab-value tabbar-last-tab)))
     (switch-to-buffer buffer))
   ;;(treemacs--follow-tag-at-point)
   (treemacs--follow))
 
+(defun tabbar-popup-open-folder-in-explorer ()
+  (interactive)
+  (let* ((buf (tabbar-tab-value tabbar-last-tab))
+         (fn (buffer-file-name buf)))
+    (w32explore (file-name-directory fn))))
+
 (defun tabbar-popup-menu/filter-return (xs)
   (let ((x (car xs))
         (xs (cdr xs))
-        (y `["Buffer Focus" tabbar-popup-focus-buffer])
+        (y1 `["Source focus" tabbar-popup-source-focus])
+        (y2 `["Open folder in explorer" tabbar-popup-open-folder-in-explorer])
+        (l "---")
         )
-    (cons x (cons y xs))))
+    (cons x (cons y1 (cons y2 (cons "---" xs))))))
 
 ;; TODO: doesn't work in terminal?
 (when (display-graphic-p)
@@ -896,13 +908,12 @@ re-downloaded in order to locate PACKAGE."
 (setq treemacs-no-png-images							 nil) 
 (setq treemacs-is-never-other-window			 nil) 
 (setq treemacs-show-hidden-files					 t)
-
 (setq treemacs-indentation								 1) 
 (setq treemacs-indentation-string				 " ")
 
 ;; The default width and height of the icons is 22 pixels. If you are
 ;; using a Hi-DPI display, uncomment this to double the icon size.
-(treemacs-resize-icons 44)
+(treemacs-resize-icons 22)
 
 ;; if need to resize treemacs' window, select treemacs window and call treemacs-toggle-fixed-width
 ;; https://github.com/Alexander-Miller/treemacs/issues/514

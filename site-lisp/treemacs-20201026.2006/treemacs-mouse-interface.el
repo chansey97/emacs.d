@@ -226,6 +226,7 @@ and ignore any prefix argument."
                  ["Open With Ace"                    treemacs-visit-node-ace]
                  ["Open With Ace & Vertical Split"   treemacs-visit-node-ace-vertical-split]
                  ["Open With Ace & Horizontal Split" treemacs-visit-node-ace-horizontal-split])
+                ["Open Folder In Explorer"   treemacs-open-folder-in-explorer]
                 ["Open Tags"  treemacs-toggle-node :visible ,(check (memq state '(file-node-closed tag-node-closed)))]
                 ["Close Tags" treemacs-toggle-node :visible ,(check (memq state '(file-node-open tag-node-open)))]
 

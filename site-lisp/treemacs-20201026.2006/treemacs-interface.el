@@ -1249,6 +1249,14 @@ To programmatically set the scope type see `treemacs-set-scope-type'."
         (org-table-align))))
   (goto-char 0))
 
+(defun treemacs-open-folder-in-explorer ()
+  "Open folder of the node at point in explorer."
+  (interactive)
+  (--if-let (-some-> (treemacs--prop-at-point :path) (f-full))
+      (w32explore it)
+      (treemacs-pulse-on-success "Open path: %s" it)
+    (treemacs-pulse-on-failure  "There is nothing to open here")))
+
 (provide 'treemacs-interface)
 
 ;;; treemacs-interface.el ends here
