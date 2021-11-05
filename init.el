@@ -784,11 +784,17 @@ re-downloaded in order to locate PACKAGE."
         )
     (cons x (cons y1 (cons y2 (cons "---" xs))))))
 
+(defun tabbar-scroll-left/override (event)
+  "On mouse EVENT, scroll current tab set on left. step 10"
+  (when (eq (event-basic-type event) 'mouse-1)
+    (tabbar-scroll (tabbar-current-tabset) -10)))
+
 ;; TODO: doesn't work in terminal?
 (when (display-graphic-p)
   (require 'tabbar-ruler)
   (setq tabbar-ruler-global-tabbar t)
   (advice-add 'tabbar-popup-menu :filter-return #'tabbar-popup-menu/filter-return)
+  (advice-add 'tabbar-scroll-left :override #'tabbar-scroll-left/override)
   )
 
 ;;----------------------------------------------------------------------------
