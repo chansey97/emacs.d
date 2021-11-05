@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: working_directory(-Old, +New)
+# key: working_directory
+# --
+working_directory(${1:CMD}, ${2:CMD}).

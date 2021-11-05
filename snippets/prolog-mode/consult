@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: consult(["filename"])
+# key: consult
+# --
+consult(["${1:filename}"]).
