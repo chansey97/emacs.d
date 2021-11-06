@@ -1079,10 +1079,11 @@ re-downloaded in order to locate PACKAGE."
 (add-to-list 'company-backends 'company-math-symbols-unicode)
 
 ;;----------------------------------------------------------------------------
-;; SMT (no mode)
+;; SMT
 ;;----------------------------------------------------------------------------
-(add-to-list 'auto-mode-alist '("\\.smt\\'" . lisp-mode))
-(add-to-list 'auto-mode-alist '("\\.smt2\\'" . lisp-mode))
+(require 'smt-mode)
+(add-to-list 'auto-mode-alist '("\\.smt\\'" . smt-mode))
+(add-to-list 'auto-mode-alist '("\\.smt2\\'" . smt-mode))
 
 
 
