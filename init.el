@@ -489,10 +489,15 @@
 
 (global-set-key (kbd "<f2>") 'open-init-file)
 
-;; automatically add an Imenu menu to the menu bar
+;; Automatically add an Imenu menu to the menu bar
 (defun try-to-add-imenu ()
   (condition-case nil (imenu-add-to-menubar "imenu") (error nil)))
 (add-hook 'prog-mode-hook 'try-to-add-imenu)
+
+;; TODO: add a menu to copy, cut, paste, switch buffers, ...
+(global-set-key [mouse-3] 'mouse-buffer-menu)
+;; (global-set-key [mouse-3] 'mouse-popup-menubar-stuff)
+;; (global-set-key [mouse-3] 'mouse-popup-menubar)
 
 ;;----------------------------------------------------------------------------
 ;; Standard package repositories
@@ -564,6 +569,12 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'avy)
 (global-set-key (kbd "C-:") 'avy-goto-char)
+
+;;----------------------------------------------------------------------------
+;; yasnippet
+;;----------------------------------------------------------------------------
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;;----------------------------------------------------------------------------
 ;; company
@@ -746,7 +757,8 @@ re-downloaded in order to locate PACKAGE."
 (setq aw-dispatch-always t)
 (set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
 ;; It's useful when a search window lost focus
-(global-set-key (kbd "M-1") 'ace-window)
+(global-set-key (kbd "<f3>") 'ace-swap-window)
+(global-set-key (kbd "<f4>") 'ace-window)
 
 ;;----------------------------------------------------------------------------
 ;; undo-tree
@@ -805,8 +817,6 @@ re-downloaded in order to locate PACKAGE."
 (setq projectile-enable-caching t)
 (setq-default projectile-completion-system 'ivy)
 
-(global-set-key (kbd "<f3>") 'projectile--find-file)
-
 (defun projectile-get-project-directories/override () '("./"))
 (defun projectile-prepend-project-name/override (string) (format "[.] %s" string))
 
@@ -818,16 +828,17 @@ re-downloaded in order to locate PACKAGE."
   (advice-remove 'projectile-get-project-directories #'projectile-get-project-directories/override)
   (advice-remove 'projectile-prepend-project-name #'projectile-prepend-project-name/override))
 
-(defun sc/projectile-grep (c)
-  "Perform grep in the current directory (by default) or project."
+(defun sc/projectile-search (c)
+  "Perform various search."
   (interactive
    (list
-    (read-char "Grep in current directory (by default) or project (𝟭): ")))
-  (if (equal c ?1)
-      (call-interactively #'projectile-grep)
-    (projectile-current-directory-grep)))
+    (read-char "Search text in current directory (by default), or project (𝟭), or search file (𝟮): ")))
+  (cond
+   ((equal c ?1) (call-interactively #'projectile-grep))
+   ((equal c ?2) (call-interactively #'projectile--find-file))
+   (t (projectile-current-directory-grep))))
 
-(global-set-key (kbd "C-S-f") 'sc/projectile-grep)
+(global-set-key (kbd "C-S-f") 'sc/projectile-search)
 
 (defun ch-remove-grep--command ()
   (save-excursion
@@ -878,10 +889,24 @@ re-downloaded in order to locate PACKAGE."
 (require 'pie-mode)
 
 ;;----------------------------------------------------------------------------
-;; yasnippet
+;; scheme-mode
 ;;----------------------------------------------------------------------------
-(require 'yasnippet)
-(yas-global-mode 1)
+(require 'cmuscheme)
+
+;; Copy from cmuscheme and override run-scheme, using switch-to-buffer-other-window
+;; instead of pop-to-buffer-same-window.
+(defun run-scheme (cmd)
+  (interactive (list (if current-prefix-arg
+			                   (read-string "Run Scheme: " scheme-program-name)
+			                 scheme-program-name)))
+  (if (not (comint-check-proc "*scheme*"))
+      (let ((cmdlist (split-string-and-unquote cmd)))
+	      (set-buffer (apply 'make-comint "scheme" (car cmdlist)
+			                     (scheme-start-file (car cmdlist)) (cdr cmdlist)))
+	      (inferior-scheme-mode)))
+  (setq scheme-program-name cmd)
+  (setq scheme-buffer "*scheme*")
+  (switch-to-buffer-other-window "*scheme*"))
 
 ;;----------------------------------------------------------------------------
 ;; treemacs
@@ -1048,7 +1073,7 @@ re-downloaded in order to locate PACKAGE."
             (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)))
 
 ;;----------------------------------------------------------------------------
-;; Common Lisp 
+;; Common Lisp (slime)
 ;;----------------------------------------------------------------------------
 ;; (load (expand-file-name "C:\\Users\\Chansey\\quicklisp\\slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
