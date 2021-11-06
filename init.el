@@ -499,6 +499,9 @@
 ;; (global-set-key [mouse-3] 'mouse-popup-menubar-stuff)
 ;; (global-set-key [mouse-3] 'mouse-popup-menubar)
 
+;; Prevent accidental touch with middle click
+(global-unset-key [mouse-2])
+
 ;;----------------------------------------------------------------------------
 ;; Standard package repositories
 ;;----------------------------------------------------------------------------
