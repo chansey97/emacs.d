@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (check-sat)
+#key: check-sat
+# --
+(check-sat)

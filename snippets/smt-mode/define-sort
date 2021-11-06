@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (define-sort s n)
+#key: define-sort
+# --
+(declare-sort ${1:s} ${2:n})

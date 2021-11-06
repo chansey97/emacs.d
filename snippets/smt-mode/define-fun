@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name: (define-fun f ((x1 σ1) ...) σ t)
+#key: define-fun
+# --
+(define-fun ${1:f} ((${2:x1 σ1}) $3) ${4:σ}
+            ${5:body})

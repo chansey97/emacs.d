@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (set-logic l)
+#key: set-logic
+# --
+(set-logic ${1:ALL})

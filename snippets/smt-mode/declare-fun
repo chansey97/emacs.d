@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (declare-fun f (σ*) σ)
+#key: declare-fun
+# --
+(declare-const ${1:f} (${2:σ*}) ${3:σ})

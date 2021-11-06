@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#name: (declare-datatypes ((σ1 k1)) (d1))
+#key: declare-datatypes
+# --
+(declare-datatypes
+ ((σ1 1))
+ ((par (u1)
+       ((c1)
+        (c2 (s1 t1) (s2 t2))
+        ))))

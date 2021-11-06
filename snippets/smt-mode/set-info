@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (set-info :keyword value)
+#key: set-info
+# --
+(set-info ${1::keyword} ${2:value})

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name: (set-option option value)
+#key: set-option
+# --
+(set-option ${1::option} ${1:value})

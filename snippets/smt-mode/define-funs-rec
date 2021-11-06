@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+#name: (define-funs-rec (d1 d2 ...) (t1 t2 ...))
+#key: define-funs-rec
+# --
+(define-funs-rec
+    ((f1 ((x11 σ11) (x12 σ12)) σ1)
+     (f2 ((x21 σ21) (x22 σ22)) σ2))
+    (body1
+     body2))
