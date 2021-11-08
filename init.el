@@ -462,6 +462,9 @@
 
 ;; set cursor to i-beam
 (setq-default cursor-type 'bar)
+(add-hook 'overwrite-mode-hook
+          (lambda ()
+            (setq cursor-type (if overwrite-mode t 'bar))))
 
 ;; turn off ring bell
 (setq ring-bell-function 'ignore)
@@ -564,8 +567,35 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'el-search)
 (require-package 'haskell-mode)
 (require-package 'slime)
+(require-package 'drag-stuff)
 
 
+
+;;----------------------------------------------------------------------------
+;; Drag-stuff
+;;----------------------------------------------------------------------------
+(require 'drag-stuff)
+(setq drag-stuff-by-symbol-p 1)
+;; (global-set-key (kbd "M-<up>") 'drag-stuff-up)
+;; (global-set-key (kbd "M-<down>")  'drag-stuff-down)
+
+;;----------------------------------------------------------------------------
+;; Drag S-Expression
+;;----------------------------------------------------------------------------
+(defun drag-prev-sexp-forward ()
+  (interactive)
+  (call-interactively 'transpose-sexps))
+
+(defun drag-prev-sexp-backward ()
+  (interactive)
+  (let ((current-prefix-arg '(-1)))
+    (call-interactively 'transpose-sexps)))
+
+(global-set-key (kbd "M-<right>") 'drag-prev-sexp-forward)
+(global-set-key (kbd "M-<left>") 'drag-prev-sexp-backward)
+
+(global-set-key (kbd "M-<down>") 'drag-prev-sexp-forward)
+(global-set-key (kbd "M-<up>") 'drag-prev-sexp-backward)
 
 ;;----------------------------------------------------------------------------
 ;; avy
@@ -752,6 +782,65 @@ re-downloaded in order to locate PACKAGE."
 
 ;; don't hijack \ please (eg: ^S\)
 (define-key paredit-mode-map (kbd "\\") nil)
+
+;; forward and backward
+(defun sc/forward-sexp ()
+  (interactive)
+  (let ((sp (point)))
+    (call-interactively 'paredit-forward)
+    (call-interactively 'paredit-backward)
+    (when (<= (point) sp)
+      (call-interactively 'paredit-forward))
+    ))
+
+(defun sc/backward-sexp ()
+  (interactive)
+  (let ((sp (point)))
+    (call-interactively 'paredit-backward)
+    (call-interactively 'paredit-forward)
+    (when (>= (point) sp)
+      (call-interactively 'paredit-backward))))
+
+(defun sc/forward-token ()
+  (interactive)
+  (cond
+   ((looking-at-p "\\s(")
+    (call-interactively 'forward-char))
+   ;; ((looking-at-p "\\s\"")
+   ;;  (call-interactively 'forward-char))
+   (t
+    (call-interactively 'sc/forward-sexp))))
+
+(defun looking-back-one-char-p (regexp)
+  (save-excursion
+    (backward-char)
+    (looking-at-p regexp)))
+
+(defun sc/backward-token ()
+  (interactive)
+  (cond
+   ((looking-back-one-char-p "\\s)")
+    (call-interactively 'backward-char))
+   ;; ((looking-at-p "\\s\"")
+   ;;  (call-interactively 'backward-char))
+   (t
+    (call-interactively 'sc/backward-sexp))))
+
+(defun sc/forward ()
+  (interactive)
+  (if (use-region-p)
+      (call-interactively 'sc/forward-sexp)
+    (call-interactively 'sc/forward-token)))
+
+(defun sc/backward ()
+  (interactive)
+  (if (use-region-p)
+      (call-interactively 'sc/backward-sexp)
+    (call-interactively 'sc/backward-token)))
+
+;; TODO: if not editing Lisp program?
+(global-set-key (kbd "C-<right>") 'sc/forward)
+(global-set-key (kbd "C-<left>")  'sc/backward)
 
 ;;----------------------------------------------------------------------------
 ;; ace-window (select and swap window)
@@ -1001,11 +1090,11 @@ re-downloaded in order to locate PACKAGE."
 
 ;; - Key-bindings
 (define-key global-map (kbd "M-0") 'treemacs-select-window)
-(define-key global-map (kbd "C-x t 1") 'treemacs-delete-other-windows)
-(define-key global-map (kbd "C-x t t") 'treemacs)
-(define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
-(define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
-(define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
+;; (define-key global-map (kbd "C-x t 1") 'treemacs-delete-other-windows)
+;; (define-key global-map (kbd "C-x t t") 'treemacs)
+;; (define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
+;; (define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
+;; (define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
@@ -1039,6 +1128,9 @@ re-downloaded in order to locate PACKAGE."
             (add-function :around (symbol-function 'sml-smie-rules) #'my-sml-rules)
 
             (setq-local company-backends company-backends-non-lisp)
+
+            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
+            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
             ))
 
 ;;----------------------------------------------------------------------------
@@ -1064,6 +1156,12 @@ re-downloaded in order to locate PACKAGE."
     (progn (setq haskell-process-type 'ghci)
            (message "Using GHCi"))))
 
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
+            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
+            ))
+
 ;;----------------------------------------------------------------------------
 ;; OCaml (tuareg)
 ;;----------------------------------------------------------------------------
@@ -1073,7 +1171,10 @@ re-downloaded in order to locate PACKAGE."
 
 (add-hook 'tuareg-mode-hook
           (lambda ()
-            (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)))
+            (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)
+            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
+            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
+            ))
 
 ;;----------------------------------------------------------------------------
 ;; Common Lisp (slime)
@@ -1090,9 +1191,12 @@ re-downloaded in order to locate PACKAGE."
 
 (add-hook 'prolog-mode-hook
           (lambda ()
-            (local-set-key (kbd "C-M-c") #'comment-line)
-            (local-set-key [f5] #'run-prolog)
             (setq-local company-backends company-backends-non-lisp)
+            (local-set-key (kbd "C-M-c") 'comment-line)
+            (local-set-key [f5] #'run-prolog)
+            
+            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
+            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
             ))
 
 (add-hook 'prolog-inferior-mode-hook
@@ -1121,8 +1225,7 @@ re-downloaded in order to locate PACKAGE."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (slime yasnippet smartparens symbol-overlay page-break-lines popwin hungry-delete expand-region counsel company avy))))
+   '(slime yasnippet smartparens symbol-overlay page-break-lines popwin hungry-delete expand-region counsel company avy)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
