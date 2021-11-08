@@ -841,6 +841,8 @@ re-downloaded in order to locate PACKAGE."
 ;; TODO: if not editing Lisp program?
 (global-set-key (kbd "C-<right>") 'sc/forward)
 (global-set-key (kbd "C-<left>")  'sc/backward)
+(global-set-key (kbd "C-<down>")  'sc/forward-sexp)
+(global-set-key (kbd "C-<up>")    'sc/backward-sexp)
 
 ;;----------------------------------------------------------------------------
 ;; ace-window (select and swap window)
@@ -1128,9 +1130,12 @@ re-downloaded in order to locate PACKAGE."
             (add-function :around (symbol-function 'sml-smie-rules) #'my-sml-rules)
 
             (setq-local company-backends company-backends-non-lisp)
-
+            
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
+            
+            (local-set-key (kbd "C-<down>") 'forward-paragraph)
+            (local-set-key (kbd "C-<up>")   'backward-paragraph)
             ))
 
 ;;----------------------------------------------------------------------------
@@ -1160,6 +1165,9 @@ re-downloaded in order to locate PACKAGE."
           (lambda ()
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
+            
+            (local-set-key (kbd "C-<down>") 'forward-paragraph)
+            (local-set-key (kbd "C-<up>")   'backward-paragraph)
             ))
 
 ;;----------------------------------------------------------------------------
@@ -1197,11 +1205,17 @@ re-downloaded in order to locate PACKAGE."
             
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
+            
+            (local-set-key (kbd "C-<down>") 'forward-paragraph)
+            (local-set-key (kbd "C-<up>")   'backward-paragraph)
             ))
 
 (add-hook 'prolog-inferior-mode-hook
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
+            
+            (local-set-key (kbd "C-<down>") 'forward-paragraph)
+            (local-set-key (kbd "C-<up>")   'backward-paragraph) 
             ))
 
 ;;----------------------------------------------------------------------------
@@ -1216,6 +1230,12 @@ re-downloaded in order to locate PACKAGE."
 (require 'smt-mode)
 (add-to-list 'auto-mode-alist '("\\.smt\\'" . smt-mode))
 (add-to-list 'auto-mode-alist '("\\.smt2\\'" . smt-mode))
+
+(add-hook 'smt-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-<down>") 'forward-paragraph)
+            (local-set-key (kbd "C-<up>")   'backward-paragraph) 
+            ))
 
 
 
