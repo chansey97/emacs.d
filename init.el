@@ -505,6 +505,8 @@
 ;; Prevent accidental touch with middle click
 (global-unset-key [mouse-2])
 
+;; Mark
+(setq global-mark-ring-max 500)
 ;;----------------------------------------------------------------------------
 ;; Standard package repositories
 ;;----------------------------------------------------------------------------
@@ -783,7 +785,7 @@ re-downloaded in order to locate PACKAGE."
 ;; don't hijack \ please (eg: ^S\)
 (define-key paredit-mode-map (kbd "\\") nil)
 
-;; forward and backward
+;; cursor move forward and backward
 (defun sc/forward-sexp ()
   (interactive)
   (let ((sp (point)))
@@ -806,8 +808,6 @@ re-downloaded in order to locate PACKAGE."
   (cond
    ((looking-at-p "\\s(")
     (call-interactively 'forward-char))
-   ;; ((looking-at-p "\\s\"")
-   ;;  (call-interactively 'forward-char))
    (t
     (call-interactively 'sc/forward-sexp))))
 
@@ -821,8 +821,6 @@ re-downloaded in order to locate PACKAGE."
   (cond
    ((looking-back-one-char-p "\\s)")
     (call-interactively 'backward-char))
-   ;; ((looking-at-p "\\s\"")
-   ;;  (call-interactively 'backward-char))
    (t
     (call-interactively 'sc/backward-sexp))))
 
@@ -1213,9 +1211,6 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'prolog-inferior-mode-hook
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
-            
-            (local-set-key (kbd "C-<down>") 'forward-paragraph)
-            (local-set-key (kbd "C-<up>")   'backward-paragraph) 
             ))
 
 ;;----------------------------------------------------------------------------
