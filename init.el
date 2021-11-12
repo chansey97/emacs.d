@@ -785,7 +785,17 @@ re-downloaded in order to locate PACKAGE."
 ;; don't hijack \ please (eg: ^S\)
 (define-key paredit-mode-map (kbd "\\") nil)
 
-;; cursor move forward and backward
+
+(defun looking-back-one-char-p (regexp)
+  (save-excursion
+    (backward-char)
+    (looking-at-p regexp)))
+
+(defun backward-same-syntax ()
+  (interactive)
+  (let ((current-prefix-arg '(-1)))
+    (call-interactively 'forward-same-syntax)))
+
 (defun sc/forward-sexp ()
   (interactive)
   (let ((sp (point)))
@@ -811,11 +821,6 @@ re-downloaded in order to locate PACKAGE."
    (t
     (call-interactively 'sc/forward-sexp))))
 
-(defun looking-back-one-char-p (regexp)
-  (save-excursion
-    (backward-char)
-    (looking-at-p regexp)))
-
 (defun sc/backward-token ()
   (interactive)
   (cond
@@ -824,23 +829,51 @@ re-downloaded in order to locate PACKAGE."
    (t
     (call-interactively 'sc/backward-sexp))))
 
+(defun try-paredit-forward-up ()
+  (let ((r t))
+    (condition-case nil
+          (paredit-forward-up)
+        (scan-error (setq r nil)))
+    r))
+
+(defun try-paredit-backward-up ()
+  (let ((r t))
+    (condition-case nil
+          (paredit-backward-up)
+        (scan-error (setq r nil)))
+    r))
+
 (defun sc/forward ()
   (interactive)
   (if (use-region-p)
       (call-interactively 'sc/forward-sexp)
-    (call-interactively 'sc/forward-token)))
+    (if (looking-at-p "\\s(\\|\\s)")
+        (call-interactively 'forward-same-syntax)
+      (call-interactively 'sc/forward-token))))
 
 (defun sc/backward ()
   (interactive)
   (if (use-region-p)
       (call-interactively 'sc/backward-sexp)
-    (call-interactively 'sc/backward-token)))
+    (if (looking-back-one-char-p "\\s(\\|\\s)")
+        (call-interactively 'backward-same-syntax)
+      (call-interactively 'sc/backward-token))))
+
+(defun sc/forward-up ()
+  (interactive)
+  (when (not (try-paredit-forward-up))
+    (call-interactively 'sc/forward-sexp)))
+
+(defun sc/backward-up ()
+  (interactive)
+  (when (not (try-paredit-backward-up))
+    (call-interactively 'sc/backward-sexp)))
 
 ;; TODO: if not editing Lisp program?
 (global-set-key (kbd "C-<right>") 'sc/forward)
 (global-set-key (kbd "C-<left>")  'sc/backward)
-(global-set-key (kbd "C-<down>")  'sc/forward-sexp)
-(global-set-key (kbd "C-<up>")    'sc/backward-sexp)
+(global-set-key (kbd "C-<down>")  'sc/forward-up)
+(global-set-key (kbd "C-<up>")    'sc/backward-up)
 
 ;;----------------------------------------------------------------------------
 ;; ace-window (select and swap window)
