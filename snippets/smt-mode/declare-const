@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 #name: (declare-const f σ)
-#key: dec
+#key: declare-const
 # --
 (declare-const ${1:f} ${2:σ})

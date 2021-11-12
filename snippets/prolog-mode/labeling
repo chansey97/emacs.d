@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: labeling(+Options, +Vars)
+# key: labeling
+# --
+labeling([${1:ff}], ${2:Vars})

@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
-# name: :- once(findnsols(1, [Vars, ...], (Goal, ...), Qs), write(Qs), nl)
+# name: :- once(findnsols(1, Vars, (Goal, ...), Qs), write(Qs), nl)
 # key: run
 # --
-:- once(findnsols(${1:1}, [${2:Vars}],
+:- once(findnsols(${1:1}, ${2:Vars},
                   (   ${3:Goal}
                   ),
                   Qs)),

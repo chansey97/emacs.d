@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- use_module(library(name)).
+# key: use
+# --
+:- use_module(library(${1:name}), [${2:functor1}]).
