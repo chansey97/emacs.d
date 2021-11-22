@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: findall(+Template, :Goal, -List)
+# key: findnsols
+# --
+findall(${1:@Template}, ${2::Goal} , ${3:-List})

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: :- findnsols(Vars, (Goal, ...), Qs), write(Qs), nl.
+# key: run
+# --
+:- findall(${2:Vars},
+           (   ${3:Goal}
+           ),
+           Qs),
+write(Qs), nl.
