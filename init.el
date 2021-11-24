@@ -624,6 +624,12 @@ re-downloaded in order to locate PACKAGE."
 (setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+")
 
 ;;----------------------------------------------------------------------------
+;; company-math 
+;;----------------------------------------------------------------------------
+;; (require 'company-math)
+;; (push 'company-math-symbols-unicode company-backends)
+
+;;----------------------------------------------------------------------------
 ;; company with company-yasnippet and company-yasnippet-autoparens
 ;;----------------------------------------------------------------------------
 
@@ -1172,12 +1178,6 @@ re-downloaded in order to locate PACKAGE."
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
             ))
-
-;;----------------------------------------------------------------------------
-;; company-math 
-;;----------------------------------------------------------------------------
-(require 'company-math)
-(add-to-list 'company-backends 'company-math-symbols-unicode)
 
 ;;----------------------------------------------------------------------------
 ;; SMT
