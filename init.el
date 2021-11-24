@@ -870,7 +870,7 @@ re-downloaded in order to locate PACKAGE."
   "Perform rgrep in the current directory."
   (advice-add 'projectile-get-project-directories :override #'projectile-get-project-directories/override)
   (advice-add 'projectile-prepend-project-name :override #'projectile-prepend-project-name/override)
-  (call-interactively #'projectile-grep)
+  (call-interactively 'projectile-grep)
   (advice-remove 'projectile-get-project-directories #'projectile-get-project-directories/override)
   (advice-remove 'projectile-prepend-project-name #'projectile-prepend-project-name/override))
 
@@ -880,8 +880,8 @@ re-downloaded in order to locate PACKAGE."
    (list
     (read-char "Search text in current directory (by default), or project (𝟭), or search file (𝟮): ")))
   (cond
-   ((equal c ?1) (call-interactively #'projectile-grep))
-   ((equal c ?2) (call-interactively #'projectile--find-file))
+   ((equal c ?1) (call-interactively 'projectile-grep))
+   ((equal c ?2) (call-interactively 'projectile--find-file))
    (t (projectile-current-directory-grep))))
 
 (global-set-key (kbd "C-S-f") 'sc/projectile-search)
@@ -1148,6 +1148,12 @@ re-downloaded in order to locate PACKAGE."
 (require 'prolog)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 (setq prolog-system 'swi)
+
+(defun run-prolog-restart ()
+  "Kill and Restart an inferior Prolog process"
+  (interactive)
+  (let ((current-prefix-arg '(1)))
+    (call-interactively 'run-prolog)))
 
 (add-hook 'prolog-mode-hook
           (lambda ()
