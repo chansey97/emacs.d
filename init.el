@@ -1190,11 +1190,27 @@ re-downloaded in order to locate PACKAGE."
   (let ((current-prefix-arg '(1)))
     (call-interactively 'run-prolog)))
 
+(defun prolog-indent-buffer/override()
+  (interactive)
+  (save-excursion
+    (goto-char (point-max)) 
+    (let ((p0 (point)))
+      (prolog-beginning-of-clause)
+      (prolog-indent-predicate)
+      (while (not (equal (point) p0))
+        (setq p0 (point))
+        (prolog-beginning-of-clause)
+        (prolog-indent-predicate)))))
+
+(advice-add 'prolog-indent-buffer :override #'prolog-indent-buffer/override)
+
 (add-hook 'prolog-mode-hook
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
-            (local-set-key (kbd "C-M-c") 'comment-line)
             (local-set-key [f5] #'run-prolog)
+            (local-set-key (kbd "C-M-c") 'comment-line)
+            (local-set-key (kbd "C-M-l") 'prolog-indent-buffer)
+            (local-set-key (kbd "C-h") 'prolog-help-on-predicate)
             
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
