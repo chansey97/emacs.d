@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: working_directory(CMD, CMD).
+# key: cwd
+# --
+working_directory(CMD, CMD).

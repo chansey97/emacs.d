@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- chr_constraint constraint/1.
+# key: chr_constraint
+# --
+:- chr_constraint ${1:constraint/1}.

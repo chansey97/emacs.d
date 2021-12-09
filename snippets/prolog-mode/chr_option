@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- chr_option(+Option, +Value).
+# key: chr_option
+# --
+:- chr_option(${1:check_guard_bindings},${2:on}). 
