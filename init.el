@@ -51,16 +51,48 @@
            "C:\\cygwin64\\usr\\local\\bin" path-separator
            "C:\\cygwin64\\bin" path-separator
            (getenv "PATH")))
-  ;;  (setenv "LANG" "en_GB.UTF-8")
+
   (require 'cygwin-mount)
   (cygwin-mount-activate))
 
+(defun shell-cygwin ()
+  "Run cygwin bash in shell mode."
+  (interactive)
+  (let ((explicit-shell-file-name "C:/cygwin64/bin/bash"))
+    (call-interactively 'shell)))
+
+;;----------------------------------------------------------------------------
+;; Encoding (UTF-8 by default)
+;;----------------------------------------------------------------------------
+;; Set locale
+;; Note that windows' locale doesn't rely on LANG (or any other LC_X environmental variable).
+;; It is set in Control Panel. I set LANG and LC_ALL here is just to simulate *nix behavior,
+;; because some applications assume you are using *nix.  
+(when (eq system-type 'windows-nt)
+  (setenv "LANG" "en_GB.UTF-8")
+  (setenv "LC_ALL" "en_GB.UTF-8"))
+
+;; Set emacs language environment
+(set-language-environment "UTF-8")
+
+;; Set coding system
+(set-default-coding-systems 'utf-8)
+(prefer-coding-system       'utf-8)
+
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+;; Workaound for windows cmd.exe
+;; (when (eq system-type 'windows-nt)
+;;   (set-default 'process-coding-system-alist
+;;                '(("[pP][lL][iI][nN][kK]" gbk . gbk)
+;; 	               ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk . gbk)
+;; 	               ("[gG][sS]" gbk . gbk))))
 
 ;;----------------------------------------------------------------------------
 ;; Recycle Bin
 ;;----------------------------------------------------------------------------
 (setq delete-by-moving-to-trash t)
-
 
 ;;----------------------------------------------------------------------------
 ;; Back-button
@@ -164,14 +196,6 @@
 
 ;; remember cursor position, for emacs 25.1 or later
 (save-place-mode 1)
-
-;;----------------------------------------------------------------------------
-;; File Encoding
-;;----------------------------------------------------------------------------
-
-;; UTF-8 as default encoding
-(set-language-environment "utf-8")
-(set-default-coding-systems 'utf-8)
 
 ;;----------------------------------------------------------------------------
 ;; Font of text
@@ -626,8 +650,8 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; company-math 
 ;;----------------------------------------------------------------------------
-;; (require 'company-math)
-;; (push 'company-math-symbols-unicode company-backends)
+(require 'company-math)
+(push 'company-math-symbols-unicode company-backends)
 
 ;;----------------------------------------------------------------------------
 ;; company with company-yasnippet and company-yasnippet-autoparens
@@ -809,7 +833,7 @@ re-downloaded in order to locate PACKAGE."
 (setq aw-dispatch-always t)
 (set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
 ;; It's useful when a search window lost focus
-(global-set-key (kbd "<f3>") 'ace-swap-window)
+(global-set-key (kbd "M-<f4>") 'ace-swap-window)
 (global-set-key (kbd "<f4>") 'ace-window)
 
 ;;----------------------------------------------------------------------------
@@ -1155,7 +1179,7 @@ re-downloaded in order to locate PACKAGE."
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 (setq prolog-system 'swi)
 
-(defun run-prolog-restart ()
+(defun restart-prolog()
   "Kill and Restart an inferior Prolog process"
   (interactive)
   (let ((current-prefix-arg '(1)))
