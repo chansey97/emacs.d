@@ -694,12 +694,12 @@ re-downloaded in order to locate PACKAGE."
 ;; company-backends-lisp means auto complete |f -> (f)|
 ;; company-backends-non-lisp means auto complete |f -> f()|
 (setq company-backends-lisp (mapcar #'company-mode/backend-with-yas
-                               (mapcar #'company-mode/backend-with-yas-ap
-                                       company-backends)))
+                                    (mapcar #'company-mode/backend-with-yas-ap
+                                            company-backends)))
 
 (setq company-backends-non-lisp (mapcar #'company-mode/backend-with-yas
-                               (mapcar #'company-mode/backend-with-yas-ap-2
-                                       company-backends)))
+                                        (mapcar #'company-mode/backend-with-yas-ap-2
+                                                company-backends)))
 
 ;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
 ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
