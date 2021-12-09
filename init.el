@@ -521,10 +521,15 @@
   (condition-case nil (imenu-add-to-menubar "imenu") (error nil)))
 (add-hook 'prog-mode-hook 'try-to-add-imenu)
 
-;; TODO: add a menu to copy, cut, paste, switch buffers, ...
+;; TODO: add a mouse menu to copy, cut, paste, etc
 (global-set-key [mouse-3] 'mouse-buffer-menu)
 ;; (global-set-key [mouse-3] 'mouse-popup-menubar-stuff)
 ;; (global-set-key [mouse-3] 'mouse-popup-menubar)
+
+;; Unbind [C-x C-b] (list-buffers) to avoid mistouching
+;; switch-to-buffer's key-binding is [C-x b].
+;; kill-buffer's      key-binding is [C-x k].
+(global-set-key [C-x C-b] nil)
 
 ;; Prevent accidental touch with middle click
 (global-unset-key [mouse-2])
