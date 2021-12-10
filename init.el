@@ -175,6 +175,15 @@
 ;; mouse selection: shift selection
 (define-key global-map (kbd "<S-down-mouse-1>") 'mouse-save-then-kill)
 
+;; select current line
+(defun select-current-line ()
+  "Select the current line"
+  (interactive)
+  (end-of-line) ; move to end of line
+  (set-mark (line-beginning-position)))
+
+(global-set-key (kbd "C--") 'select-current-line)
+
 ;;----------------------------------------------------------------------------
 ;; Text Highlight
 ;;----------------------------------------------------------------------------
@@ -742,6 +751,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
+;; (global-set-key (kbd "C--") 'er/contract-region); (kbd "C--") be used by select-current-line
 
 ;;----------------------------------------------------------------------------
 ;; popwin 
