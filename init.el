@@ -1,4 +1,5 @@
 ;; (setq debug-on-error t)
+;; (add-hook 'post-command-hook (lambda () (message "this-command: %s" this-command)))
 
 (let ((minver "24.3"))
   (when (version< emacs-version minver)
@@ -176,13 +177,25 @@
 (define-key global-map (kbd "<S-down-mouse-1>") 'mouse-save-then-kill)
 
 ;; select current line
-(defun select-current-line ()
+(defvar sc/last-pos nil)
+
+(defun sc/select-current-line ()
   "Select the current line"
   (interactive)
-  (end-of-line) ; move to end of line
-  (set-mark (line-beginning-position)))
+  (setq sc/last-pos (point))
+  (beginning-of-line)
+  (push-mark (point) nil t)
+  (end-of-line))
 
-(global-set-key (kbd "C--") 'select-current-line)
+(defun sc/select-current-line-cancel ()
+  (when (eq last-command 'sc/select-current-line)
+    (goto-char sc/last-pos)))
+
+(advice-add 'keyboard-quit :before #'sc/select-current-line-cancel)
+(advice-add 'minibuffer-keyboard-quit :before #'sc/select-current-line-cancel)
+(advice-add 'cua-cancel :before #'sc/select-current-line-cancel)
+
+(global-set-key (kbd "C--") 'sc/select-current-line)
 
 ;;----------------------------------------------------------------------------
 ;; Text Highlight
