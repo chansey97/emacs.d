@@ -940,55 +940,6 @@ re-downloaded in order to locate PACKAGE."
 ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 
-
-
-
-
-;;----------------------------------------------------------------------------
-;; racket-mode
-;;----------------------------------------------------------------------------
-(require 'racket-mode)
-(setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
-(add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode))
-(modify-coding-system-alist 'file "\\.scm\\'"  'utf-8)
-
-;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
-;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
-
-(add-hook 'racket-mode-hook
-          (lambda ()
-            (define-key racket-mode-map (kbd "<f5>")'racket-run)
-            (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
-            
-            (put 'variant-case 'racket-indent-function 1) ; just for eopl/1ed
-            (put 'pmatch 'racket-indent-function 1) ; just for eopl/2ed
-            ))
-
-;;----------------------------------------------------------------------------
-;; pie-mode (the little typer)
-;;----------------------------------------------------------------------------
-(require 'pie-mode)
-
-;;----------------------------------------------------------------------------
-;; scheme-mode
-;;----------------------------------------------------------------------------
-(require 'cmuscheme)
-
-;; Copy from cmuscheme and override run-scheme, using switch-to-buffer-other-window
-;; instead of pop-to-buffer-same-window.
-(defun run-scheme (cmd)
-  (interactive (list (if current-prefix-arg
-			                   (read-string "Run Scheme: " scheme-program-name)
-			                 scheme-program-name)))
-  (if (not (comint-check-proc "*scheme*"))
-      (let ((cmdlist (split-string-and-unquote cmd)))
-	      (set-buffer (apply 'make-comint "scheme" (car cmdlist)
-			                     (scheme-start-file (car cmdlist)) (cdr cmdlist)))
-	      (inferior-scheme-mode)))
-  (setq scheme-program-name cmd)
-  (setq scheme-buffer "*scheme*")
-  (switch-to-buffer-other-window "*scheme*"))
-
 ;;----------------------------------------------------------------------------
 ;; treemacs
 ;;----------------------------------------------------------------------------
@@ -1084,6 +1035,64 @@ re-downloaded in order to locate PACKAGE."
 ;; (define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
 ;; (define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
 ;; (define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
+
+;;----------------------------------------------------------------------------
+;; eldoc, pos-tip
+;;----------------------------------------------------------------------------
+(defun eldoc-pos-tip-message (format-string &rest args)
+  "Display eldoc message near point."
+  (when format-string
+    (pos-tip-show (format format-string args))))
+
+(setq eldoc-message-function #'eldoc-pos-tip-message)
+
+
+
+
+;;----------------------------------------------------------------------------
+;; racket-mode
+;;----------------------------------------------------------------------------
+(require 'racket-mode)
+(setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
+(add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode))
+(modify-coding-system-alist 'file "\\.scm\\'"  'utf-8)
+
+;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
+;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+
+(add-hook 'racket-mode-hook
+          (lambda ()
+            (define-key racket-mode-map (kbd "<f5>")'racket-run)
+            (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
+            
+            (put 'variant-case 'racket-indent-function 1) ; just for eopl/1ed
+            (put 'pmatch 'racket-indent-function 1) ; just for eopl/2ed
+            ))
+
+;;----------------------------------------------------------------------------
+;; pie-mode (the little typer)
+;;----------------------------------------------------------------------------
+(require 'pie-mode)
+
+;;----------------------------------------------------------------------------
+;; scheme-mode
+;;----------------------------------------------------------------------------
+(require 'cmuscheme)
+
+;; Copy from cmuscheme and override run-scheme, using switch-to-buffer-other-window
+;; instead of pop-to-buffer-same-window.
+(defun run-scheme (cmd)
+  (interactive (list (if current-prefix-arg
+			                   (read-string "Run Scheme: " scheme-program-name)
+			                 scheme-program-name)))
+  (if (not (comint-check-proc "*scheme*"))
+      (let ((cmdlist (split-string-and-unquote cmd)))
+	      (set-buffer (apply 'make-comint "scheme" (car cmdlist)
+			                     (scheme-start-file (car cmdlist)) (cdr cmdlist)))
+	      (inferior-scheme-mode)))
+  (setq scheme-program-name cmd)
+  (setq scheme-buffer "*scheme*")
+  (switch-to-buffer-other-window "*scheme*"))
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
@@ -1210,13 +1219,13 @@ re-downloaded in order to locate PACKAGE."
             (local-set-key [f5] #'run-prolog)
             (local-set-key (kbd "C-M-c") 'comment-line)
             (local-set-key (kbd "C-M-l") 'prolog-indent-buffer)
-            (local-set-key (kbd "C-h") 'prolog-help-on-predicate)
+            (local-set-key (kbd "C-h")   'prolog-help-on-predicate)
             
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
             
-            (local-set-key (kbd "C-<down>") 'forward-paragraph)
-            (local-set-key (kbd "C-<up>")   'backward-paragraph)
+            (local-set-key (kbd "C-<down>") 'prolog-end-of-clause)
+            (local-set-key (kbd "C-<up>")   'prolog-beginning-of-clause)
             ))
 
 (add-hook 'prolog-inferior-mode-hook
