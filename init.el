@@ -793,7 +793,7 @@ re-downloaded in order to locate PACKAGE."
 ;; smartparens
 ;;----------------------------------------------------------------------------
 (require 'smartparens-config)
-(add-hook 'prog-mode-hook 'smartparens-mode)
+(smartparens-global-mode)
 (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
@@ -1214,6 +1214,8 @@ re-downloaded in order to locate PACKAGE."
 (require 'prolog)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 (setq prolog-system 'swi)
+(setq prolog-paren-indent-p t)
+(setq prolog-align-small-comments-flag nil)
 
 (defun restart-prolog()
   "Kill and Restart an inferior Prolog process"
@@ -1221,27 +1223,20 @@ re-downloaded in order to locate PACKAGE."
   (let ((current-prefix-arg '(1)))
     (call-interactively 'run-prolog)))
 
-(defun prolog-indent-buffer/override()
-  (interactive)
+(defun prolog-indent-line/around (orig-fun &rest args)
   (save-excursion
-    (goto-char (point-max)) 
-    (let ((p0 (point)))
-      (prolog-beginning-of-clause)
-      (prolog-indent-predicate)
-      (while (not (equal (point) p0))
-        (setq p0 (point))
-        (prolog-beginning-of-clause)
-        (prolog-indent-predicate)))))
+    (condition-case nil
+        (apply orig-fun args)
+      (beginning-of-buffer 'noindent))))
 
-(advice-add 'prolog-indent-buffer :override #'prolog-indent-buffer/override)
+(advice-add 'prolog-indent-line :around  #'prolog-indent-line/around)
 
 (add-hook 'prolog-mode-hook
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
             (local-set-key [f5] #'run-prolog)
             (local-set-key (kbd "C-M-c") 'comment-line)
-            (local-set-key (kbd "C-M-l") 'prolog-indent-buffer)
-            (local-set-key (kbd "C-h")   'prolog-help-on-predicate)
+            (local-set-key (kbd "<f1>")   'prolog-help-on-predicate)
             
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
