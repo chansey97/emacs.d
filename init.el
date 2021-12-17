@@ -1249,7 +1249,6 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'prolog-mode-hook
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
-            (local-set-key [f5] #'run-prolog)
             (local-set-key (kbd "C-M-c") 'comment-line)
             (local-set-key (kbd "<f1>")   'prolog-help-on-predicate)
             
@@ -1264,6 +1263,23 @@ re-downloaded in order to locate PACKAGE."
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
             ))
+
+(require 'ediprolog)
+(setq ediprolog-system 'swi)
+
+(defun ediprolog-kill ()
+  (interactive "")
+  (let ((current-prefix-arg 0))
+    (call-interactively 'ediprolog-dwim)))
+
+(add-hook 'prolog-mode-hook
+          (lambda ()
+            ;; press [f5] to query, when cursor at ?-, 
+            ;; press [f5] to consult file, when cursor at other position
+            ;; press C-0 [f5] to kill ediprog's process
+            (local-set-key [f5] 'ediprolog-dwim) ; when interaction block Emacs, press C-g to unblock
+            (local-set-key [f6] 'ediprolog-toplevel) ; press f6 to resume interaction 
+            (local-set-key [f8] 'ediprolog-kill)))
 
 ;;----------------------------------------------------------------------------
 ;; SMT
