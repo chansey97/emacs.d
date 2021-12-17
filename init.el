@@ -567,7 +567,7 @@
 (setq global-mark-ring-max 500)
 
 ;; Clear *Messages* buffer, if too many messages.
-(defun clear-messages-buffer ()
+(defun erase-messages-buffer ()
   (interactive)
   (let ((inhibit-read-only t))
     (with-current-buffer "*Messages*"
