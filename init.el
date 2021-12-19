@@ -1313,6 +1313,12 @@ re-downloaded in order to locate PACKAGE."
                            (local-set-key (kbd "C-M-u") 'sql-upcase-buffer)
                            ))
 
+(require 'sqlite-dump)
+(modify-coding-system-alist 'file "\\.sqlite3\\'" 'raw-text-unix)
+(modify-coding-system-alist 'file "\\.sqlite\\'" 'raw-text-unix)
+(add-to-list 'auto-mode-alist '("\\.sqlite3\\'" . sqlite-dump))
+(add-to-list 'auto-mode-alist '("\\.sqlite\\'" . sqlite-dump))
+
 
 
 (custom-set-variables
