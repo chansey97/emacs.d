@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: current_prolog_flag(?Key, -Value).
+# key: flag
+# --
+current_prolog_flag(${1:version}, X).
