@@ -1295,6 +1295,23 @@ re-downloaded in order to locate PACKAGE."
             (local-set-key (kbd "C-<up>")   'backward-paragraph) 
             ))
 
+;;----------------------------------------------------------------------------
+;; SQL Mode
+;;----------------------------------------------------------------------------
+(require 'sql)
+(require 'sql-upcase)
+
+;; avoid conflicts with cygwin's sqlite3 
+(setq sql-sqlite-program "c:/env/sqlite/sqlite-win32-x86-3370000/sqlite3.exe")
+(add-hook 'sql-mode-hook 'sql-upcase-mode)
+(add-hook 'sql-interactive-mode-hook 'sql-upcase-mode)
+(add-hook 'sql-mode-hook (lambda ()
+                           (local-set-key (kbd "C-M-c") 'comment-line)
+                           ;; TODO: sql-send-dwim (buffer and region)
+                           (local-set-key [f5] 'sql-send-line-and-next)
+                           (local-set-key (kbd "C-M-u") 'sql-upcase-buffer)
+                           ))
+
 
 
 (custom-set-variables
