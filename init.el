@@ -1248,6 +1248,7 @@ re-downloaded in order to locate PACKAGE."
 
 (add-hook 'prolog-mode-hook
           (lambda ()
+            (paredit-mode)
             (setq-local company-backends company-backends-non-lisp)
             (local-set-key (kbd "C-M-c") 'comment-line)
             (local-set-key (kbd "<f1>")   'prolog-help-on-predicate)
