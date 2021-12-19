@@ -1229,6 +1229,8 @@ re-downloaded in order to locate PACKAGE."
 (require 'prolog)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 (setq prolog-system 'swi)
+;; avoid conflicting with cygwin's swipl 
+(setq ediprolog-program "c:/PROGRA~1/swipl/bin/swipl.exe")
 (setq prolog-paren-indent-p t)
 (setq prolog-align-small-comments-flag nil)
 
@@ -1300,8 +1302,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'sql)
 (require 'sql-upcase)
-
-;; avoid conflicts with cygwin's sqlite3 
+;; avoid conflicting with cygwin's sqlite3 
 (setq sql-sqlite-program "c:/env/sqlite/sqlite-win32-x86-3370000/sqlite3.exe")
 (add-hook 'sql-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode)
