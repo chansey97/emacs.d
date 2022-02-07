@@ -1233,6 +1233,7 @@ re-downloaded in order to locate PACKAGE."
 (setq ediprolog-program "c:/PROGRA~1/swipl/bin/swipl.exe")
 (setq prolog-paren-indent-p t)
 (setq prolog-align-small-comments-flag nil)
+(setq prolog-head-delimiter "\\(:-\\|\\+:\\|-:\\|\\+\\?\\|-\\?\\|-->\\|-->>\\|<=>\\|==>\\|=>\\)")
 
 (defun restart-prolog()
   "Kill and Restart an inferior Prolog process"
