@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- dynamic(h/2).
+# key: dyn
+# --
+:- dynamic(${1:pred/n}).

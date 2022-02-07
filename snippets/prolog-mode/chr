@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- use_module(library(chr)).
+# key: chr
+# --
+:- use_module(library(chr)).

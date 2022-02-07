@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: format(+Format, :Arguments)
+# key: format
+# --
+format("${1:xxx} ${2:~w}~n", [${3:X}])
