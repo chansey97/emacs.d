@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: writeln(X)
+# key: wri
+# --
+writeln(${1:})

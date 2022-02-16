@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- op(600, xfx, =>)
+# key: op
+# --
+:- op(600, xfx, =>)
