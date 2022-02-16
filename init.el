@@ -1092,7 +1092,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'racket-mode)
 (setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
-(add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode))
+;; (add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode)) ; Racket r5rs
 
 ;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
 ;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
@@ -1118,7 +1118,7 @@ re-downloaded in order to locate PACKAGE."
 
 ;; Copy from cmuscheme and override run-scheme, using switch-to-buffer-other-window
 ;; instead of pop-to-buffer-same-window.
-(defun run-scheme (cmd)
+(defun run-scheme/override (cmd)
   (interactive (list (if current-prefix-arg
 			                   (read-string "Run Scheme: " scheme-program-name)
 			                 scheme-program-name)))
@@ -1130,6 +1130,23 @@ re-downloaded in order to locate PACKAGE."
   (setq scheme-program-name cmd)
   (setq scheme-buffer "*scheme*")
   (switch-to-buffer-other-window "*scheme*"))
+(advice-add 'run-scheme :override #'run-scheme/override)
+
+(defun current-line-empty-p ()
+  (save-excursion
+    (beginning-of-line)
+    (looking-at-p "[[:space:]]*$")))
+
+(defun scheme-dwim ()
+  (interactive)
+  (if (current-line-empty-p)
+      (scheme-load-file (buffer-name))
+    (scheme-send-last-sexp)))
+
+(add-hook 'scheme-mode-hook
+          (lambda ()
+            (local-set-key [f5] 'scheme-dwim)
+            ))
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
