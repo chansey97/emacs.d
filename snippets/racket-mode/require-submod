@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (require (submod "." sub))
+# key: require
+# --
+(require (submod "." ${1:sub}))
