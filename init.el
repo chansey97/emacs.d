@@ -1320,8 +1320,6 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'sql)
 (require 'sql-upcase)
-;; avoid conflicting with cygwin's sqlite3 
-(setq sql-sqlite-program "c:/env/sqlite/sqlite-win32-x86-3370000/sqlite3.exe")
 (add-hook 'sql-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-mode-hook (lambda ()
@@ -1330,12 +1328,20 @@ re-downloaded in order to locate PACKAGE."
                            (local-set-key [f5] 'sql-send-line-and-next)
                            (local-set-key (kbd "C-M-u") 'sql-upcase-buffer)
                            ))
+;; sqlite
+;; avoid conflicting with cygwin's sqlite3 
+(setq sql-sqlite-program "c:/env/sqlite/sqlite-win32-x86-3370000/sqlite3.exe")
+;; (add-to-list 'sql-sqlite-options "-interactive")
 
 (require 'sqlite-dump)
 (modify-coding-system-alist 'file "\\.sqlite3\\'" 'raw-text-unix)
 (modify-coding-system-alist 'file "\\.sqlite\\'" 'raw-text-unix)
 (add-to-list 'auto-mode-alist '("\\.sqlite3\\'" . sqlite-dump))
 (add-to-list 'auto-mode-alist '("\\.sqlite\\'" . sqlite-dump))
+
+;; postgres
+(setq sql-postgres-program "C:/PROGRA~1/PostgreSQL/12/bin/psql.exe")
+(setenv "PGPASSWORD" "")
 
 
 
