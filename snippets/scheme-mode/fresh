@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (fresh (var*) body)
+# key: fresh
+# --
+(fresh (${1:var*})
+       ${2:body})

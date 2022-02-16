@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: (cond [p e] [p e] [p e]+ (else e))
+# key: cond
+# --
+(cond
+  (${1:predicate1} ${2:consequent1})
+  (${3:predicate2} ${4:consequent2})
+  (${5:predicate3} ${6:consequent3})$7
+  (else ${8:otherwise}))

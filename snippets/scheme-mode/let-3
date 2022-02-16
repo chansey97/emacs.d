@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (let ([name e] [name e] [name e]+) e)
+# key: let
+# --
+(let ((${1:var1 exp1})
+      (${2:var2 exp2})
+      (${3:var3 exp2})$4)
+  ${5:body})

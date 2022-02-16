@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (define name (lambda (param*) body))
+# key: define
+# --
+(define ${1:name}
+  (lambda (${2:param*})
+    ${3:body}))
