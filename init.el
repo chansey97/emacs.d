@@ -640,6 +640,11 @@ re-downloaded in order to locate PACKAGE."
 
 
 ;;----------------------------------------------------------------------------
+;; Utils
+;;----------------------------------------------------------------------------
+(require 'sc/utils)
+
+;;----------------------------------------------------------------------------
 ;; Drag-stuff
 ;;----------------------------------------------------------------------------
 (require 'drag-stuff)
@@ -1094,16 +1099,18 @@ re-downloaded in order to locate PACKAGE."
 (setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
 ;; (add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode)) ; Racket r5rs
 
-;; (add-hook 'racket-mode-hook      #'racket-unicode-input-method-enable)
-;; (add-hook 'racket-repl-mode-hook #'racket-unicode-input-method-enable)
+(defun racket-run-dwim ()
+  (interactive)
+  (if (sc/current-line-empty-p)
+      (racket-run)
+    (racket-send-last-sexp)))
 
+(add-hook 'racket-mode-hook 'racket-xp-mode)
 (add-hook 'racket-mode-hook
           (lambda ()
-            (define-key racket-mode-map (kbd "<f5>")'racket-run)
-            (define-key racket-mode-map (kbd "C-c C-k") 'racket-run-and-switch-to-repl)
-            
-            (put 'variant-case 'racket-indent-function 1) ; just for eopl/1ed
-            (put 'pmatch 'racket-indent-function 1) ; just for eopl/2ed
+            (local-set-key [f1] 'racket-xp-documentation)
+            (local-set-key [f5] 'racket-run-dwim)
+            (local-set-key [f6] 'racket-expand-last-sexp)
             ))
 
 ;;----------------------------------------------------------------------------
@@ -1132,20 +1139,15 @@ re-downloaded in order to locate PACKAGE."
   (switch-to-buffer-other-window "*scheme*"))
 (advice-add 'run-scheme :override #'run-scheme/override)
 
-(defun current-line-empty-p ()
-  (save-excursion
-    (beginning-of-line)
-    (looking-at-p "[[:space:]]*$")))
-
-(defun scheme-dwim ()
+(defun run-scheme-dwim ()
   (interactive)
-  (if (current-line-empty-p)
+  (if (sc/current-line-empty-p)
       (scheme-load-file (buffer-name))
     (scheme-send-last-sexp)))
 
 (add-hook 'scheme-mode-hook
           (lambda ()
-            (local-set-key [f5] 'scheme-dwim)
+            (local-set-key [f5] 'run-scheme-dwim)
             ))
 
 ;;----------------------------------------------------------------------------
