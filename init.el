@@ -640,6 +640,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'haskell-mode)
 (require-package 'slime)
 (require-package 'drag-stuff)
+;; (require-package 'racket-mode)
 
 
 
