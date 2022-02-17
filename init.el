@@ -695,44 +695,11 @@ re-downloaded in order to locate PACKAGE."
 (setq company-idle-delay 0.1)
 (setq company-minimum-prefix-length 1)
 
-;; Add company-dabbrev
-(push '(company-capf :with company-dabbrev) company-backends)
-(setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+")
-
 ;;----------------------------------------------------------------------------
-;; company-math 
+;; company backends
 ;;----------------------------------------------------------------------------
 (require 'company-math)
-(push 'company-math-symbols-unicode company-backends)
-
-;;----------------------------------------------------------------------------
-;; company with company-yasnippet and company-yasnippet-autoparens
-;;----------------------------------------------------------------------------
-
-;; company-yasnippet
-
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-
-(defun company-mode/backend-with-yas (backend)
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-
-;; company-yasnippet-autoparens
-(defun company-mode/backend-with-yas-ap (backend)
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet-autoparens backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet-autoparens))))
-
-;; company-yasnippet-autoparens-2
-(defun company-mode/backend-with-yas-ap-2 (backend)
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet-autoparens-2 backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet-autoparens-2))))
+(setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+")
 
 ;; Note:
 ;; company-mode/backend-with-yas must be added to last (head of company-backends),
@@ -745,17 +712,31 @@ re-downloaded in order to locate PACKAGE."
 ;; I don't know why...
 ;; company-backends-lisp means auto complete |f -> (f)|
 ;; company-backends-non-lisp means auto complete |f -> f()|
-(setq company-backends-lisp (mapcar #'company-mode/backend-with-yas
-                                    (mapcar #'company-mode/backend-with-yas-ap
-                                            company-backends)))
+(setq company-backends-lisp '((company-capf
+                               company-dabbrev
+                               company-yasnippet-autoparens
+                               company-yasnippet)
+                              company-math-symbols-unicode))
 
-(setq company-backends-non-lisp (mapcar #'company-mode/backend-with-yas
-                                        (mapcar #'company-mode/backend-with-yas-ap-2
-                                                company-backends)))
+(setq company-backends-non-lisp '((company-capf
+                                   company-dabbrev
+                                   company-yasnippet-autoparens-2
+                                   company-yasnippet)
+                                  company-math-symbols-unicode))
 
 ;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
 ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
 (setq company-backends company-backends-lisp)
+
+;; ;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
+;; ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
+;; (setq company-backends company-backends-lisp)
+
+;;----------------------------------------------------------------------------
+;; company-quickhelp-mode
+;;----------------------------------------------------------------------------
+(require 'company-quickhelp)
+(company-quickhelp-mode)
 
 ;;----------------------------------------------------------------------------
 ;; ivy & counsel & swiper
