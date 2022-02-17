@@ -1,5 +1,9 @@
 ;; (setq debug-on-error t)
-;; (add-hook 'post-command-hook (lambda () (message "this-command: %s" this-command)))
+
+;; (defun print-post-command ()
+;;   (message "this-command: %s" this-command))
+;; (add-hook 'post-command-hook 'print-post-command)
+;; (remove-hook 'post-command-hook 'print-post-command)
 
 (let ((minver "24.3"))
   (when (version< emacs-version minver)
