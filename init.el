@@ -577,6 +577,10 @@
     (with-current-buffer "*Messages*"
       (erase-buffer))))
 
+;; Redefine xref-find-references keybinding 
+;; xref-find-references's keybinding should be M-?, I don't know why it be used by dabbrev-expand M-/
+(global-set-key (kbd "M-/") 'xref-find-references)
+
 ;;----------------------------------------------------------------------------
 ;; Standard package repositories
 ;;----------------------------------------------------------------------------
@@ -712,17 +716,19 @@ re-downloaded in order to locate PACKAGE."
 ;; I don't know why...
 ;; company-backends-lisp means auto complete |f -> (f)|
 ;; company-backends-non-lisp means auto complete |f -> f()|
-(setq company-backends-lisp '((company-capf
+(setq company-backends-lisp '(company-math-symbols-unicode
+                              (company-capf
                                company-dabbrev
                                company-yasnippet-autoparens
                                company-yasnippet)
-                              company-math-symbols-unicode))
+                              ))
 
-(setq company-backends-non-lisp '((company-capf
+(setq company-backends-non-lisp '(company-math-symbols-unicode
+                                  (company-capf
                                    company-dabbrev
                                    company-yasnippet-autoparens-2
                                    company-yasnippet)
-                                  company-math-symbols-unicode))
+                                  ))
 
 ;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
 ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
@@ -799,26 +805,17 @@ re-downloaded in order to locate PACKAGE."
 ;; smartparens
 ;;----------------------------------------------------------------------------
 (require 'smartparens-config)
-(smartparens-global-mode)
-(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-(sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
-(sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
-
 
 ;;----------------------------------------------------------------------------
 ;; paredit
 ;;----------------------------------------------------------------------------
 (require 'paredit)
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-(add-hook 'lisp-interaction-mode 'paredit-mode)
-(add-hook 'scheme-mode-hook 'paredit-mode)
-(add-hook 'racket-mode-hook 'paredit-mode)
-(add-hook 'slime-mode-hook 'paredit-mode)
 
 ;; making paredit work with delete-selection-mode
 (put 'paredit-forward-delete 'delete-selection 'supersede)
 (put 'paredit-backward-delete 'delete-selection 'supersede)
 (put 'paredit-newline 'delete-selection t)
+
 ;; C-) eat right expression i.e. ctrl + shift + )
 ;; C-( eat left expression i.e. ctrl + shift + (
 ;; C-} spit out right expression i.e. ctrl + shift + }
@@ -1077,6 +1074,15 @@ re-downloaded in order to locate PACKAGE."
 
 
 
+;;----------------------------------------------------------------------------
+;; emacs-lisp-mode
+;;----------------------------------------------------------------------------
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'emacs-lisp-mode-hook (lambda () (local-set-key [f5] 'eval-last-sexp)))
+(add-hook 'lisp-interaction-mode 'paredit-mode)
+
+(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+(sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
 
 ;;----------------------------------------------------------------------------
 ;; racket-mode
@@ -1092,11 +1098,14 @@ re-downloaded in order to locate PACKAGE."
     (racket-send-last-sexp)))
 
 (add-hook 'racket-mode-hook 'racket-xp-mode)
+(add-hook 'racket-mode-hook 'paredit-mode)
 (add-hook 'racket-mode-hook
           (lambda ()
             (local-set-key [f1] 'racket-xp-documentation)
             (local-set-key [f5] 'racket-run-dwim)
             (local-set-key [f6] 'racket-expand-last-sexp)
+            (local-set-key [f7] 'racket-run-with-debugging)
+            (local-set-key [f8] 'racket-debug-disable)
             ))
 
 ;;----------------------------------------------------------------------------
@@ -1131,10 +1140,16 @@ re-downloaded in order to locate PACKAGE."
       (scheme-load-file (buffer-name))
     (scheme-send-last-sexp)))
 
-(add-hook 'scheme-mode-hook
-          (lambda ()
-            (local-set-key [f5] 'run-scheme-dwim)
-            ))
+(add-hook 'scheme-mode-hook 'paredit-mode)
+(add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
+(sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
+
+;;----------------------------------------------------------------------------
+;; Common Lisp (slime)
+;;----------------------------------------------------------------------------
+;; (load (expand-file-name "C:\\Users\\Chansey\\quicklisp\\slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
+(add-hook 'slime-mode-hook 'paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
@@ -1223,12 +1238,6 @@ re-downloaded in order to locate PACKAGE."
             ))
 
 ;;----------------------------------------------------------------------------
-;; Common Lisp (slime)
-;;----------------------------------------------------------------------------
-;; (load (expand-file-name "C:\\Users\\Chansey\\quicklisp\\slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
-
-;;----------------------------------------------------------------------------
 ;; Prolog
 ;;----------------------------------------------------------------------------
 (require 'prolog)
@@ -1289,6 +1298,16 @@ re-downloaded in order to locate PACKAGE."
             (local-set-key [f5] 'ediprolog-dwim) ; when interaction block Emacs, press C-g to unblock
             (local-set-key [f6] 'ediprolog-toplevel) ; press f6 to resume interaction 
             (local-set-key [f8] 'ediprolog-kill)))
+
+(defun prolog--at-expression-paredit-space-for-delimiter-predicate (endp delimiter)
+  (if (and (memq major-mode '(prolog-mode prolog-inferior-mode))
+           (not endp))
+      nil
+    t))
+
+(eval-after-load 'paredit
+  '(add-hook 'paredit-space-for-delimiter-predicates
+             'prolog--at-expression-paredit-space-for-delimiter-predicate))
 
 ;;----------------------------------------------------------------------------
 ;; SMT
