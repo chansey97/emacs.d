@@ -1085,35 +1085,6 @@ re-downloaded in order to locate PACKAGE."
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
 
 ;;----------------------------------------------------------------------------
-;; racket-mode
-;;----------------------------------------------------------------------------
-(require 'racket-mode)
-(setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
-;; (add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode)) ; Racket r5rs
-
-(defun racket-run-dwim ()
-  (interactive)
-  (if (sc/current-line-empty-p)
-      (racket-run)
-    (racket-send-last-sexp)))
-
-(add-hook 'racket-mode-hook 'racket-xp-mode)
-(add-hook 'racket-mode-hook 'paredit-mode)
-(add-hook 'racket-mode-hook
-          (lambda ()
-            (local-set-key [f1] 'racket-xp-documentation)
-            (local-set-key [f5] 'racket-run-dwim)
-            (local-set-key [f6] 'racket-expand-last-sexp)
-            (local-set-key [f7] 'racket-run-with-debugging)
-            (local-set-key [f8] 'racket-debug-disable)
-            ))
-
-;;----------------------------------------------------------------------------
-;; pie-mode (the little typer)
-;;----------------------------------------------------------------------------
-(require 'pie-mode)
-
-;;----------------------------------------------------------------------------
 ;; scheme-mode
 ;;----------------------------------------------------------------------------
 (require 'cmuscheme)
@@ -1143,6 +1114,44 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'scheme-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
+
+;;----------------------------------------------------------------------------
+;; racket-mode
+;;----------------------------------------------------------------------------
+(require 'racket-mode)
+(setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
+;; (add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode)) ; Racket r5rs
+
+(defun racket-run-dwim ()
+  (interactive)
+  (if (sc/current-line-empty-p)
+      (racket-run)
+    (racket-send-last-sexp)))
+
+(add-hook 'racket-mode-hook 'racket-xp-mode)
+(add-hook 'racket-mode-hook 'paredit-mode)
+(add-hook 'racket-mode-hook
+          (lambda ()
+            (local-set-key [f1] 'racket-xp-documentation)
+            (local-set-key [f5] 'racket-run-dwim)
+            (local-set-key [f6] 'racket-expand-last-sexp)
+            (local-set-key [f7] 'racket-run-with-debugging)
+            (local-set-key [f8] 'racket-debug-disable)
+            ))
+
+;; (setq racket-logger-config '((racket-mode . debug)
+;;                             (cm-accomplice . warning)
+;;                             (GC . info)
+;;                             (module-prefetch . warning)
+;;                             (optimizer . info)
+;;                             (racket/contract . error)
+;;                             (sequence-specialization . info)
+;;                             (* . fatal)))
+
+;;----------------------------------------------------------------------------
+;; pie-mode (the little typer)
+;;----------------------------------------------------------------------------
+(require 'pie-mode)
 
 ;;----------------------------------------------------------------------------
 ;; Common Lisp (slime)
@@ -1191,6 +1200,32 @@ re-downloaded in order to locate PACKAGE."
             (local-set-key (kbd "C-<up>")   'backward-paragraph)
             ))
 
+(defun sml--at-expression-paredit-space-for-delimiter-predicate (endp delimiter)
+  (if (and (memq major-mode '(sml-mode inferior-sml-mode))
+           (not endp))
+      nil
+    t))
+
+(eval-after-load 'paredit
+  '(add-hook 'paredit-space-for-delimiter-predicates
+             'sml--at-expression-paredit-space-for-delimiter-predicate))
+
+(add-hook 'sml-mode-hook 'paredit-mode)
+
+;;----------------------------------------------------------------------------
+;; OCaml (tuareg)
+;;----------------------------------------------------------------------------
+(require 'tuareg)
+(setq tuareg-indent-align-with-first-arg t
+      tuareg-match-patterns-aligned t)
+
+(add-hook 'tuareg-mode-hook
+          (lambda ()
+            (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)
+            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
+            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
+            ))
+
 ;;----------------------------------------------------------------------------
 ;; haskell-mode
 ;;----------------------------------------------------------------------------
@@ -1224,20 +1259,6 @@ re-downloaded in order to locate PACKAGE."
             ))
 
 ;;----------------------------------------------------------------------------
-;; OCaml (tuareg)
-;;----------------------------------------------------------------------------
-(require 'tuareg)
-(setq tuareg-indent-align-with-first-arg t
-      tuareg-match-patterns-aligned t)
-
-(add-hook 'tuareg-mode-hook
-          (lambda ()
-            (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)
-            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
-            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
-            ))
-
-;;----------------------------------------------------------------------------
 ;; Prolog
 ;;----------------------------------------------------------------------------
 (require 'prolog)
@@ -1265,7 +1286,6 @@ re-downloaded in order to locate PACKAGE."
 
 (add-hook 'prolog-mode-hook
           (lambda ()
-            (paredit-mode)
             (setq-local company-backends company-backends-non-lisp)
             (local-set-key (kbd "C-M-c") 'comment-line)
             (local-set-key (kbd "<f1>")   'prolog-help-on-predicate)
@@ -1308,6 +1328,8 @@ re-downloaded in order to locate PACKAGE."
 (eval-after-load 'paredit
   '(add-hook 'paredit-space-for-delimiter-predicates
              'prolog--at-expression-paredit-space-for-delimiter-predicate))
+
+(add-hook 'prolog-mode-hook 'paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; SMT
