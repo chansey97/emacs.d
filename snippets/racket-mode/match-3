@@ -4,5 +4,5 @@
 # --
 (match ${1:val-expr}
     [${2:pat1} ${3:body1}]
-	[${4:pat2} ${5:body2}]
-	[${6:pat2} ${7:body2}]$8)
+    [${4:pat2} ${5:body2}]
+    [${6:pat2} ${7:body2}]$8)
