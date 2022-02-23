@@ -55,8 +55,10 @@ Used by the commands `racket-expand-file',
 
 \\{racket-stepper-mode-map}
 "
-  (setq header-line-format
-        "Press RET to step. C-u RET to step all. C-h m to see help.")
+  ;; Temporarily remove racket-mode macro stepper's header-line, because it conflicts tabbar.
+  ;; TODO: Use Emacs 27's tab-line-mode which is a dedicated control in Emacs, instead of using header-line to simulate.
+  ;; (setq header-line-format
+  ;;       "Press RET to step. C-u RET to step all. C-h m to see help.")
   (setq-local font-lock-defaults
               (list racket-stepper-font-lock-keywords
                     t)))        ;keywords only -- not strings/comments
