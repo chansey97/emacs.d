@@ -703,7 +703,7 @@ re-downloaded in order to locate PACKAGE."
 ;; company backends
 ;;----------------------------------------------------------------------------
 (require 'company-math)
-(setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+")
+(setq company-dabbrev-char-regexp "\\sw\\|_\\|-\\|!\\|\\?\\|*\\|+\\|=\\|>\\|<")
 
 ;; Note:
 ;; company-mode/backend-with-yas must be added to last (head of company-backends),
