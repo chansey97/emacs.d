@@ -1259,9 +1259,9 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'prolog)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
-(setq prolog-system 'swi)
-;; avoid conflicting with cygwin's swipl 
-(setq ediprolog-program "c:/PROGRA~1/swipl/bin/swipl.exe")
+(setq-default prolog-system 'swi)
+;; (setq-default prolog-system 'xsb)
+
 (setq prolog-paren-indent-p t)
 (setq prolog-align-small-comments-flag nil)
 (setq prolog-head-delimiter "\\(:-\\|\\+:\\|-:\\|\\+\\?\\|-\\?\\|-->\\|-->>\\|<=>\\|==>\\|=>\\)")
@@ -1300,6 +1300,8 @@ re-downloaded in order to locate PACKAGE."
 
 (require 'ediprolog)
 (setq ediprolog-system 'swi)
+;; avoid conflicting with cygwin's swipl 
+(setq ediprolog-program "c:/PROGRA~1/swipl/bin/swipl.exe")
 
 (defun ediprolog-kill ()
   (interactive "")
