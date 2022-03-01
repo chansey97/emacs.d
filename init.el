@@ -734,10 +734,6 @@ re-downloaded in order to locate PACKAGE."
 ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
 (setq company-backends company-backends-lisp)
 
-;; ;; company-backends-lisp is default setting, if need company-backends-non-lisp in a specific mode,
-;; ;; (setq-local company-backends company-backends-non-lisp) in that mode hook.
-;; (setq company-backends company-backends-lisp)
-
 ;;----------------------------------------------------------------------------
 ;; company-quickhelp-mode
 ;;----------------------------------------------------------------------------
