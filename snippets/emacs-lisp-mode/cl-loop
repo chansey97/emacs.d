@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (cl-loop for elem in lst collect (+ elem 42))
+# key: cl-loop
+# --
+(cl-loop for ${1:elem} in ${2:lst}
+         ${3:collect} ${4:(+ elem 42)})

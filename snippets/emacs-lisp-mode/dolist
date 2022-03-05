@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (let ((val 0)) (dolist (elem lst val) (setq val (+ elem val))))
+# key: dolist
+# --
+(let ((val ${1:0}))
+    (dolist (elem ${2:lst} val)
+      (setq val ${3:(+ elem val)})))
