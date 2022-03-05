@@ -860,7 +860,7 @@ re-downloaded in order to locate PACKAGE."
 (setq aw-dispatch-always t)
 (set-face-attribute 'aw-leading-char-face nil :foreground "red" :weight 'bold :height 3.0)
 ;; It's useful when a search window lost focus
-(global-set-key (kbd "M-<f4>") 'ace-swap-window)
+(global-set-key (kbd "<f3>") 'ace-swap-window)
 (global-set-key (kbd "<f4>") 'ace-window)
 
 ;;----------------------------------------------------------------------------
