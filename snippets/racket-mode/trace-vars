@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (trace-vars (_) (x ...) (printf "~a ...\n" x ...))
+# key: trace-vars
+# --
+(trace-vars (${1:_}) (${2:x})
+            (printf "${3:~a}\n" ${4:x})$5)
