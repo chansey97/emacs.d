@@ -1117,6 +1117,7 @@ re-downloaded in order to locate PACKAGE."
 (put 'project 'scheme-indent-function 1)
 (put 'run* 'scheme-indent-function 1)
 (put 'case-inf 'scheme-indent-function 1)
+(put 'tabled 'scheme-indent-function 1)
 
 ;;; font-lock for additional Scheme keywords
 ;;; http://www.emacswiki.org/emacs/AddKeywords
@@ -1139,6 +1140,7 @@ re-downloaded in order to locate PACKAGE."
    (1 . match)
    (1 . pmatch)
    (1 . dmatch)
+   (1 . tabled)
    (1 . syntax-case)
    (1 . with-syntax)
    (1 . unless)
@@ -1173,7 +1175,8 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'scheme-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
-
+(add-hook 'inferior-scheme-mode 'paredit-mode)
+ 
 ;;----------------------------------------------------------------------------
 ;; racket-mode
 ;;----------------------------------------------------------------------------
@@ -1218,6 +1221,7 @@ re-downloaded in order to locate PACKAGE."
 ;; (load (expand-file-name "C:\\Users\\Chansey\\quicklisp\\slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
 (add-hook 'slime-mode-hook 'paredit-mode)
+(add-hook 'inferior-lisp-mode 'paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
