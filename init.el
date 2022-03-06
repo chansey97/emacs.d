@@ -1073,9 +1073,9 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; emacs-lisp-mode
 ;;----------------------------------------------------------------------------
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook (lambda () (local-set-key [f5] 'eval-last-sexp)))
-(add-hook 'lisp-interaction-mode 'paredit-mode)
+(add-hook 'lisp-interaction-mode 'enable-paredit-mode)
 
 (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
@@ -1172,10 +1172,10 @@ re-downloaded in order to locate PACKAGE."
       (scheme-load-file (buffer-name))
     (scheme-send-last-sexp)))
 
-(add-hook 'scheme-mode-hook 'paredit-mode)
+(add-hook 'scheme-mode-hook 'enable-paredit-mode)
 (add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
-(add-hook 'inferior-scheme-mode 'paredit-mode)
+(add-hook 'inferior-scheme-mode 'enable-paredit-mode)
  
 ;;----------------------------------------------------------------------------
 ;; racket-mode
@@ -1191,7 +1191,7 @@ re-downloaded in order to locate PACKAGE."
     (racket-send-last-sexp)))
 
 (add-hook 'racket-mode-hook 'racket-xp-mode)
-(add-hook 'racket-mode-hook 'paredit-mode)
+(add-hook 'racket-mode-hook 'enable-paredit-mode)
 (add-hook 'racket-mode-hook
           (lambda ()
             (local-set-key [f1] 'racket-xp-documentation)
@@ -1220,8 +1220,8 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; (load (expand-file-name "C:\\Users\\Chansey\\quicklisp\\slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
-(add-hook 'slime-mode-hook 'paredit-mode)
-(add-hook 'inferior-lisp-mode 'paredit-mode)
+(add-hook 'slime-mode-hook 'enable-paredit-mode)
+(add-hook 'inferior-lisp-mode 'enable-paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; sml-mode
@@ -1273,7 +1273,7 @@ re-downloaded in order to locate PACKAGE."
   '(add-hook 'paredit-space-for-delimiter-predicates
              'sml--at-expression-paredit-space-for-delimiter-predicate))
 
-(add-hook 'sml-mode-hook 'paredit-mode)
+(add-hook 'sml-mode-hook 'enable-paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; OCaml (tuareg)
@@ -1394,7 +1394,7 @@ re-downloaded in order to locate PACKAGE."
   '(add-hook 'paredit-space-for-delimiter-predicates
              'prolog--at-expression-paredit-space-for-delimiter-predicate))
 
-(add-hook 'prolog-mode-hook 'paredit-mode)
+(add-hook 'prolog-mode-hook 'enable-paredit-mode)
 
 ;;----------------------------------------------------------------------------
 ;; SMT
