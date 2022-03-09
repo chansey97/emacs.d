@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: write_canonical(+Term)
+# key: write_canonical
+# --
+write_canonical(${1:+Term}).
