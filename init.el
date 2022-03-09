@@ -1243,19 +1243,33 @@ re-downloaded in order to locate PACKAGE."
         (setq ad-return i)
       ad-do-it)))
 
+;; Correct indentation for structures
+;; https://lists.gnu.org/archive/html/help-gnu-emacs/2014-10/msg00108.html
+(add-function :around (symbol-function 'sml-smie-rules) #'my-sml-rules)
+
+(defun sml-prog-proc-send-line ()
+  "Send the content of the current line to the read-eval-print process."
+  (interactive)
+  (save-mark-and-excursion
+    (sc/select-current-line)
+    (call-interactively 'sml-prog-proc-send-region)))
+
+(defun run-sml-dwim ()
+  (interactive)
+  (cond ((sc/current-line-empty-p) (call-interactively 'sml-prog-proc-load-file))
+        ((use-region-p) (call-interactively 'sml-prog-proc-send-region))
+        (t (sml-prog-proc-send-line))))
+
 (add-hook 'sml-mode-hook
           (lambda ()
             ;; In SML, newline + auto-indentation works fine only if the statements
             ;; are ended in semi-colons. However, most of time we do not use semi-colons in .sml.
             ;; So `electric-indent-mode  have to be disabled for this major mode.
             (electric-indent-local-mode -1)
-
-            ;; Correct indentation for structures
-            ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2014-10/msg00108.html
-            (add-function :around (symbol-function 'sml-smie-rules) #'my-sml-rules)
-
             (setq-local company-backends company-backends-non-lisp)
-            
+
+            (local-set-key [f5] 'run-sml-dwim)
+
             (local-set-key (kbd "M-<up>")   'drag-stuff-up)
             (local-set-key (kbd "M-<down>") 'drag-stuff-down)
             
