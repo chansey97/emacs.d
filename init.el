@@ -1168,9 +1168,9 @@ re-downloaded in order to locate PACKAGE."
 
 (defun run-scheme-dwim ()
   (interactive)
-  (if (sc/current-line-empty-p)
-      (scheme-load-file (buffer-name))
-    (scheme-send-last-sexp)))
+  (cond ((sc/current-line-empty-p) (scheme-load-file (buffer-name)))
+        ((use-region-p) (call-interactively 'scheme-send-region))
+        (t (scheme-send-last-sexp))))
 
 (add-hook 'scheme-mode-hook 'enable-paredit-mode)
 (add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
@@ -1186,9 +1186,9 @@ re-downloaded in order to locate PACKAGE."
 
 (defun racket-run-dwim ()
   (interactive)
-  (if (sc/current-line-empty-p)
-      (racket-run)
-    (racket-send-last-sexp)))
+  (cond ((sc/current-line-empty-p) (racket-run))
+        ((use-region-p) (call-interactively 'racket-send-region))
+        (t (racket-send-last-sexp))))
 
 (add-hook 'racket-mode-hook 'racket-xp-mode)
 (add-hook 'racket-mode-hook 'enable-paredit-mode)
