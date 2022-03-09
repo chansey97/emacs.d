@@ -1122,14 +1122,9 @@ re-downloaded in order to locate PACKAGE."
 ;;; font-lock for additional Scheme keywords
 ;;; http://www.emacswiki.org/emacs/AddKeywords
 (defun scheme-add-keywords (face-name keyword-rules)
-  (let* ((keyword-list (mapcar #'(lambda (x)
-				   (symbol-name (cdr x)))
-			       keyword-rules))
-	 (keyword-regexp (concat "(\\("
-				 (regexp-opt keyword-list)
-				 "\\)[ \n]")))
-    (font-lock-add-keywords 'scheme-mode
-			    `((,keyword-regexp 1 ',face-name)))))
+  (let* ((keyword-list (mapcar #'(lambda (x) (symbol-name (cdr x))) keyword-rules))
+	       (keyword-regexp (concat "(\\(" (regexp-opt keyword-list) "\\)[ \n]")))
+    (font-lock-add-keywords 'scheme-mode `((,keyword-regexp 1 ',face-name)))))
 
 (scheme-add-keywords
  'font-lock-keyword-face
@@ -1176,7 +1171,7 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
 (add-hook 'inferior-scheme-mode 'enable-paredit-mode)
- 
+
 ;;----------------------------------------------------------------------------
 ;; racket-mode
 ;;----------------------------------------------------------------------------
