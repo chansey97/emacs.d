@@ -637,8 +637,6 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'projectile)
 (require-package 'ggtags)
 (require-package 'sml-mode)
-(require-package 'yasnippet) ; update to yasnippet-20200604.246
-(require-package 'yasnippet-snippets)
 (require-package 'tuareg)
 (require-package 'el-search)
 (require-package 'haskell-mode)
@@ -690,6 +688,29 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (require 'yasnippet)
 (yas-global-mode 1)
+
+(defconst yas-maybe-clear-field
+  '(menu-item "" yas-clear-field
+              :filter yas--maybe-clear-field-filter)
+  "A conditional key definition.
+This can be used as a key definition in keymaps to bind a key to
+`yas-clear-field' only when at the beginning of an
+unmodified snippet field.")
+
+(setq-default yas-keymap  (let ((map (make-sparse-keymap)))
+                            (define-key map [(tab)]       'yas-next-field-or-maybe-expand)
+                            (define-key map (kbd "TAB")   'yas-next-field-or-maybe-expand)
+                            (define-key map [(shift tab)] 'yas-prev-field)
+                            (define-key map [backtab]     'yas-prev-field)
+                            (define-key map (kbd "C-g")   'yas-abort-snippet)
+                            (define-key map (kbd "C-d")   yas-maybe-skip-and-clear-field)
+                            (define-key map (kbd "DEL")   yas-maybe-clear-field)
+                            map))
+
+(defun yas-clear-field (&optional field)
+  "Clears unmodified FIELD if at field start."
+  (interactive)
+  (yas--skip-and-clear (or field (yas-current-field))))
 
 ;;----------------------------------------------------------------------------
 ;; company
