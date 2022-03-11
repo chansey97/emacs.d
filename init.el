@@ -637,7 +637,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'projectile)
 (require-package 'ggtags)
 (require-package 'sml-mode)
-(require-package 'yasnippet)
+(require-package 'yasnippet) ; update to yasnippet-20200604.246
 (require-package 'yasnippet-snippets)
 (require-package 'tuareg)
 (require-package 'el-search)
