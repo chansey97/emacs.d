@@ -1224,6 +1224,29 @@ unmodified snippet field.")
 
 (advice-add 'scheme-send-region :override #'scheme-send-region/override)
 
+;; Copy from lisp-indent-line in lisp-mode.el
+(defun scheme-indent-line (&optional indent)
+  "Indent current line as Lisp code."
+  (interactive)
+  (let ((pos (- (point-max) (point)))
+        (indent (progn (beginning-of-line)
+                       (or indent (calculate-lisp-indent (lisp-ppss))))))
+    (skip-chars-forward " \t")
+    (if (or (null indent) (looking-at "\\s<\\s<\\s<"))
+	      ;; Don't alter indentation of a ;;; comment line
+	      ;; or a line that starts in a string.
+        ;; FIXME: inconsistency: comment-indent moves ;;; to column 0.
+	      (goto-char (- (point-max) pos))
+      ;; Single-semicolon comment lines NOT indented!
+      (if (listp indent) (setq indent (car indent)))
+      (indent-line-to indent)
+      ;; If initial point was within line's indentation,
+      ;; position after the indentation.  Else stay at same point in text.
+      (if (> (- (point-max) pos) (point))
+	        (goto-char (- (point-max) pos))))))
+
+(add-hook 'scheme-mode-hook (lambda () (setq-local indent-line-function 'scheme-indent-line)))
+
 ;;----------------------------------------------------------------------------
 ;; racket-mode
 ;;----------------------------------------------------------------------------
