@@ -1188,10 +1188,41 @@ unmodified snippet field.")
         ((use-region-p) (call-interactively 'scheme-send-region))
         (t (scheme-send-last-sexp))))
 
+;; For Chez Scheme 48 use "(expand '%s)" instead of "(expand %s)"
+(setq scheme-macro-expand-command "(expand '%s)")
+
 (add-hook 'scheme-mode-hook 'enable-paredit-mode)
-(add-hook 'scheme-mode-hook (lambda () (local-set-key [f5] 'run-scheme-dwim)))
+(add-hook 'scheme-mode-hook
+          (lambda ()
+            (local-set-key [f5] 'run-scheme-dwim)
+            (local-set-key [f6] 'scheme-expand-current-form)
+            ))
 (sp-local-pair 'scheme-mode-hook "'" nil :actions nil)
 (add-hook 'inferior-scheme-mode 'enable-paredit-mode)
+
+;; It makes multi-line printing neater.
+;; For example,
+;; (+ 1 2)| <-- call scheme-send-last-sexp
+;; By default, the output in REPL is:
+;; > 3
+;; Now is:
+;; >
+;; 3
+(defun scheme-send-region/override (start end)
+  "Send the current region to the inferior Scheme process."
+  (interactive "r")
+  (let ((proc (scheme-proc))
+        (buf (get-buffer scheme-buffer)))
+    ;; Stolen from racket-repl.el
+    (with-current-buffer buf
+      (save-excursion
+        (goto-char (process-mark proc))
+        (insert ?\n)
+        (set-marker (process-mark proc) (point))))
+    (comint-send-region proc start end)
+    (comint-send-string proc "\n")))
+
+(advice-add 'scheme-send-region :override #'scheme-send-region/override)
 
 ;;----------------------------------------------------------------------------
 ;; racket-mode
