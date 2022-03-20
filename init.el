@@ -349,6 +349,7 @@
 (global-set-key (kbd "<S-tab>") 'untab-region)
 (global-set-key (kbd "<tab>") 'tab-region)
 
+;; Indent
 
 ;; indent whole buffer (replace some code pretty plugins)
 (defun indent-buffer()
@@ -365,6 +366,18 @@
       (progn
         (indent-buffer)
         (message "Indent buffer.")))))
+
+;; https://github.com/greghendershott/racket-mode/issues/603#issuecomment-1068405777
+;; (defun sc/indent-buffer-except-comments ()
+;;   "Indent the entire buffer, except for comment lines."
+;;   (interactive)
+;;   (save-excursion
+;;     (goto-char (point-min))
+;;     (let ((end (point-max)))
+;;       (while (< (point) end)
+;;         (unless (elt (syntax-ppss) 4) ;comment
+;;           (indent-according-to-mode))
+;;         (forward-line 1)))))
 
 (global-set-key (kbd "C-M-l") 'indent-region-or-buffer)
 
@@ -1253,10 +1266,28 @@ unmodified snippet field.")
 (require 'racket-mode)
 (setq racket-program "C:\\Program Files\\Racket\\Racket.exe")
 ;; (add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode)) ; Racket r5rs
+;; (setq racket-error-context 'medium)
+
+(defun racket-run-module-at-point-with-compile ()
+  (interactive)
+  (let* ((racket  (executable-find racket-program))
+         (rkt     (racket--buffer-file-name) )
+         (command (format "%s -l raco make -v %s"
+                          (shell-quote-wildcard-pattern racket)
+                          (shell-quote-wildcard-pattern rkt))))
+    (shell-command command)
+    (racket-run-module-at-point)))
+
+;; Set racket-run-with-compile-p = t, when your project heavily uses macro.
+(defvar racket-run-with-compile-p t)
+;; (defvar racket-run-with-compile-p nil)
 
 (defun racket-run-dwim ()
   (interactive)
-  (cond ((sc/current-line-empty-p) (racket-run))
+  (cond ((sc/current-line-empty-p)
+         (if racket-run-with-compile-p
+             (racket-run-module-at-point-with-compile)
+           (racket-run-module-at-point)) )
         ((use-region-p) (call-interactively 'racket-send-region))
         (t (racket-send-last-sexp))))
 
