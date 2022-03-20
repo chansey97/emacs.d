@@ -1268,26 +1268,21 @@ unmodified snippet field.")
 ;; (add-to-list 'auto-mode-alist '("\\.scm\\'" . racket-mode)) ; Racket r5rs
 ;; (setq racket-error-context 'medium)
 
-(defun racket-run-module-at-point-with-compile ()
-  (interactive)
+(defun racket-raco-make ()
   (let* ((racket  (executable-find racket-program))
          (rkt     (racket--buffer-file-name) )
          (command (format "%s -l raco make -v %s"
                           (shell-quote-wildcard-pattern racket)
                           (shell-quote-wildcard-pattern rkt))))
-    (shell-command command)
-    (racket-run-module-at-point)))
+    (shell-command command)))
 
-;; Set racket-run-with-compile-p = t, when your project heavily uses macro.
-(defvar racket-run-with-compile-p t)
-;; (defvar racket-run-with-compile-p nil)
+;; When your project heavily uses macro, (add-hook 'racket-before-run-hook #'racket-raco-make)
+(add-hook 'racket-before-run-hook #'racket-raco-make)
+;; (remove-hook 'racket-before-run-hook #'racket-raco-make)
 
 (defun racket-run-dwim ()
   (interactive)
-  (cond ((sc/current-line-empty-p)
-         (if racket-run-with-compile-p
-             (racket-run-module-at-point-with-compile)
-           (racket-run-module-at-point)) )
+  (cond ((sc/current-line-empty-p) (racket-run-module-at-point) )
         ((use-region-p) (call-interactively 'racket-send-region))
         (t (racket-send-last-sexp))))
 
