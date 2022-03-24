@@ -1027,7 +1027,7 @@ unmodified snippet field.")
 (setq treemacs-no-png-images							 nil) 
 (setq treemacs-is-never-other-window			 nil) 
 (setq treemacs-show-hidden-files					 t)
-(setq treemacs-indentation								 1) 
+(setq treemacs-indentation								 2) 
 (setq treemacs-indentation-string				 " ")
 
 ;; The default width and height of the icons is 22 pixels. If you are
