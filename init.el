@@ -378,6 +378,7 @@
 ;;         (unless (elt (syntax-ppss) 4) ;comment
 ;;           (indent-according-to-mode))
 ;;         (forward-line 1)))))
+;; (global-set-key (kbd "C-M-l") 'sc/indent-buffer-except-comments)
 
 (global-set-key (kbd "C-M-l") 'indent-region-or-buffer)
 
@@ -1103,6 +1104,14 @@ unmodified snippet field.")
 (setq eldoc-message-function #'eldoc-pos-tip-message)
 
 
+
+;;----------------------------------------------------------------------------
+;; shell-mode
+;;----------------------------------------------------------------------------
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (setq-local company-backends company-backends-non-lisp)
+            ))
 
 ;;----------------------------------------------------------------------------
 ;; emacs-lisp-mode
