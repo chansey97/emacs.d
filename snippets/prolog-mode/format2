@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: format("111 ~n")
+# key: format
+# --
+format("${1:111} ~n")
