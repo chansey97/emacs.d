@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: :- module(+Module, [pred/1]).
+# key: module
+# --
+:- module(${1:module_name}, [${2:pred/1}]).
