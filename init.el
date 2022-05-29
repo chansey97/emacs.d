@@ -1206,8 +1206,8 @@ unmodified snippet field.")
 
 (defun run-scheme-dwim ()
   (interactive)
-  (cond ((sc/current-line-empty-p) (scheme-load-file (buffer-name)))
-        ((use-region-p) (call-interactively 'scheme-send-region))
+  (cond ((use-region-p) (call-interactively 'scheme-send-region))
+        ((sc/current-line-empty-p) (scheme-load-file (buffer-name)))
         (t (scheme-send-last-sexp))))
 
 ;; For Chez Scheme 48 use "(expand '%s)" instead of "(expand %s)"
@@ -1291,8 +1291,8 @@ unmodified snippet field.")
 
 (defun racket-run-dwim ()
   (interactive)
-  (cond ((sc/current-line-empty-p) (racket-run-module-at-point) )
-        ((use-region-p) (call-interactively 'racket-send-region))
+  (cond ((use-region-p) (call-interactively 'racket-send-region))
+        ((sc/current-line-empty-p) (racket-run-module-at-point))
         (t (racket-send-last-sexp))))
 
 (add-hook 'racket-mode-hook 'racket-xp-mode)
@@ -1361,8 +1361,8 @@ unmodified snippet field.")
 
 (defun run-sml-dwim ()
   (interactive)
-  (cond ((sc/current-line-empty-p) (call-interactively 'sml-prog-proc-load-file))
-        ((use-region-p) (call-interactively 'sml-prog-proc-send-region))
+  (cond ((use-region-p) (call-interactively 'sml-prog-proc-send-region))
+        ((sc/current-line-empty-p) (call-interactively 'sml-prog-proc-load-file))
         (t (sml-prog-proc-send-line))))
 
 (add-hook 'sml-mode-hook
@@ -1533,12 +1533,20 @@ unmodified snippet field.")
 ;;----------------------------------------------------------------------------
 (require 'sql)
 (require 'sql-upcase)
+
+(defun sql-send-dwim ()
+  (interactive)
+  (cond ((use-region-p) (call-interactively 'sql-send-region))
+        ;; ((sc/current-line-empty-p) (sql-send-buffer))
+        (t (sql-send-line-and-next))
+        ))
+
 (add-hook 'sql-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-mode-hook (lambda ()
                            (local-set-key (kbd "C-M-c") 'comment-line)
                            ;; TODO: sql-send-dwim (buffer and region)
-                           (local-set-key [f5] 'sql-send-line-and-next)
+                           (local-set-key [f5] 'sql-send-dwim)
                            (local-set-key (kbd "C-M-u") 'sql-upcase-buffer)
                            ))
 ;; sqlite
