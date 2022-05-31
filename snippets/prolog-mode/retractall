@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: retractall(foo(_))
+# key: retractall
+# --
+retractall(foo(_))

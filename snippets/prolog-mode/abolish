@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: abolish(counter/1).
+# name: abolish(foo/1).
 # key: abolish
 # --
-abolish(counter/1).
+abolish(foo/1).
