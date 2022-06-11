@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: forall(:Cond, :Action)
+# key: forall
+# --
+forall(${1::Cond}, ${2::Action})
