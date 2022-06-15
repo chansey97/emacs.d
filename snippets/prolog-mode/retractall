@@ -2,4 +2,4 @@
 # name: retractall(foo(_))
 # key: retractall
 # --
-retractall(foo(_))
+retractall(${1:foo(_)})
