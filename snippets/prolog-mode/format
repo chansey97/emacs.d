@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: format("111 ~w~n", [X])
+# name: format("~w~n", [X])
 # key: format
 # --
-format("${1:111} ${2:~w}~n", [${3:X}])
+format("${1:~w}~n", [${2:X}])
