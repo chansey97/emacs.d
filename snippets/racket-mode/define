@@ -2,5 +2,5 @@
 # name: (define (name param*) body)
 # key: define
 # --
-(define (${1:name} ${2:param*})
-  ${3:body})
+(define (${1:name})
+  ${2:body})
