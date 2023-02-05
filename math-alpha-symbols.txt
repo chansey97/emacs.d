@@ -144,3 +144,5 @@ https://en.wikipedia.org/wiki/Overline
 
 https://en.wikipedia.org/wiki/Underscore
 _ U+005F
+
+0̅ 1̅ 2̅ 3̅ 4̅ 5̅ 6̅ 7̅ 8̅ 9̅
