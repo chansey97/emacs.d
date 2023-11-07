@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (let () e)
+# key: let
+# --
+(let ()
+  ${1:body})
