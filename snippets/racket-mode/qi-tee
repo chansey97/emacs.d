@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (☯ ...)
+# key: qi%tee
+# --
+(-< $1)
