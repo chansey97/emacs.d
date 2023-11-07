@@ -1322,6 +1322,14 @@ unmodified snippet field.")
 ;;                             (sequence-specialization . info)
 ;;                             (* . fatal)))
 
+;; Racket qi's indentation
+;; https://docs.racket-lang.org/qi/Introduction_and_Usage.html#%28part._.Indentation%29
+(put 'switch 'racket-indent-function 1)
+(put 'switch-lambda 'racket-indent-function 1)
+(put 'on 'racket-indent-function 1)
+(put 'π 'racket-indent-function 1)
+(put 'try 'racket-indent-function 1)
+
 ;;----------------------------------------------------------------------------
 ;; pie-mode (the little typer)
 ;;----------------------------------------------------------------------------
