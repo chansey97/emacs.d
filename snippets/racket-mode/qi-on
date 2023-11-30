@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (on (arg ...) flow-expr)
+# key: qi%on
+# --
+(on ($1) $2)

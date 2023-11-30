@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (pass condition-flo)
+# key: qi%pass
+# --
+(pass $1)

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (gen expr ...)
+# key: qi%gen
+# --
+(gen $1)
