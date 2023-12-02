@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (for/foldr (acc ...) ([var exp] ... #:when guard) exp)
+# key: for/foldr
+# --
+(for/foldr ([${1:acc exp}]$2)
+            ([${3:var exp}]$4
+             ${5:#:when guard}$6)
+  ${7:body})

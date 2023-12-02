@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: (for ([var exp] ... #:when guard) exp)
+# key: for
+# --
+(for ([${1:var exp}]$2
+      ${3:#:when guard}$4)
+  ${5:body})

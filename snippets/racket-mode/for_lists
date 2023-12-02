@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (for/lists (acc ...) ([var exp] ... #:when guard) exp)
+# key: for/lists
+# --
+(for/lists (acc ...)
+           ([${1:var exp}]$2
+            ${3:#:when guard}$4)
+  ${5:body})
