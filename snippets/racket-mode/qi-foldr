@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (<< flo init-flo)
+# key: qi<<
+# --
+(<< ${1:flo} ${2:init-flo})

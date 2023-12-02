@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (feedback N flo)
+# key: loop
+# --
+(feedback ${1:N} ${2:flo})

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (loop2 cond-flo map-flo comb-flo)
+# key: loop
+# --
+(loop2 ${1:cond-flo} ${2:map-flo} ${3:comb-flo})

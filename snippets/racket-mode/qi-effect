@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (ε side-effect-flo flo)
+# key: qieffect
+# --
+(ε ${1:side-effect-flo} ${1:flo})

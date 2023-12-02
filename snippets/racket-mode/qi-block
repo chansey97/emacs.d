@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (block index ...)
+# key: qiblock
+# --
+(block $1)

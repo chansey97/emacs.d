@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (probe flo)
+# key: qiprobe
+# --
+(probe ${1:flo})

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (select index ...)
+# key: qiselect
+# --
+(select $1)

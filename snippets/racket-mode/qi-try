@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (try flo [error-predicate-flo error-handler-flo] ...)
+# key: qitry
+# --
+(try ${1:flo} [${2:error-predicate-flo} ${3:error-handler-flo}]$4)
+

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (feedback (while cond-flo) (then then-flo) flo)
+# key: loop
+# --
+(feedback (while ${1:cond-flo}) (${2:then-flo}) ${3:flo})

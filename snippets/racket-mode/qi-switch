@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
-# name: (switch (divert _ _) [flow-expr+]+ [else])
-# key: qi%switch
+# name: (switch (arg ...) (% _ _) [flow-expr+]+ [else])
+# key: qiswitch
 # --
-(switch (divert _ _)
-  [${1:flow-expr}]
-  [${2:else}]$3)
+(switch (${1:arg ...}) ${2:(% _ _)}
+  [${3:flow-expr}]
+  [${4:else}]$5)
 

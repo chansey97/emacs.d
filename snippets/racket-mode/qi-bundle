@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (bundle (index ...) sel-flo rem-flo)
+# key: qibundle
+# --
+(bundle (${1:index+}) ${2:sel-flo} ${3:rem-flo})

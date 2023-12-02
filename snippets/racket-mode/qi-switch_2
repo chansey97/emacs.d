@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: (switch (% _ _) [flow-expr+]+ [else])
+# key: qiswitch
+# --
+(switch ${1:(% _ _)}
+  [${2:flow-expr}]
+  [${3:else}]$4)
+

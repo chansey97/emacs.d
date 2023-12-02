@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (define-flow name flow-expr)
+# key: define-flow
+# --
+(define-flow ${1:name}
+  ${2:flow-expr})

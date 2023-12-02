@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: (-< flo ...)
-# key: qi%tee
+# key: qitee
 # --
 (-< $1)

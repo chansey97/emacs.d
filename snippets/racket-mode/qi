@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ((☯ flo) arg ...)
+# key: qi
+# --
+((☯ ${1:flo}) ${2:args})

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: N>
+# key: qiN>
+# --
+${1:N}>

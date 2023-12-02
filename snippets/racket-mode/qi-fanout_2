@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (fanout N)
+# key: qifanout
+# --
+(fanout ${1:N})

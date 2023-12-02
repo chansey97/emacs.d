@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: (define-switch name maybe-divert-clause [pred cons ...] ...)
+# key: define-switch
+# --
+(define-switch ${1:name}
+  $2[${3:pred} ${4:consequent ...}
+  [else ${5:consequent ...}])
+
+

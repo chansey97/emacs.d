@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (rectify v ...)
+# key: qirectify
+# --
+(rectify ${1:values})

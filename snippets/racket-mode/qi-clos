@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (clos flo)
+# key: qiclos
+# --
+(clos $1)

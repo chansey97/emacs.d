@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (esc expr)
+# key: qiesc
+# --
+(qiesc $1)

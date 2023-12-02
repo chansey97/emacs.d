@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (loop condition-flo map-flo)
+# key: loop
+# --
+(loop ${1:cond-flo} ${1:map-flo})

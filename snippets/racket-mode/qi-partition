@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: (partition [cond-flo body-flo] ...)
+# key: qipartition
+# --
+(partition [${1:cond-flo} ${2:body-flo}]
+           [${3:cond-flo} ${4:body-flo}]$5)

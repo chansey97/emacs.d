@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: (sieve cond-flo sel-flo rem-flo)
+# key: qisieve
+# --
+(sieve ${1:cond-flo} ${2:sele-flo} ${3:rem-flo})
