@@ -253,7 +253,9 @@
 ;;----------------------------------------------------------------------------
 
 ;; always show line numbers
-(global-linum-mode 1)
+(if (version< emacs-version "29.1")
+    (global-linum-mode 1)
+  (global-display-line-numbers-mode 1))
 
 ;; show cursor position within line
 (column-number-mode 1)
