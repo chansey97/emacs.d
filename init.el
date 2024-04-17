@@ -102,6 +102,16 @@
 ;; 	               ("[gG][sS]" gbk . gbk))))
 
 ;;----------------------------------------------------------------------------
+;; Face and Font
+;;----------------------------------------------------------------------------
+(setq inhibit-compacting-font-caches t)
+(require 'sc/font-settings)
+
+;; Resize font
+;; Use C-x C-0 to start text-scale-adjust, use + - 0 for further adjustment
+(setq text-scale-mode-step 1.1)         ;finer inc/dec than default 1.2
+
+;;----------------------------------------------------------------------------
 ;; Recycle Bin
 ;;----------------------------------------------------------------------------
 (setq delete-by-moving-to-trash t)
@@ -229,24 +239,6 @@
 
 ;; remember cursor position, for emacs 25.1 or later
 (save-place-mode 1)
-
-;;----------------------------------------------------------------------------
-;; Font of text
-;;----------------------------------------------------------------------------
-(setq inhibit-compacting-font-caches t)
-
-(dolist (charset '(kana han symbol cjk-misc bopomofo))
-  (set-fontset-font (frame-parameter nil 'font)
-                    charset (font-spec :family "Microsoft Yahei" :size 14)))
-
-;; Symbola include many Mathematical Alphanumeric Symbols, but windows has no this font by default.
-;; So install it, if use windows. https://fontlibrary.org/en/font/symbola
-(set-fontset-font "fontset-default"
-                  'symbol (font-spec :family "Symbola" :size 16))
-
-;; Resize font
-;; Use C-x C-0 to start text-scale-adjust, use + - 0 for further adjustment
-(setq text-scale-mode-step 1.1)         ;finer inc/dec than default 1.2
 
 ;;----------------------------------------------------------------------------
 ;; Displaying Line Numbers and Column Number
