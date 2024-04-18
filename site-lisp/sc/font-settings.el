@@ -396,31 +396,14 @@
 ;; playing-cards: 🂠🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮
 
 ;; chess-symbol
-(dolist (script '(chess-symbol))
-  (set-fontset-font t
-                    script
-                    (font-spec :family
-                               "Noto Sans Symbols 2"
-                               :size 20)
-                    nil nil))
+(set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil nil)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
 ;; Emoji
-
-(dolist (script '(symbol))
-  (set-fontset-font t
-                    script
-                    (font-spec :family "Segoe UI Emoji"
-                               :size 20)
-                    nil 'prepend))
+(set-fontset-font t 'symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
 ;; 🐙😀😁🤣
 
-(dolist (script '(mahjong-tile))
-  (set-fontset-font t
-                    script
-                    (font-spec :family "Segoe UI Emoji"
-                               :size 32)
-                    nil 'prepend))
+(set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend)
 ;; mahjong-tile: 🀀
 
 ;; Unicode Fallback Fonts (speed up font search)
