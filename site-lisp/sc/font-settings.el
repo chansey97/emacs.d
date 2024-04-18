@@ -393,7 +393,7 @@
 
 ;; TODO: Add flags
 ;; 1. "Segoe UI Emoji" has no flags, so use "BabelStone Flags" instead
-;; 2. Emacs does not seem to support combining characters? Maybe unicode-fonts?
+;; 2. Emacs does not seem to support combining characters? Maybe unicode-fonts? or Emacs >= 28.1?  
 ;; https://www.masteringemacs.org/article/unicode-ligatures-color-emoji
 ;; (dolist (charset '(#x1F1EF #x1F1F5))
 ;;   (set-fontset-font t charset (font-spec :family "BabelStone Flags" :size 20) nil nil))
