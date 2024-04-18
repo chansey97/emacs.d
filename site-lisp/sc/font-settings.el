@@ -322,7 +322,7 @@
 (set-fontset-font t 'inscriptional-parthian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
 ;; 𐭀𐭁𐭂𐭃𐭄𐭅𐭆𐭇𐭈
 
-(set-fontset-font t 'runic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+(set-fontset-font t 'runic (font-spec :family "Segoe UI Historic" :size 20) nil nil)
 ;; ᛋᛗᚪᚢᚷ ᚹᚣᚱᛗ
 
 (set-fontset-font t 'old-south-arabian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
@@ -350,7 +350,7 @@
 ;; (when (version< "27.2" emacs-version)
 ;;   (require 'ligature))
 ;; ligature runic with magic spells
-;; (set-fontset-font t 'runic (font-spec :family "BabelStone Moon Runes" :size 14) nil 'prepend)
+;; (set-fontset-font t 'runic (font-spec :family "BabelStone Moon Runes" :size 20) nil 'prepend)
 ;; SMAUG: ᛋᛗᚪᚢᚷ
 ;; WYRM: ᚹᚣᚱᛗ
 
