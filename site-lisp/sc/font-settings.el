@@ -226,11 +226,11 @@
 
 ;; M - x list-charset-chars 可以打出 charset/script 里的字符
 
-;; Main Font
+;; ## Main Font
 
 (set-face-attribute 'default nil :font (font-spec :family "Courier New" :size 14))
 
-;; Alternative Font
+;; ## Alternative Font
 
 ;; TODO: Note that set-fontset-font can not override character ranges in 'default font'!
 ;; https://emacs.stackexchange.com/questions/81051/set-fontset-font-can-not-override-character-ranges-in-default-font-set-fac
@@ -245,7 +245,7 @@
 
 ;; TODO: The 1st argument, what is the difference between t, "fontset-default" and (frame-parameter nil 'font)? 
 
-;; CJK
+;; ### CJK
 (dolist (script '(han ideographic-description cjk-misc kana bopomofo kanbun))
   (set-fontset-font t ; 
                     script
@@ -259,8 +259,7 @@
 ;; bopomofo: ㄅ
 ;; kanbun: ㆝㆞㆟
 
-
-;; Historic scripts, see
+;; ### Historic scripts, see
 
 ;; https://learn.microsoft.com/en-us/typography/font-list/segoe-ui-historic
 ;; https://en.wikipedia.org/wiki/Script_(Unicode)
@@ -355,7 +354,7 @@
 ;; SMAUG: ᛋᛗᚪᚢᚷ
 ;; WYRM: ᚹᚣᚱᛗ
 
-;; symbol, e.g. Mathematical Operators block, etc
+;; ### symbol, e.g. Mathematical Operators block, etc
 (set-fontset-font t 'symbol (font-spec :family
                                        "Segoe UI Symbol"
                                        ;; "Symbola"
@@ -366,7 +365,7 @@
 ;; Mathematical Operators not in main font: ∀ ∃ ∅ ∉∨
 ;; Miscellaneous Mathematical Symbols-A: ⟦⟧
 
-;; mathematical, e.g. Mathematical Alphanumeric Symbols, etc
+;; ### mathematical, e.g. Mathematical Alphanumeric Symbols, etc
 (set-fontset-font t 'mathematical (font-spec :family
                                              "Segoe UI Symbol"
                                              ;; "Symbola"
@@ -375,38 +374,40 @@
                   nil nil)
 ;; Mathematical Alphanumeric Symbols: 𝓐𝓑𝓒𝓓
 
-;; mahjong-tile
+;; ### mahjong-tile
 (set-fontset-font t 'mahjong-tile (font-spec :family
                                              "Segoe UI Symbol"
                                              :size 32)
                   nil nil)
 ;; mahjong-tile: 🀀
 
-;; domino-tile
+;; ### domino-tile
 (set-fontset-font t 'domino-tile (font-spec :family
                                       "Segoe UI Symbol"
                                       :size 32)
                   nil nil)
 ;; domino-tile: 🁀 🁁 🁂 🁃🁰🁱🁲🁳
 
+;; ### playing-cards
 (set-fontset-font t 'playing-cards (font-spec :family
                                       "Segoe UI Symbol"
                                       :size 64)
                   nil nil)
 ;; playing-cards: 🂠🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮
 
-;; chess-symbol
+;; ### chess-symbol
 (set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil nil)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
-;; Emoji
+;; ### Emojis symbol
 (set-fontset-font t 'symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
 ;; 🐙😀😁🤣
 
+;; ### Emojis mahjong-tile
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend)
 ;; mahjong-tile: 🀀
 
-;; Unicode Fallback Fonts (speed up font search)
+;; ### Unicode Fallback Fonts (speed up font search)
 
 ;; "Arial Unicode MS"
 ;; The font is from Office 2010 and it almost support full BMP (38917 characters)
