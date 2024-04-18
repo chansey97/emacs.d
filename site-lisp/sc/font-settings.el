@@ -245,16 +245,12 @@
 ;; However, for script 'symbol, it can override if use-default-font-for-symbols = nil
 ;; See https://emacs.stackexchange.com/questions/81051/set-fontset-font-can-not-override-character-ranges-in-default-font-set-fac
 
-
-;; TODO: The 1st argument, what is the difference between t, "fontset-default" and (frame-parameter nil 'font)? 
+;; TODO: Check the difference
+;; The 1st argument, what is the difference between t, "fontset-default" and (frame-parameter nil 'font)? 
 
 ;; ### CJK
 (dolist (script '(han ideographic-description cjk-misc kana bopomofo kanbun))
-  (set-fontset-font t ; 
-                    script
-                    (font-spec :family "Microsoft YaHei"
-                               :size 14)
-                    nil nil))
+  (set-fontset-font t script (font-spec :family "Microsoft YaHei" :size 14) nil nil))
 ;; han: 你好
 ;; ideographic-description:〚〛
 ;; cjk-misc: 〄
@@ -349,7 +345,9 @@
 (set-fontset-font t 'cuneiform-numbers-and-punctuation (font-spec :family "Segoe UI Historic" :size 20) nil nil)
 ;; 𒐀𒐁𒐂𒐃𒐄𒐅𒐆𒐇𒐈
 
-;; TODO: Try https://github.com/mickeynp/ligature.el
+;; TODO: Add ligature
+;; https://github.com/mickeynp/ligature.el
+;; https://www.masteringemacs.org/article/unicode-ligatures-color-emoji
 ;; (when (version< "27.2" emacs-version)
 ;;   (require 'ligature))
 ;; ligature runic with magic spells
@@ -378,31 +376,6 @@
                   nil nil)
 ;; Mathematical Alphanumeric Symbols: 𝓐𝓑𝓒𝓓
 
-;; ### mahjong-tile
-(set-fontset-font t 'mahjong-tile (font-spec :family
-                                             "Segoe UI Symbol"
-                                             :size 32)
-                  nil nil)
-;; mahjong-tile: 🀀
-
-;; ### domino-tile
-(set-fontset-font t 'domino-tile (font-spec :family
-                                      "Segoe UI Symbol"
-                                      :size 32)
-                  nil nil)
-;; domino-tile: 🁀 🁁 🁂 🁃🁰🁱🁲🁳
-
-;; ### playing-cards
-(set-fontset-font t 'playing-cards (font-spec :family
-                                      "Segoe UI Symbol"
-                                      :size 64)
-                  nil nil)
-;; playing-cards: 🂠🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮
-
-;; ### chess-symbol
-(set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil nil)
-;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
-
 ;; ### Emojis
 ;; Since use-default-font-for-symbols = nil, fontset must use specific ranges to override 
 ;; instead of blindly using script 'symbol with prepend.
@@ -410,16 +383,40 @@
 (require 'sc/emoji)
 
 (dolist (charset sc/emoji-charsets)
-  (set-fontset-font t ; 
-                    charset
-                    (font-spec :family "Segoe UI Emoji"
-                               :size 20)
-                    nil 'prepend))
-;; 🐙😀😁🤣 
+  (set-fontset-font t charset (font-spec :family
+                                         "Segoe UI Emoji"
+                                         ;; "Noto Emoji"
+                                         ;; "OpenMoji" ; TODO: OpenMoji doesn't show, I don't know why
+                                         :size 20)
+                    nil nil))
+;; ⌚⌛🐙😀😂
 
-;; ### Emojis mahjong-tile
-(set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend)
-;; mahjong-tile: 🀀
+;; TODO: Add flags
+;; 1. "Segoe UI Emoji" has no flags, so use "BabelStone Flags" instead
+;; 2. Emacs does not seem to support combining characters? Maybe unicode-fonts?
+;; https://www.masteringemacs.org/article/unicode-ligatures-color-emoji
+;; (dolist (charset '(#x1F1EF #x1F1F5))
+;;   (set-fontset-font t charset (font-spec :family "BabelStone Flags" :size 20) nil nil))
+
+;; ### mahjong-tile
+(set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil nil)
+(set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Symbol" :size 32) nil 'append)
+;; 🀀🀁🀂🀃🀄🀅🀆🀇🀈🀉🀊🀋🀌🀍🀎🀏
+
+;; ### domino-tile
+(set-fontset-font t 'domino-tile (font-spec :family "Segoe UI Emoji" :size 32) nil nil)
+(set-fontset-font t 'domino-tile (font-spec :family "Segoe UI Symbol" :size 32) nil 'append)
+;; domino-tile: 🁀 🁁 🁂 🁃🁰🁱🁲🁳
+
+;; ### playing-cards
+(set-fontset-font t 'playing-cards (font-spec :family "Segoe UI Emoji" :size 64) nil nil)
+(set-fontset-font t 'playing-cards (font-spec :family "Segoe UI Symbol" :size 64) nil 'append)
+;; playing-cards: 🂠🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮
+
+;; ### chess-symbol
+(set-fontset-font t 'chess-symbol (font-spec :family "Segoe UI Emoji" :size 20) nil nil)
+(set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil 'append)
+;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
 ;; ### Unicode Fallback Fonts (speed up font search)
 

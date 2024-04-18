@@ -6,10 +6,10 @@
 ;; 2. They are not in script 'symbol, so even if set use-default-font-for-symbols to nil, they will not be overriden.
 ;; Which means that there would still be problem for showing emojis, e.g. keycap sequences 
 
-By default, Emacs will try to use the default face's font for
-displaying symbol and punctuation characters, disregarding the
-fontsets, if the default font can display the character.
-Set this to nil to make Emacs honor the fontsets instead.
+;; By default, Emacs will try to use the default face's font for
+;; displaying symbol and punctuation characters, disregarding the
+;; fontsets, if the default font can display the character.
+;; Set this to nil to make Emacs honor the fontsets instead.
 
 (defvar sc/emoji-charsets
   '(
