@@ -1,4 +1,6 @@
 
+;; Tip: M-x describe-char can see the character info under cursor
+
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Basic-Faces.html
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Attribute-Functions.html#index-set_002dface_002dattribute
 
@@ -70,8 +72,9 @@
 
 ;; All all script symbols
 ;; ELISP> char-script-table
-;; The last slot
+;; ELISP> (char-table-extra-slot char-script-table 0)
 ;; (latin phonetic greek coptic cyrillic armenian hebrew arabic syriac thaana nko samaritan mandaic devanagari bengali gurmukhi gujarati oriya tamil telugu kannada malayalam sinhala thai lao tibetan burmese georgian hangul ethiopic cherokee canadian-aboriginal ogham runic tagalog hanunoo buhid tagbanwa khmer mongolian limbu tai-le tai-lue buginese tai-tham balinese sundanese batak lepcha ol-chiki vedic symbol braille glagolitic tifinagh han ideographic-description cjk-misc kana bopomofo kanbun yi lisu vai bamum syloti-nagri north-indic-number phags-pa saurashtra kayah-li rejang javanese cham tai-viet meetei-mayek vertical-form linear-b aegean-number ancient-greek-number ancient-symbol phaistos-disc lycian carian old-italic gothic old-permic ugaritic old-persian deseret shavian osmanya osage elbasan caucasian-albanian linear-a cypriot-syllabary aramaic palmyrene nabataean hatran phoenician lydian meroitic kharoshthi old-south-arabian old-north-arabian manichaean avestan inscriptional-parthian inscriptional-pahlavi psalter-pahlavi old-turkic old-hungarian hanifi-rohingya rumi-number yezidi old-sogdian sogdian chorasmian elymaic brahmi kaithi sora-sompeng chakma mahajani sharada sinhala-archaic-number khojki multani khudawadi grantha newa tirhuta siddham modi takri ahom dogra warang-citi dives-akuru nandinagari zanabazar-square soyombo pau-cin-hau bhaiksuki marchen masaram-gondi gunjala-gondi makasar cuneiform cuneiform-numbers-and-punctuation egyptian anatolian mro bassa-vah pahawh-hmong medefaidrin miao tangut tangut-components khitan-small-script nushu duployan-shorthand byzantine-musical-symbol musical-symbol ancient-greek-musical-notation mayan-numeral tai-xuan-jing-symbol counting-rod-numeral mathematical sutton-sign-writing nyiakeng-puachue-hmong wancho mende-kikakui adlam indic-siyaq-number ottoman-siyaq-number mahjong-tile domino-tile playing-cards chess-symbol)
+
 
 ;; script-representative-chars
 ;; ELISP> script-representative-chars
@@ -237,7 +240,7 @@
 ;;   (set-fontset-font t
 ;;                     script
 ;;                     (font-spec :family "Courier New"
-;;                                :size 22)
+;;                                :size 24)
 ;;                     nil nil))
 
 ;; TODO: The 1st argument, what is the difference between t, "fontset-default" and (frame-parameter nil 'font)? 
@@ -256,44 +259,143 @@
 ;; bopomofo: ㄅ
 ;; kanbun: ㆝㆞㆟
 
+
+;; Historic scripts, see
+
+;; https://learn.microsoft.com/en-us/typography/font-list/segoe-ui-historic
+;; https://en.wikipedia.org/wiki/Script_(Unicode)
+;; (dolist (script '(aramaic brahmi carian cypriot-syllabary egyptian glagolitic gothic
+;;                           old-italic kharoshthi lycian lydian meroitic ogham old-turkic
+;;                           inscriptional-pahlavi phoenician inscriptional-parthian
+;;                           runic
+;;                           old-south-arabian shavian syriac ugaritic old-persian
+;;                           cuneiform cuneiform-numbers-and-punctuation))
+;;  (set-fontset-font t script (font-spec :family "Segoe UI Historic" :size 16) nil nil))
+
+(set-fontset-font t 'aramaic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐡀𐡁𐡂𐡃𐡄𐡅𐡆𐡇𐡈
+
+(set-fontset-font t 'brahmi (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𑀡𑀢𑀣𑀤𑀥𑀠
+
+(set-fontset-font t 'carian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐋁𐋂𐋃𐋄𐋅𐋀
+
+(set-fontset-font t 'cypriot-syllabary (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐠀𐠁𐠁𐠂𐠂𐠃𐠄𐠅
+
+(set-fontset-font t 'egyptian (font-spec :family "Segoe UI Historic" :size 64) nil nil)
+;; 𓀀𓀁𓀂𓀃 𓃒𓃓𓃔𓃕𓃖𓃗𓃘𓃙 𓄃𓄄 𓅀𓅁𓅂𓄿 
+
+(set-fontset-font t 'glagolitic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; ⰀⰁⰂⰃⰄ
+
+(set-fontset-font t 'gothic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐌰𐌱𐌲𐌳𐌴𐌵𐌶𐌷𐌸
+
+(set-fontset-font t 'old-italic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐌀𐌁𐌂𐌃
+
+(set-fontset-font t 'kharoshthi (font-spec :family "Segoe UI Historic" :size 20) nil nil)
+;; 𐨐𐨑𐨒𐨓
+
+(set-fontset-font t 'lycian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐊀𐊁𐊂𐊃𐊄
+
+(set-fontset-font t 'lydian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐤠𐤡𐤢𐤣𐤤𐤥𐤦
+
+(set-fontset-font t 'meroitic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐦠𐦡𐦢𐦣𐦤𐦥𐦦𐦧𐦨
+
+(set-fontset-font t 'ogham (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;;  ᚁᚂᚃᚄᚅ
+
+(set-fontset-font t 'old-turkic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐰀𐰁𐰂𐰃𐰄𐰅
+
+(set-fontset-font t 'inscriptional-pahlavi (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐭠𐭡𐭢𐭣𐭤𐭥
+
+(set-fontset-font t 'phoenician (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐤀𐤁𐤂𐤃𐤄𐤅𐤆𐤇𐤈
+
+(set-fontset-font t 'inscriptional-parthian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐭀𐭁𐭂𐭃𐭄𐭅𐭆𐭇𐭈
+
+(set-fontset-font t 'runic (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; ᛋᛗᚪᚢᚷ ᚹᚣᚱᛗ
+
+(set-fontset-font t 'old-south-arabian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐩡𐩢𐩣𐩤𐩥𐩠
+
+(set-fontset-font t 'shavian (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; 𐑑𐑒𐑓𐑔𐑕𐑖𐑗𐑘𐑙
+
+(set-fontset-font t 'syriac (font-spec :family "Segoe UI Historic" :size 16) nil nil)
+;; ܐܑܒܓܔ
+
+(set-fontset-font t 'ugaritic (font-spec :family "Segoe UI Historic" :size 20) nil nil)
+;; 𐎀𐎁𐎂𐎃𐎄𐎅𐎆
+
+(set-fontset-font t 'old-persian (font-spec :family "Segoe UI Historic" :size 20) nil nil)
+;; 𐎠𐎡𐎢𐎣𐎤𐎥𐎦
+
+(set-fontset-font t 'cuneiform (font-spec :family "Segoe UI Historic" :size 20) nil nil)
+;; 𒀀𒀁𒀂𒀃𒀄𒀅𒀆
+
+(set-fontset-font t 'cuneiform-numbers-and-punctuation (font-spec :family "Segoe UI Historic" :size 20) nil nil)
+;; 𒐀𒐁𒐂𒐃𒐄𒐅𒐆𒐇𒐈
+
+;; TODO: Try https://github.com/mickeynp/ligature.el
+;; (when (version< "27.2" emacs-version)
+;;   (require 'ligature))
+;; ligature runic with magic spells
+;; (set-fontset-font t 'runic (font-spec :family "BabelStone Moon Runes" :size 14) nil 'prepend)
+;; SMAUG: ᛋᛗᚪᚢᚷ
+;; WYRM: ᚹᚣᚱᛗ
+
 ;; symbol, e.g. Mathematical Operators block, etc
-(dolist (script '(symbol))
-  (set-fontset-font t
-                    script
-                    (font-spec :family
-                               "Segoe UI Symbol"
-                               ;; "Segoe UI Emoji"
-                               ;; "Symbola"
-                               ;; "DejaVu Math Tex Gyre"
-                               :size 16)
-                    nil nil))
+(set-fontset-font t 'symbol (font-spec :family
+                                       "Segoe UI Symbol"
+                                       ;; "Symbola"
+                                       ;; "DejaVu Math Tex Gyre"
+                                       :size 16)
+                  nil nil)
 ;; Mathematical Operators in main font: ∑ √  ∩ ∫ ∆ (not be overidden)
 ;; Mathematical Operators not in main font: ∀ ∃ ∅ ∉∨
 ;; Miscellaneous Mathematical Symbols-A: ⟦⟧
 
 ;; mathematical, e.g. Mathematical Alphanumeric Symbols, etc
-(dolist (script '(mathematical))
-  (set-fontset-font t
-                    script
-                    (font-spec :family
-                               "Segoe UI Symbol"
-                               ;; "Symbola"
-                               ;; "DejaVu Math Tex Gyre"
-                               :size 16)
-                    nil nil))
+(set-fontset-font t 'mathematical (font-spec :family
+                                             "Segoe UI Symbol"
+                                             ;; "Symbola"
+                                             ;; "DejaVu Math Tex Gyre"
+                                             :size 16)
+                  nil nil)
 ;; Mathematical Alphanumeric Symbols: 𝓐𝓑𝓒𝓓
 
-(dolist (script '(mahjong-tile domino-tile playing-cards))
-  (set-fontset-font t
-                    script
-                    (font-spec :family
-                               "Segoe UI Symbol"
-                               :size 20)
-                    nil nil))
+;; mahjong-tile
+(set-fontset-font t 'mahjong-tile (font-spec :family
+                                             "Segoe UI Symbol"
+                                             :size 32)
+                  nil nil)
 ;; mahjong-tile: 🀀
-;; domino-tile: 🁓
-;; playing-cards: 🂡
 
+;; domino-tile
+(set-fontset-font t 'domino-tile (font-spec :family
+                                      "Segoe UI Symbol"
+                                      :size 32)
+                  nil nil)
+;; domino-tile: 🁀 🁁 🁂 🁃🁰🁱🁲🁳
+
+(set-fontset-font t 'playing-cards (font-spec :family
+                                      "Segoe UI Symbol"
+                                      :size 64)
+                  nil nil)
+;; playing-cards: 🂠🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮
+
+;; chess-symbol
 (dolist (script '(chess-symbol))
   (set-fontset-font t
                     script
@@ -301,13 +403,7 @@
                                "Noto Sans Symbols 2"
                                :size 20)
                     nil nil))
-;; chess-symbol: 🩒🩠
-
-;; (set-fontset-font t 'runic (font-spec :family "BabelStone Moon Runes" :size 14) nil nil)
-;; TODO: Try https://github.com/mickeynp/ligature.el
-;; (when (version< "27.2" emacs-version) ...)
-;; SMAUG: ᛋᛗᚪᚢᚷ
-;; WYRM: ᚹᚣᚱᛗ
+;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
 ;; Emoji
 
@@ -323,13 +419,27 @@
   (set-fontset-font t
                     script
                     (font-spec :family "Segoe UI Emoji"
-                               :size 20)
+                               :size 32)
                     nil 'prepend))
 ;; mahjong-tile: 🀀
 
 ;; Unicode Fallback Fonts (speed up font search)
+
+;; "Arial Unicode MS"
+;; The font is from Office 2010 and it almost support full BMP (38917 characters)
+;; https://web.archive.org/web/20121122124125/http://msdn.microsoft.com/en-us/goglobal/bb688134.aspx
+;; https://learn.microsoft.com/en-us/typography/font-list/arial-unicode-ms
+;; It is almost, because there are symbols are not in it, e.g. 'Miscellaneous Symbols and Arrow' and 'Miscellaneous Symbols and Pictographs'
+(set-fontset-font t 'unicode-bmp (font-spec :family "Arial Unicode MS" :size 14) nil 'append) ; from
+
+;; "Unicode BMP Fallback SIL"
 (set-fontset-font t 'unicode-bmp (font-spec :family "Unicode BMP Fallback SIL" :size 24) nil 'append)
+
+;; "Last Resort"
 (dolist (script '(unicode unicode-smp unicode-sip unicode-ssp))
   (set-fontset-font t script (font-spec :family "Last Resort" :size 24) nil 'append))
 
 (provide 'sc/font-settings)
+
+
+
