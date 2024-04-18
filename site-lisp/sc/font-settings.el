@@ -232,16 +232,19 @@
 
 ;; ## Alternative Font
 
-;; TODO: Note that set-fontset-font can not override character ranges in 'default font'!
-;; https://emacs.stackexchange.com/questions/81051/set-fontset-font-can-not-override-character-ranges-in-default-font-set-fac
-;; So 'latin and some character in 'symbol will not be overidden ...
-
+;; Note that set-fontset-font can not override character ranges in Main font, see
+;; Since "Courier New" include 'latin, ... so set-fontset-font these scripts with different font-spec is useless
+;;
 ;; (dolist (script '(latin phonetic greek coptic cyrillic armenian hebrew))
 ;;   (set-fontset-font t
 ;;                     script
 ;;                     (font-spec :family "Courier New"
 ;;                                :size 24)
 ;;                     nil nil))
+;;
+;; However, for script 'symbol, it can override if use-default-font-for-symbols = nil
+;; See https://emacs.stackexchange.com/questions/81051/set-fontset-font-can-not-override-character-ranges-in-default-font-set-fac
+
 
 ;; TODO: The 1st argument, what is the difference between t, "fontset-default" and (frame-parameter nil 'font)? 
 
@@ -355,13 +358,14 @@
 ;; WYRM: ᚹᚣᚱᛗ
 
 ;; ### symbol, e.g. Mathematical Operators block, etc
+(setq use-default-font-for-symbols nil)
 (set-fontset-font t 'symbol (font-spec :family
                                        "Segoe UI Symbol"
                                        ;; "Symbola"
                                        ;; "DejaVu Math Tex Gyre"
                                        :size 16)
                   nil nil)
-;; Mathematical Operators in main font: ∑ √  ∩ ∫ ∆ (not be overidden)
+;; Mathematical Operators in main font: ∑ √ ∩ ∫ ∆ (only be overidden, if use-default-font-for-symbols is nil)
 ;; Mathematical Operators not in main font: ∀ ∃ ∅ ∉∨
 ;; Miscellaneous Mathematical Symbols-A: ⟦⟧
 
@@ -399,9 +403,19 @@
 (set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil nil)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
-;; ### Emojis symbol
-(set-fontset-font t 'symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
-;; 🐙😀😁🤣
+;; ### Emojis
+;; Since use-default-font-for-symbols = nil, fontset must use specific ranges to override 
+;; instead of blindly using script 'symbol with prepend.
+;; (set-fontset-font t 'symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
+(require 'sc/emoji)
+
+(dolist (charset sc/emoji-charsets)
+  (set-fontset-font t ; 
+                    charset
+                    (font-spec :family "Segoe UI Emoji"
+                               :size 20)
+                    nil 'prepend))
+;; 🐙😀😁🤣 
 
 ;; ### Emojis mahjong-tile
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend)
