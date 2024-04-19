@@ -248,15 +248,27 @@
 ;; TODO: Check the difference
 ;; The 1st argument, what is the difference between t, "fontset-default" and (frame-parameter nil 'font)? 
 
-;; ### CJK
-(dolist (script '(han ideographic-description cjk-misc kana bopomofo kanbun))
+;; ### CJK characters
+
+;; 汉字
+;; I guess cjk-misc is something like common script (Zyyy) for CJK characters
+(dolist (script '(cjk-misc han bopomofo kana kanbun ideographic-description))
   (set-fontset-font t script (font-spec :family "Microsoft YaHei" :size 14) nil nil))
+;; cjk-misc: 〄 、
 ;; han: 你好
-;; ideographic-description:〚〛
-;; cjk-misc: 〄
-;; kana: ァア
 ;; bopomofo: ㄅ
+;; kana: ぁあ ァア 
 ;; kanbun: ㆝㆞㆟
+;; ideographic-description:〚〛
+
+;; 韩文
+(set-fontset-font t 'hangul (font-spec :family "思源黑体" :size 14) nil nil)
+;; ᄀᄁᄂᄃᄄᄅ 가각갂갃간
+
+;; 彝文
+(set-fontset-font t 'yi (font-spec :family "Microsoft Yi Baiti" :size 16) nil nil)
+;; ꒐꒑꒒꒓꒔꒕꒖꒗꒘ ꀁꀂꀃꀄꀅꀆꀇꀈꀀ
+
 
 ;; ### Historic scripts, see
 
@@ -355,7 +367,9 @@
 ;; SMAUG: ᛋᛗᚪᚢᚷ
 ;; WYRM: ᚹᚣᚱᛗ
 
+
 ;; ### symbol, e.g. Mathematical Operators block, etc
+
 (setq use-default-font-for-symbols nil)
 (set-fontset-font t 'symbol (font-spec :family
                                        "Segoe UI Symbol"
@@ -375,6 +389,7 @@
                                              :size 16)
                   nil nil)
 ;; Mathematical Alphanumeric Symbols: 𝓐𝓑𝓒𝓓
+
 
 ;; ### Emojis
 ;; Since use-default-font-for-symbols = nil, fontset must use specific ranges to override 
@@ -398,25 +413,30 @@
 ;; (dolist (charset '(#x1F1EF #x1F1F5))
 ;;   (set-fontset-font t charset (font-spec :family "BabelStone Flags" :size 20) nil nil))
 
+
 ;; ### mahjong-tile
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil nil)
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Symbol" :size 32) nil 'append)
 ;; 🀀🀁🀂🀃🀄🀅🀆🀇🀈🀉🀊🀋🀌🀍🀎🀏
+
 
 ;; ### domino-tile
 (set-fontset-font t 'domino-tile (font-spec :family "Segoe UI Emoji" :size 32) nil nil)
 (set-fontset-font t 'domino-tile (font-spec :family "Segoe UI Symbol" :size 32) nil 'append)
 ;; domino-tile: 🁀 🁁 🁂 🁃🁰🁱🁲🁳
 
+
 ;; ### playing-cards
 (set-fontset-font t 'playing-cards (font-spec :family "Segoe UI Emoji" :size 64) nil nil)
 (set-fontset-font t 'playing-cards (font-spec :family "Segoe UI Symbol" :size 64) nil 'append)
 ;; playing-cards: 🂠🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂬🂭🂮
 
+
 ;; ### chess-symbol
 (set-fontset-font t 'chess-symbol (font-spec :family "Segoe UI Emoji" :size 20) nil nil)
 (set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil 'append)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
+
 
 ;; ### Unicode Fallback Fonts (speed up font search)
 
@@ -433,6 +453,7 @@
 ;; "Last Resort"
 (dolist (script '(unicode unicode-smp unicode-sip unicode-ssp))
   (set-fontset-font t script (font-spec :family "Last Resort" :size 24) nil 'append))
+
 
 (provide 'sc/font-settings)
 
