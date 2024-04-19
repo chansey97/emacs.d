@@ -250,7 +250,7 @@
 
 ;; ### CJK characters
 
-;; 汉字
+;; CJK 通用, 汉字, 注音符号, 平假名 & 片假名, 漢文(日), 表意符号
 ;; I guess cjk-misc is something like common script (Zyyy) for CJK characters
 (dolist (script '(cjk-misc han bopomofo kana kanbun ideographic-description))
   (set-fontset-font t script (font-spec :family "Microsoft YaHei" :size 14) nil nil))
