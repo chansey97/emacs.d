@@ -263,7 +263,7 @@
 
 ;; 韩文
 (set-fontset-font t 'hangul (font-spec :family "思源黑体" :size 14) nil nil)
-;; ᄀᄁᄂᄃᄄᄅ 가각갂갃간
+;; 가각갂갃간
 
 ;; 彝文
 (set-fontset-font t 'yi (font-spec :family "Microsoft Yi Baiti" :size 16) nil nil)
