@@ -262,7 +262,7 @@
 ;; ideographic-description:〚〛
 
 ;; 韩文
-(set-fontset-font t 'hangul (font-spec :family "思源黑体" :size 14) nil nil)
+(set-fontset-font t 'hangul (font-spec :family "Malgun Gothic" :size 14) nil nil)
 ;; 가각갂갃간
 
 ;; 彝文
