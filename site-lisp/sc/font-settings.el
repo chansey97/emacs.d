@@ -418,9 +418,9 @@
 
 ;; ### Emojis
 (let ((emoji-fs (font-spec :family
-                     ;; "Segoe UI Emoji"
+                     "Segoe UI Emoji"
                      ;; "Noto Emoji"
-                     "OpenMoji" ; TODO: Doesn't work in Emacs < 28?
+                     ;; "OpenMoji" ; TODO: Doesn't work in Emacs < 28?
                      :size 20)))
   (cond ((version< emacs-version "28.1")
          ;; In Emacs < 28.1, there was no 'emoji charset, specific emoji ranges must be used.
@@ -431,6 +431,7 @@
          ;; In Emacs >= 28.1, the 'emoji charset was introduced.
          ;; https://github.com/emacs-mirror/emacs/blob/e5b4d4dd1bb4d568ed20cfb7354c5ff898af7a05/etc/NEWS.28#L209
          (set-fontset-font t 'emoji emoji-fs nil 'prepend))))
+;; ⌚⌛🐙😀😂
 
 ;; TODO: Add flags and test difference with Emacs >= 28.1
 ;; 1. "Segoe UI Emoji" has no flags, so use "BabelStone Flags" instead
