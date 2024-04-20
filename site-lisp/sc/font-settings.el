@@ -434,7 +434,7 @@
 ;; ⌚⌛🐙😀😂
 
 ;; TODO: Add flags and test difference with Emacs >= 28.1
-;; 1. "Segoe UI Emoji" has no flags, so use "BabelStone Flags" instead
+;; 1. "Segoe UI Emoji" has no flags, so prepend "BabelStone Flags" 
 ;; 2. Emacs does not seem to support combining characters? Maybe unicode-fonts? or Emacs >= 28.1?  
 ;; https://www.masteringemacs.org/article/unicode-ligatures-color-emoji
 ;; (dolist (charset '(#x1F1EF #x1F1F5))
