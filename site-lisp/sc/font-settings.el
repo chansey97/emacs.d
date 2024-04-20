@@ -429,10 +429,8 @@
            (set-fontset-font t charset emoji-fs nil 'prepend)))
         (t
          ;; In Emacs >= 28.1, the 'emoji charset was introduced.
-         ;; https://github.com/emacs-mirror/emacs/blob/master/etc/NEWS.28#L209
+         ;; https://github.com/emacs-mirror/emacs/blob/e5b4d4dd1bb4d568ed20cfb7354c5ff898af7a05/etc/NEWS.28#L209
          (set-fontset-font t 'emoji emoji-fs nil 'prepend))))
-
-;; https://github.com/emacs-mirror/emacs/blob/e5b4d4dd1bb4d568ed20cfb7354c5ff898af7a05/etc/NEWS.28#L209
 
 ;; TODO: Add flags and test difference with Emacs >= 28.1
 ;; 1. "Segoe UI Emoji" has no flags, so use "BabelStone Flags" instead
