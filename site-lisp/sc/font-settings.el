@@ -240,9 +240,11 @@
 
 ;; "Last Resort"
 (set-fontset-font t 'unicode (font-spec :family "Last Resort" :size 24) nil nil)
+;; 𐁐𐂐𐓣𐔆𐕆𐖆𐙦𐞧𒓇𒿘𗹘𛉚𝥘𝼆𞁙𞻩𭯦𰀴󠅉􍖩󿌋
 
 ;; "Unicode BMP Fallback SIL"
 (set-fontset-font t 'unicode-bmp (font-spec :family "Unicode BMP Fallback SIL" :size 24) nil 'prepend)
+;; 
 
 ;; "Arial Unicode MS"
 ;; The font is from Office 2010 and it almost support full BMP (38917 characters)
@@ -250,9 +252,8 @@
 ;; https://learn.microsoft.com/en-us/typography/font-list/arial-unicode-ms
 ;; It is almost, because there are symbols are not in it, e.g. 'Miscellaneous Symbols and Arrow' and 'Miscellaneous Symbols and Pictographs'
 (set-fontset-font t 'unicode-bmp (font-spec :family "Arial Unicode MS" :size 14) nil 'prepend)
-
 ;; ภ
-;; 𐁐𐂐𐓣𐔆𐕆𐖆𐙦𐞧𒓇𒿘𗹘𛉚𝥘𝼆𞁙𞻩𭯦𰀴󠅉􍖩󿌋
+
 
 
 ;; ## Alternative Font
