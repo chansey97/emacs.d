@@ -463,7 +463,7 @@
 ;; ### mahjong-tile
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Symbol" :size 32) nil 'prepend)
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend)
-(when (version< "28.1" emacs-version )
+(when (version<= "28.1" emacs-version )
   ;; TODO: 中 is an emoji not a mahjong-tile? might be a BUG.
   (set-fontset-font t #x1f004 (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend))
 ;; 🀀🀁🀂🀃🀄🀅🀆🀇🀈🀉🀊🀋🀌🀍🀎🀏
