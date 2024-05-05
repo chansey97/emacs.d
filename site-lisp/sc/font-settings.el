@@ -434,17 +434,38 @@
          (set-fontset-font t 'emoji emoji-fs nil 'prepend))))
 ;; ⌚⌛🐙😀😂
 
-;; TODO: Add flags and test difference with Emacs >= 28.1
+;; Emoji sequences, since Emacs 28.1
+;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L211
+
+;; Variation Selectors
+;; U+2702 = ✂︎
+;; U+2702 U+FE0F = ✂️
+
+;; Skin tone modifier
+;; 👋 🏿 = 👋🏿
+
+;; ZWJ
+;; 👩 ZWJ 🌾 = 👩‍🌾
+
+;; Keycap sequences 
+;; *️⃣ #️⃣ *️⃣ 0️⃣ 1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣
+
+;; TODO: Add flags
 ;; 1. "Segoe UI Emoji" has no flags, so prepend "BabelStone Flags" 
 ;; 2. Emacs does not seem to support combining characters? Maybe unicode-fonts? or Emacs >= 28.1?  
 ;; https://www.masteringemacs.org/article/unicode-ligatures-color-emoji
-;; (dolist (charset '(#x1F1EF #x1F1F5))
-;;   (set-fontset-font t charset (font-spec :family "BabelStone Flags" :size 20) nil 'prepend))
+;; (set-fontset-font t '(#x1F1E6 . #x1F1FF) (font-spec :family "BabelStone Flags" :size 20) nil 'prepend) DOESN'T WORK
+;; 3. Check glyphless-char-display-control
+;; 🇮 + 🇸 = 🇮🇸
+;; 🏴 + gbeng + E007F = 🏴󠁧󠁢󠁥󠁮󠁧󠁿
 
 
 ;; ### mahjong-tile
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Symbol" :size 32) nil 'prepend)
 (set-fontset-font t 'mahjong-tile (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend)
+(when (version< "28.1" emacs-version )
+  ;; TODO: 中 is an emoji not a mahjong-tile? might be a BUG.
+  (set-fontset-font t #x1f004 (font-spec :family "Segoe UI Emoji" :size 32) nil 'prepend))
 ;; 🀀🀁🀂🀃🀄🀅🀆🀇🀈🀉🀊🀋🀌🀍🀎🀏
 
 
