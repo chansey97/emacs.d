@@ -434,6 +434,9 @@ Will simply return `treemacs--eldoc-msg'."
   (setq-local tab-width 1)
   (setq-local eldoc-documentation-function #'treemacs--eldoc-function)
   (setq-local eldoc-message-commands treemacs--eldoc-obarray)
+  (when (boundp 'context-menu-functions)
+    (setq-local context-menu-functions nil))
+
   ;; integrate with bookmark.el
   (setq-local bookmark-make-record-function #'treemacs--make-bookmark-record)
   (electric-indent-local-mode -1)
