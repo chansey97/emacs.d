@@ -11,7 +11,7 @@
 ;; fontsets, if the default font can display the character.
 ;; Set this to nil to make Emacs honor the fontsets instead.
 
-(defvar sc/emoji-charsets
+(defvar sc-emoji-charsets
   '(
     ;; Emoji_Modifier
     (#x1F3FB . #x1F3FF)
@@ -543,4 +543,4 @@
     )
   "Emoji code points")
 
-(provide 'sc/emoji)
+(provide 'sc-emoji)

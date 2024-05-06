@@ -425,8 +425,8 @@
                      :size 20)))
   (cond ((version< emacs-version "28.1")
          ;; In Emacs < 28.1, there was no 'emoji charset, specific emoji ranges must be used.
-         (require 'sc/emoji)
-         (dolist (charset sc/emoji-charsets)
+         (require 'sc-emoji)
+         (dolist (charset sc-emoji-charsets)
            (set-fontset-font t charset emoji-fs nil 'prepend)))
         (t
          ;; In Emacs >= 28.1, the 'emoji charset was introduced.
@@ -486,7 +486,7 @@
 (set-fontset-font t 'chess-symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
-(provide 'sc/font-settings)
+(provide 'sc-font-settings)
 
 
 

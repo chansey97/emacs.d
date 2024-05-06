@@ -10,7 +10,7 @@
   (let ((current-prefix-arg '(-1)))
     (call-interactively 'forward-same-syntax)))
 
-(defun sc/forward-sexp ()
+(defun sc-forward-sexp ()
   (interactive)
   (let ((sp (point)))
     (call-interactively 'paredit-forward)
@@ -19,7 +19,7 @@
       (call-interactively 'paredit-forward))
     ))
 
-(defun sc/backward-sexp ()
+(defun sc-backward-sexp ()
   (interactive)
   (let ((sp (point)))
     (call-interactively 'paredit-backward)
@@ -27,21 +27,21 @@
     (when (>= (point) sp)
       (call-interactively 'paredit-backward))))
 
-(defun sc/forward-token ()
+(defun sc-forward-token ()
   (interactive)
   (cond
    ((looking-at-p "\\s(")
     (call-interactively 'forward-char))
    (t
-    (call-interactively 'sc/forward-sexp))))
+    (call-interactively 'sc-forward-sexp))))
 
-(defun sc/backward-token ()
+(defun sc-backward-token ()
   (interactive)
   (cond
    ((looking-back-one-char-p "\\s)")
     (call-interactively 'backward-char))
    (t
-    (call-interactively 'sc/backward-sexp))))
+    (call-interactively 'sc-backward-sexp))))
 
 (defun try-paredit-forward-up ()
   (let ((r t))
@@ -57,30 +57,30 @@
         (scan-error (setq r nil)))
     r))
 
-(defun sc/forward ()
+(defun sc-forward ()
   (interactive)
   (if (use-region-p)
-      (call-interactively 'sc/forward-sexp)
+      (call-interactively 'sc-forward-sexp)
     (if (looking-at-p "\\s(\\|\\s)")
         (call-interactively 'forward-same-syntax)
-      (call-interactively 'sc/forward-token))))
+      (call-interactively 'sc-forward-token))))
 
-(defun sc/backward ()
+(defun sc-backward ()
   (interactive)
   (if (use-region-p)
-      (call-interactively 'sc/backward-sexp)
+      (call-interactively 'sc-backward-sexp)
     (if (looking-back-one-char-p "\\s(\\|\\s)")
         (call-interactively 'backward-same-syntax)
-      (call-interactively 'sc/backward-token))))
+      (call-interactively 'sc-backward-token))))
 
-(defun sc/forward-up ()
+(defun sc-forward-up ()
   (interactive)
   (when (not (try-paredit-forward-up))
-    (call-interactively 'sc/forward-sexp)))
+    (call-interactively 'sc-forward-sexp)))
 
-(defun sc/backward-up ()
+(defun sc-backward-up ()
   (interactive)
   (when (not (try-paredit-backward-up))
-    (call-interactively 'sc/backward-sexp)))
+    (call-interactively 'sc-backward-sexp)))
 
-(provide 'sc/cursor-move)
+(provide 'sc-cursor-move)

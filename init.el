@@ -105,7 +105,7 @@
 ;; Face and Font
 ;;----------------------------------------------------------------------------
 (setq inhibit-compacting-font-caches t)
-(require 'sc/font-settings)
+(require 'sc-font-settings)
 
 ;; Resize font
 ;; Use C-x C-0 to start text-scale-adjust, use + - 0 for further adjustment
@@ -198,25 +198,25 @@
 (define-key global-map (kbd "<S-down-mouse-1>") 'mouse-save-then-kill)
 
 ;; select current line
-(defvar sc/last-pos nil)
+(defvar sc-last-pos nil)
 
-(defun sc/select-current-line ()
+(defun sc-select-current-line ()
   "Select the current line"
   (interactive)
-  (setq sc/last-pos (point))
+  (setq sc-last-pos (point))
   (beginning-of-line)
   (push-mark (point) nil t)
   (end-of-line))
 
-(defun sc/select-current-line-cancel ()
-  (when (eq last-command 'sc/select-current-line)
-    (goto-char sc/last-pos)))
+(defun sc-select-current-line-cancel ()
+  (when (eq last-command 'sc-select-current-line)
+    (goto-char sc-last-pos)))
 
-(advice-add 'keyboard-quit :before #'sc/select-current-line-cancel)
-(advice-add 'minibuffer-keyboard-quit :before #'sc/select-current-line-cancel)
-(advice-add 'cua-cancel :before #'sc/select-current-line-cancel)
+(advice-add 'keyboard-quit :before #'sc-select-current-line-cancel)
+(advice-add 'minibuffer-keyboard-quit :before #'sc-select-current-line-cancel)
+(advice-add 'cua-cancel :before #'sc-select-current-line-cancel)
 
-(global-set-key (kbd "C--") 'sc/select-current-line)
+(global-set-key (kbd "C--") 'sc-select-current-line)
 
 ;;----------------------------------------------------------------------------
 ;; Text Highlight
@@ -369,7 +369,7 @@
         (message "Indent buffer.")))))
 
 ;; https://github.com/greghendershott/racket-mode/issues/603#issuecomment-1068405777
-;; (defun sc/indent-buffer-except-comments ()
+;; (defun sc-indent-buffer-except-comments ()
 ;;   "Indent the entire buffer, except for comment lines."
 ;;   (interactive)
 ;;   (save-excursion
@@ -379,7 +379,7 @@
 ;;         (unless (elt (syntax-ppss) 4) ;comment
 ;;           (indent-according-to-mode))
 ;;         (forward-line 1)))))
-;; (global-set-key (kbd "C-M-l") 'sc/indent-buffer-except-comments)
+;; (global-set-key (kbd "C-M-l") 'sc-indent-buffer-except-comments)
 
 (global-set-key (kbd "C-M-l") 'indent-region-or-buffer)
 
@@ -664,7 +664,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; Utils
 ;;----------------------------------------------------------------------------
-(require 'sc/utils)
+(require 'sc-utils)
 
 ;;----------------------------------------------------------------------------
 ;; Drag-stuff
@@ -879,15 +879,15 @@ unmodified snippet field.")
 (define-key paredit-mode-map (kbd "\\") nil)
 
 ;;----------------------------------------------------------------------------
-;; sc/cursor-move
+;; sc-cursor-move
 ;;----------------------------------------------------------------------------
-(require 'sc/cursor-move)
+(require 'sc-cursor-move)
 
 ;; TODO: if not editing Lisp program?
-(global-set-key (kbd "C-<right>") 'sc/forward)
-(global-set-key (kbd "C-<left>")  'sc/backward)
-(global-set-key (kbd "C-<down>")  'sc/forward-up)
-(global-set-key (kbd "C-<up>")    'sc/backward-up)
+(global-set-key (kbd "C-<right>") 'sc-forward)
+(global-set-key (kbd "C-<left>")  'sc-backward)
+(global-set-key (kbd "C-<down>")  'sc-forward-up)
+(global-set-key (kbd "C-<up>")    'sc-backward-up)
 
 ;;----------------------------------------------------------------------------
 ;; ace-window (select and swap window)
@@ -967,7 +967,7 @@ unmodified snippet field.")
   (advice-remove 'projectile-get-project-directories #'projectile-get-project-directories/override)
   (advice-remove 'projectile-prepend-project-name #'projectile-prepend-project-name/override))
 
-(defun sc/projectile-search (c)
+(defun sc-projectile-search (c)
   "Perform various search."
   (interactive
    (list
@@ -977,7 +977,7 @@ unmodified snippet field.")
    ((equal c ?2) (call-interactively 'projectile--find-file))
    (t (projectile-current-directory-grep))))
 
-(global-set-key (kbd "C-S-f") 'sc/projectile-search)
+(global-set-key (kbd "C-S-f") 'sc-projectile-search)
 
 (defun ch-remove-grep--command ()
   (save-excursion
@@ -1208,7 +1208,7 @@ unmodified snippet field.")
 (defun run-scheme-dwim ()
   (interactive)
   (cond ((use-region-p) (call-interactively 'scheme-send-region))
-        ((sc/current-line-empty-p) (scheme-load-file (buffer-name)))
+        ((sc-current-line-empty-p) (scheme-load-file (buffer-name)))
         (t (scheme-send-last-sexp))))
 
 ;; For Chez Scheme 48 use "(expand '%s)" instead of "(expand %s)"
@@ -1293,7 +1293,7 @@ unmodified snippet field.")
 (defun racket-run-dwim ()
   (interactive)
   (cond ((use-region-p) (call-interactively 'racket-send-region))
-        ((sc/current-line-empty-p) (racket-run-module-at-point))
+        ((sc-current-line-empty-p) (racket-run-module-at-point))
         (t (racket-send-last-sexp))))
 
 (add-hook 'racket-mode-hook 'racket-xp-mode)
@@ -1365,13 +1365,13 @@ unmodified snippet field.")
   "Send the content of the current line to the read-eval-print process."
   (interactive)
   (save-mark-and-excursion
-    (sc/select-current-line)
+    (sc-select-current-line)
     (call-interactively 'sml-prog-proc-send-region)))
 
 (defun run-sml-dwim ()
   (interactive)
   (cond ((use-region-p) (call-interactively 'sml-prog-proc-send-region))
-        ((sc/current-line-empty-p) (call-interactively 'sml-prog-proc-load-file))
+        ((sc-current-line-empty-p) (call-interactively 'sml-prog-proc-load-file))
         (t (sml-prog-proc-send-line))))
 
 (add-hook 'sml-mode-hook
@@ -1546,7 +1546,7 @@ unmodified snippet field.")
 (defun sql-send-dwim ()
   (interactive)
   (cond ((use-region-p) (call-interactively 'sql-send-region))
-        ;; ((sc/current-line-empty-p) (sql-send-buffer))
+        ;; ((sc-current-line-empty-p) (sql-send-buffer))
         (t (sql-send-line-and-next))
         ))
 
