@@ -158,10 +158,17 @@
 ;; press the arrows in the toolbar to navigate marks
 ;; or use C-x C-Space as usual, then try C-x C-<right>
 ;; to reverse the operation
-
 (when (eq system-type 'windows-nt)
   (require 'back-button)
   (back-button-mode 1))
+
+;; Other buttons
+(defun omar-hotel ()
+  "another nonce menu function"
+  (interactive)
+  (message "hotel, motel, holiday inn"))
+
+(tool-bar-add-item "spell" 'omar-hotel 'omar-hotel :help "Run fonction omar-hotel")
 
 ;;----------------------------------------------------------------------------
 ;; Dired
