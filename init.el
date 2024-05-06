@@ -60,11 +60,11 @@
   (require 'cygwin-mount)
   (cygwin-mount-activate))
 
-(defun shell-cygwin ()
-  "Run cygwin bash in shell mode."
-  (interactive)
-  (let ((explicit-shell-file-name "C:/cygwin64/bin/bash"))
-    (call-interactively 'shell)))
+;;----------------------------------------------------------------------------
+;; Shell
+;;----------------------------------------------------------------------------
+(require 'sc-shell)
+
 
 ;;----------------------------------------------------------------------------
 ;; Server
