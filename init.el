@@ -90,6 +90,11 @@
 ;;----------------------------------------------------------------------------
 ;; Encoding (UTF-8 by default)
 ;;----------------------------------------------------------------------------
+;; TODO:
+;; Check the necessary in Emacs 28.1?
+;; Emacs now defaults to UTF-8 instead of ISO-8859-1.
+;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L779
+
 ;; Set locale
 ;; Note that windows' locale doesn't rely on LANG (or any other LC_X environmental variable).
 ;; It is set in Control Panel. I set LANG and LC_ALL here is just to simulate *nix behavior,
@@ -285,6 +290,9 @@
 ;; when a file is updated outside emacs, make it update if it's already opened in emacs
 (global-auto-revert-mode 1)
 
+;; TODO: Trt 'kill-buffer-delete-auto-save-files' in Emacs 28.1
+;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L316
+
 ;;----------------------------------------------------------------------------
 ;; Open Recently Opened Files
 ;;----------------------------------------------------------------------------
@@ -316,6 +324,9 @@
 
 
 ;; make return key also do indent, globally
+;; Start from Emacs 28.1, 'electric-indent-mode' now also indents inside strings and comments,
+;; but can recover the previous behavior if you want.
+;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L874
 (electric-indent-mode 1)
 
 ;; toggle on/off globally for current emacs session.
@@ -551,6 +562,8 @@
 ;;----------------------------------------------------------------------------
 ;; misc
 ;;----------------------------------------------------------------------------
+(when (version<= "28.1" emacs-version)
+  (setq use-short-answers 't))
 
 ;; set cursor to i-beam
 (setq-default cursor-type 'bar)
@@ -1014,7 +1027,9 @@ unmodified snippet field.")
 ;; smooth-scroll
 ;;----------------------------------------------------------------------------
 ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(when (version< emacs-version "28.1")
+  ;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L572
+  (setq mouse-wheel-progressive-speed nil)) ;; don't accelerate scrolling
 ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 
