@@ -131,6 +131,12 @@
 (setq delete-by-moving-to-trash t)
 
 ;;----------------------------------------------------------------------------
+;; Context Menu
+;;----------------------------------------------------------------------------
+;; https://github.com/emacs-mirror/emacs/blob/61ad641893bc521e98cc06162634299d57b2bf8a/etc/NEWS.28#L277
+(when (version<= "28.1" emacs-version)
+  (context-menu-mode 1))
+
 ;; Back-button
 ;;----------------------------------------------------------------------------
 ;; press the plus sign in the toolbar to create a mark
