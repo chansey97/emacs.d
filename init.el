@@ -149,8 +149,11 @@
 (when (version<= "28.1" emacs-version)
   (context-menu-mode 1))
 
-;; Back-button
 ;;----------------------------------------------------------------------------
+;; Tool Bar - Buttons
+;;----------------------------------------------------------------------------
+
+;; Back-button
 ;; press the plus sign in the toolbar to create a mark
 ;; press the arrows in the toolbar to navigate marks
 ;; or use C-x C-Space as usual, then try C-x C-<right>
@@ -1516,6 +1519,7 @@ unmodified snippet field.")
       (beginning-of-buffer 'noindent))))
 
 (advice-add 'prolog-indent-line :around  #'prolog-indent-line/around)
+;; (advice-remove 'prolog-indent-line #'prolog-indent-line/around)
 
 (add-hook 'prolog-mode-hook
           (lambda ()
@@ -1539,6 +1543,7 @@ unmodified snippet field.")
 (setq ediprolog-system 'swi)
 ;; avoid conflicting with cygwin's swipl 
 (setq ediprolog-program "c:/PROGRA~1/swipl/bin/swipl.exe")
+;; (setq ediprolog-program "c:/PROGRA~1/swipl/bin/swipl-win.exe")
 
 (defun ediprolog-kill ()
   (interactive "")
