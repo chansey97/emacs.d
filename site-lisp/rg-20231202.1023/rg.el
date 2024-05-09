@@ -144,8 +144,7 @@ Disabling this setting can break functionality of this package."
   :type 'boolean
   :group 'rg)
 
-(defcustom rg-w32-unicode
-  (if (eq system-type 'windows-nt) t nil)
+(defcustom rg-w32-unicode nil
   "Enable the workaround for NTEmacs subprocess not supporting Unicode arguments."
   :type 'boolean
   :group 'rg)
