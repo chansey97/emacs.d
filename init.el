@@ -120,12 +120,33 @@
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-;; Workaound for windows cmd.exe
+;; Set process I/O coding system, but doesn't use currently.
+;; encoding means Emacs -> subprocess
+;; decoging means Emacs <- subprocess
+;; (setq default-process-coding-system ?)  
+;; (setq process-coding-system-alist ?)
+;;
+;; specify special process I/O coding system
 ;; (when (eq system-type 'windows-nt)
 ;;   (set-default 'process-coding-system-alist
-;;                '(("[pP][lL][iI][nN][kK]" gbk . gbk)
-;; 	               ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk . gbk)
-;; 	               ("[gG][sS]" gbk . gbk))))
+;;                '(("[pP][lL][iI][nN][kK]" utf-8-dos . gbk-dos)
+;;                  ("[cC][mM][dD][pP][rR][oO][xX][yY]" utf-8-dos . gbk-dos)
+;;                  ("[gG][sS]" utf-8-dos . gbk-dos)
+;;                  ("[rR][gG]" utf-8-dos . gbk-dos))))
+;;
+;; specify the coding system for write operations, if some apps need special treatment 
+;; (let ((coding-system-for-write coding-system)) body)
+
+;; Other rare coding variables
+;; w32-ansi-code-page
+;; w32-multibyte-code-page
+;; locale-coding-system
+;; set-locale-environment
+;; default-file-name-coding-system,
+;; keyboard-coding-system
+;; w32-unicode-filenames
+;; file-name-coding-system
+;; DEFSYM (Qno_conversion, "no-conversion")
 
 ;;----------------------------------------------------------------------------
 ;; Face and Font
@@ -603,16 +624,20 @@
   "Show the full path file name in the minibuffer."
   (interactive)
   (message (buffer-file-name))
-  (kill-new (file-truename buffer-file-name))
-  )
+  (kill-new (file-truename buffer-file-name)))
 
 ;; Use F2 open init.el
 (defun open-init-file()
   (interactive)
   (find-file "~/.emacs.d/init.el")
   (treemacs--follow))
-
 (global-set-key (kbd "<f2>") 'open-init-file)
+
+;; Use F6 open *Messages* buffer for debugging
+;; (defun open-message-bufffer()
+;;   (interactive)
+;;   (switch-to-buffer "*Messages*"))
+;; (global-set-key (kbd "<f6>") 'open-message-bufffer)
 
 ;; Automatically add an Imenu menu to the menu bar
 (defun try-to-add-imenu ()
@@ -708,6 +733,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'slime)
 (require-package 'drag-stuff)
 ;; (require-package 'racket-mode)
+;; (require-package 'rg)
 
 
 
@@ -1047,17 +1073,29 @@ unmodified snippet field.")
 (require 'rg)
 (setq rg-executable "C:/env/ripgrep/ripgrep-14.1.0-x86_64-pc-windows-msvc/rg.exe")
 (setenv "RIPGREP_CONFIG_PATH" "C:/env/ripgrep/config/.ripgreprc")
+;; (setq rg-command-line-flags '("--encoding=utf-8"))
 
 (when (eq system-type 'windows-nt)
   (setq rg-w32-unicode t))
+
+;; Just for debugging rg-w32-unicode feature, no need to exist after finish.
+;; Keep it here as an example of start-process.
+;; (apply 'start-process
+;;        "rg"
+;;        "newbuffer123"
+;;        "C:/green/emacs/libexec/emacs/28.2/x86_64-w64-mingw32/cmdproxy.exe"
+;;        (list 
+;;         "-c"
+;;         "c:/Users/Chansey/AppData/Roaming/.emacs.d/rg-w32-ripgrep-proxy.bat"))
+;; Note:
+;; The args of cmdproxy.exe are list item
+;; The args of rg-w32-ripgrep-proxy.bat are substring, i.e. "c:/.../rg-w32-ripgrep-proxy.bat new-args"
 
 ;;----------------------------------------------------------------------------
 ;; smooth-scroll
 ;;----------------------------------------------------------------------------
 ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(when (version< emacs-version "28.1")
-  ;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L572
-  (setq mouse-wheel-progressive-speed nil)) ;; don't accelerate scrolling
+(setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
 ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 
