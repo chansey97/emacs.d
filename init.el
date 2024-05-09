@@ -1045,6 +1045,7 @@ unmodified snippet field.")
 ;; rg.el
 ;;----------------------------------------------------------------------------
 (require 'rg)
+(setq rg-executable "C:/env/ripgrep/ripgrep-14.1.0-x86_64-pc-windows-msvc/rg.exe")
 (setenv "RIPGREP_CONFIG_PATH" "C:/env/ripgrep/config/.ripgreprc")
 
 (when (eq system-type 'windows-nt)
