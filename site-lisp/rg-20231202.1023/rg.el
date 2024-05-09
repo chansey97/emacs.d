@@ -268,6 +268,18 @@ Do this for each type in `rg-custom-type-aliases'."
   "Return non nil if FILES is a custom file pattern."
   (not (assoc files (rg-get-type-aliases))))
 
+(defcustom rg-w32-unicode
+  (if (eq system-type 'windows-nt) t nil)
+  "Enable the workaround for NTEmacs subprocess not supporting Unicode arguments."
+  :group 'rg
+  :type 'boolean)
+
+(defcustom rg-w32-ripgrep-proxy
+  (expand-file-name "rg-w32-ripgrep-proxy.bat" user-emacs-directory)
+  "Enable the workaround for NTEmacs subprocess not supporting Unicode arguments."
+  :group 'rg
+  :type 'boolean)
+
 (defun rg-build-command (pattern files literal flags)
   "Create the command line for PATTERN and FILES.
 LITERAL determines if search will be literal or regexp based and FLAGS
@@ -297,10 +309,18 @@ are command line flags to use for the search."
           (when (member system-type '(darwin windows-nt))
             (list ".")))))
 
-    (grep-expand-template
-     (mapconcat 'identity (cons (rg-executable) (delete-dups command-line)) " ")
-     pattern
-     (if (rg-is-custom-file-pattern files) "custom" files))))
+    (let ((command (grep-expand-template
+                    (mapconcat 'identity (cons (rg-executable) (delete-dups command-line)) " ")
+                    pattern
+                    (if (rg-is-custom-file-pattern files) "custom" files))))
+      (cond ((and (eq system-type 'windows-nt) rg-w32-unicode)
+             (with-temp-file rg-w32-ripgrep-proxy
+               (insert (format "@echo off\n"))
+               (insert (format "chcp 65001 > null\n"))
+               (insert (format "%s\n" command)))
+             rg-w32-ripgrep-proxy)
+            (t command)))
+    ))
 
 (defun rg-invoke-rg-type-list ()
   "Invokes rg --type-list and return the result."
