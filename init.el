@@ -1044,6 +1044,9 @@ unmodified snippet field.")
 ;;----------------------------------------------------------------------------
 ;; rg.el
 ;;----------------------------------------------------------------------------
+(require 'rg)
+(setenv "RIPGREP_CONFIG_PATH" "C:/env/ripgrep/config/.ripgreprc")
+
 (when (eq system-type 'windows-nt)
   (setq rg-w32-unicode t))
 
