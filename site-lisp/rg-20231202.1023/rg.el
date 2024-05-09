@@ -144,6 +144,18 @@ Disabling this setting can break functionality of this package."
   :type 'boolean
   :group 'rg)
 
+(defcustom rg-w32-unicode
+  (if (eq system-type 'windows-nt) t nil)
+  "Enable the workaround for NTEmacs subprocess not supporting Unicode arguments."
+  :type 'boolean
+  :group 'rg)
+
+(defcustom rg-w32-ripgrep-proxy
+  (expand-file-name "rg-w32-ripgrep-proxy.bat" user-emacs-directory)
+  "An automatically generated temporary batch file used to proxy ripgrep Unicode arguments."
+  :type 'string
+  :group 'rg)
+
 ;;;###autoload
 (defvar rg-command-line-flags-function 'identity
   "Function to modify command line flags of a search.
@@ -267,18 +279,6 @@ Do this for each type in `rg-custom-type-aliases'."
 (defun rg-is-custom-file-pattern (files)
   "Return non nil if FILES is a custom file pattern."
   (not (assoc files (rg-get-type-aliases))))
-
-(defcustom rg-w32-unicode
-  (if (eq system-type 'windows-nt) t nil)
-  "Enable the workaround for NTEmacs subprocess not supporting Unicode arguments."
-  :group 'rg
-  :type 'boolean)
-
-(defcustom rg-w32-ripgrep-proxy
-  (expand-file-name "rg-w32-ripgrep-proxy.bat" user-emacs-directory)
-  "Enable the workaround for NTEmacs subprocess not supporting Unicode arguments."
-  :group 'rg
-  :type 'boolean)
 
 (defun rg-build-command (pattern files literal flags)
   "Create the command line for PATTERN and FILES.
