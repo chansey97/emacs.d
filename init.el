@@ -1079,9 +1079,10 @@ unmodified snippet field.")
 (setq rg-executable "C:/env/ripgrep/ripgrep-14.1.0-x86_64-pc-windows-msvc/rg.exe")
 (setenv "RIPGREP_CONFIG_PATH" "C:/env/ripgrep/config/.ripgreprc")
 ;; (setq rg-command-line-flags '("--encoding=utf-8"))
+;; (setq rg-command-line-flags '("--ignore-file=C:/Users/Chansey/AppData/Roaming/.emacs.d/你好世界/test.txt")) ; path has unicode is support
 
 (when (eq system-type 'windows-nt)
-  (setq rg-use-pattern-file t))
+  (setq rg-w32-unicode t))
 
 ;; Just for debugging rg-w32-unicode feature, no need to exist after finish.
 ;; Keep it here as an example of start-process.
