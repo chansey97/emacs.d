@@ -144,16 +144,16 @@ Disabling this setting can break functionality of this package."
   :type 'boolean
   :group 'rg)
 
-(defcustom rg-w32-unicode nil
-  "Enable Unicode support on Windows.
-A workaround for NTEmacs subprocess not supporting Unicode arguments."
+(defcustom rg-use-pattern-file nil
+  "Use ripgrep -f option to input pattern.
+This is very useful on Windows, because NTEmacs subprocess creation
+doesn't support Unicode arguments."
   :type 'boolean
   :group 'rg)
 
-(defcustom rg-w32-ripgrep-proxy
-  (expand-file-name "rg-w32-ripgrep-proxy.bat" user-emacs-directory)
-  "An automatically generated temporary batch file.
-Used to proxy ripgrep Unicode arguments."
+(defcustom rg-pattern-file
+  (expand-file-name "rg-pattern" temporary-file-directory)
+  "Whenever `rg' build a command, it generates a temp pattern file."
   :type 'string
   :group 'rg)
 
@@ -306,24 +306,18 @@ are command line flags to use for the search."
             (list "--fixed-strings"))
           (when (not (equal files "everything"))
             (list "--type=<F>"))
-          (list "-e <R>")
+          (list (if rg-use-pattern-file "-f <R>" "-e <R>"))
           (when (member system-type '(darwin windows-nt))
             (list ".")))))
-
-    (let ((command (grep-expand-template
-                    (mapconcat 'identity (cons (rg-executable) (delete-dups command-line)) " ")
-                    pattern
-                    (if (rg-is-custom-file-pattern files) "custom" files))))
-      (cond ((and (eq system-type 'windows-nt) rg-w32-unicode)
-             (with-temp-file rg-w32-ripgrep-proxy
+    (when rg-use-pattern-file
+      (with-temp-file rg-pattern-file
                (set-buffer-multibyte t)
-               (setq buffer-file-coding-system 'utf-8-dos)
-               (insert (format "@echo off\n"))
-               (insert (format "chcp 65001 > null\n"))
-               (insert (format "%s\n" command)))
-             rg-w32-ripgrep-proxy)
-            (t command)))
-    ))
+               (setq buffer-file-coding-system 'utf-8)
+               (insert (format "%s\n" pattern))))
+    (grep-expand-template
+     (mapconcat 'identity (cons (rg-executable) (delete-dups command-line)) " ")
+     (if rg-use-pattern-file rg-pattern-file pattern)
+     (if (rg-is-custom-file-pattern files) "custom" files))))
 
 (defun rg-invoke-rg-type-list ()
   "Invokes rg --type-list and return the result."

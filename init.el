@@ -1081,7 +1081,7 @@ unmodified snippet field.")
 ;; (setq rg-command-line-flags '("--encoding=utf-8"))
 
 (when (eq system-type 'windows-nt)
-  (setq rg-w32-unicode t))
+  (setq rg-use-pattern-file t))
 
 ;; Just for debugging rg-w32-unicode feature, no need to exist after finish.
 ;; Keep it here as an example of start-process.
