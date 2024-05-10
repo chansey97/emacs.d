@@ -1037,29 +1037,6 @@ unmodified snippet field.")
 (setq projectile-enable-caching t)
 (setq-default projectile-completion-system 'ivy)
 
-(defun projectile-get-project-directories/override () '("./"))
-(defun projectile-prepend-project-name/override (string) (format "[.] %s" string))
-
-(defun projectile-current-directory-grep ()
-  "Perform rgrep in the current directory."
-  (advice-add 'projectile-get-project-directories :override #'projectile-get-project-directories/override)
-  (advice-add 'projectile-prepend-project-name :override #'projectile-prepend-project-name/override)
-  (call-interactively 'projectile-grep)
-  (advice-remove 'projectile-get-project-directories #'projectile-get-project-directories/override)
-  (advice-remove 'projectile-prepend-project-name #'projectile-prepend-project-name/override))
-
-(defun sc-projectile-search (c)
-  "Perform various search."
-  (interactive
-   (list
-    (read-char "Search text in current directory (by default), or project (𝟭), or search file (𝟮): ")))
-  (cond
-   ((equal c ?1) (call-interactively 'projectile-grep))
-   ((equal c ?2) (call-interactively 'projectile--find-file))
-   (t (projectile-current-directory-grep))))
-
-(global-set-key (kbd "C-S-f") 'sc-projectile-search)
-
 (defun ch-remove-grep--command ()
   (save-excursion
     (goto-char 1)
