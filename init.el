@@ -113,7 +113,7 @@
 ;; Set emacs language environment
 (set-language-environment "UTF-8")
 
-;; Set coding system
+;; Set coding-system
 (set-default-coding-systems 'utf-8)
 (prefer-coding-system       'utf-8)
 
@@ -123,21 +123,26 @@
 ;; Set process I/O coding system, but doesn't use currently.
 ;; encoding means Emacs -> subprocess
 ;; decoging means Emacs <- subprocess
-;; (setq default-process-coding-system ?)  
-;; (setq process-coding-system-alist ?)
-;;
-;; specify special process I/O coding system
+
+;; Specify special process I/O coding-system.
+;; Note that many process start by cmdproxy.exe, e.g. cmdproxy -c rg xxx,
+;; if it is the case, ("[rR][gG]" utf-8-dos . gbk-dos) has no effect.
 ;; (when (eq system-type 'windows-nt)
 ;;   (set-default 'process-coding-system-alist
-;;                '(("[pP][lL][iI][nN][kK]" utf-8-dos . gbk-dos)
-;;                  ("[cC][mM][dD][pP][rR][oO][xX][yY]" utf-8-dos . gbk-dos)
-;;                  ("[gG][sS]" utf-8-dos . gbk-dos)
-;;                  ("[rR][gG]" utf-8-dos . gbk-dos))))
+;;                '(("[pP][lL][iI][nN][kK]" utf-8-dos . ,locale-coding-system)
+;;                  ("[cC][mM][dD][pP][rR][oO][xX][yY]" utf-8-dos . ,locale-coding-system)
+;;                  ("[rR][gG]" utf-8-dos . ,locale-coding-system))))
 ;;
-;; specify the coding system for write operations, if some apps need special treatment 
+;; Specify the coding-system for write operations, if some apps need special treatment 
 ;; (let ((coding-system-for-write coding-system)) body)
 
-;; Other rare coding variables
+;; Procss coding-system related variables (see example of rg-w32-unicode below):
+;; process-coding-system-alist
+;; prefer-coding-system
+;; set-default-coding-systems
+;; default-process-coding-system
+
+;; Other rare coding-system variables:
 ;; w32-ansi-code-page
 ;; w32-multibyte-code-page
 ;; locale-coding-system
@@ -1087,7 +1092,12 @@ unmodified snippet field.")
 ;;        (list 
 ;;         "-c"
 ;;         "c:/Users/Chansey/AppData/Roaming/.emacs.d/rg-w32-ripgrep-proxy.bat"))
-;; Note:
+;; Note 1: the newbuffer123's coding system depends on the following (priority from high to low)
+;; process-coding-system-alist
+;; prefer-coding-system
+;; set-default-coding-systems
+;; default-process-coding-system
+;; Note 2:
 ;; The args of cmdproxy.exe are list item
 ;; The args of rg-w32-ripgrep-proxy.bat are substring, i.e. "c:/.../rg-w32-ripgrep-proxy.bat new-args"
 
