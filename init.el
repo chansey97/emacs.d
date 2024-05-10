@@ -188,14 +188,6 @@
   (require 'back-button)
   (back-button-mode 1))
 
-;; Other buttons
-(defun omar-hotel ()
-  "another nonce menu function"
-  (interactive)
-  (message "hotel, motel, holiday inn"))
-
-(tool-bar-add-item "spell" 'omar-hotel 'omar-hotel :help "Run fonction omar-hotel")
-
 ;;----------------------------------------------------------------------------
 ;; Dired
 ;;----------------------------------------------------------------------------
@@ -665,12 +657,22 @@
 ;; Mark
 (setq global-mark-ring-max 500)
 
-;; Clear *Messages* buffer, if too many messages.
+;; Open *Messages* buffer
+(defun open-messages-buffer ()
+  (interactive)
+  (switch-to-buffer-other-window "*Messages*"))
+
+(tool-bar-add-item "show" 'open-messages-buffer 'open-messages-buffer :help "Open *Messages* buffer")
+
+;; Erase *Messages* buffer
 (defun erase-messages-buffer ()
   (interactive)
   (let ((inhibit-read-only t))
     (with-current-buffer "*Messages*"
       (erase-buffer))))
+
+;; ICON can be found at emacs/share/emacs/28.2/etc/images
+(tool-bar-add-item "delete" 'erase-messages-buffer 'erase-messages-buffer :help "Erase *Messages* buffer")
 
 ;; Redefine xref-find-references keybinding 
 ;; xref-find-references's keybinding should be M-?, I don't know why it be used by dabbrev-expand M-/
