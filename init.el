@@ -1037,18 +1037,6 @@ unmodified snippet field.")
 (setq projectile-enable-caching t)
 (setq-default projectile-completion-system 'ivy)
 
-(defun ch-remove-grep--command ()
-  (save-excursion
-    (goto-char 1)
-    (search-forward "Grep started at " nil t)
-    (line-move 2)
-    (delete-region (line-beginning-position) (line-end-position))
-    )
-  )
-
-(add-hook 'compilation-filter-hook 'ch-remove-grep--command)
-
-
 ;;----------------------------------------------------------------------------
 ;; rg.el
 ;;----------------------------------------------------------------------------
