@@ -660,7 +660,8 @@
 ;; Open *Messages* buffer
 (defun open-messages-buffer ()
   (interactive)
-  (switch-to-buffer-other-window "*Messages*"))
+  ;; (switch-to-buffer-other-window "*Messages*")
+  (pop-to-buffer "*Messages*"))
 
 (tool-bar-add-item "show" 'open-messages-buffer 'open-messages-buffer :help "Open *Messages* buffer")
 
