@@ -1019,12 +1019,12 @@ unmodified snippet field.")
 ;; (setq rg-command-line-flags '("--ignore-file=C:/Users/Chansey/AppData/Roaming/.emacs.d/你好世界/test.txt")) ; path has unicode is support
 
 (transient-define-prefix sc-search ()
-    "A menu to do various searches"
-    [["Various Searches"
-      ("1" "rg" rg)
-      ("2" "rg-project" rg-project)
-      ("3" "rg-menu" rg-menu)
-      ("4" "projectile--find-file" projectile--find-file)]])
+  "A menu to do various searches"
+  [["Various Searches"
+    ("1" "rg" rg)
+    ("2" "rg-project" rg-project)
+    ("3" "rg-menu" rg-menu)
+    ("4" "projectile--find-file" projectile--find-file)]])
 (global-set-key (kbd "C-S-f") 'sc-search)
 
 ;; Just for debugging rg-w32-unicode feature, no need to exist after finish.
