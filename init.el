@@ -1174,6 +1174,13 @@ unmodified snippet field.")
 ;;----------------------------------------------------------------------------
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook (lambda () (local-set-key [f5] 'eval-last-sexp)))
+
+(defun emacs-lisp-describe-dwim ()
+  (interactive)
+  (describe-symbol (symbol-at-point)))
+
+(add-hook 'emacs-lisp-mode-hook (lambda () (local-set-key [f1] 'emacs-lisp-describe-dwim)))
+
 (add-hook 'lisp-interaction-mode 'enable-paredit-mode)
 
 (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
