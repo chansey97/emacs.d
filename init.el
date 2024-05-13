@@ -730,8 +730,6 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'paredit)
 (require-package 'ace-window)
 (require-package 'undo-tree)
-;; (require-package 'tabbar)
-;; (require-package 'tabbar-ruler)
 (require-package 'projectile)
 (require-package 'ggtags)
 (require-package 'sml-mode)
@@ -995,7 +993,6 @@ unmodified snippet field.")
 ;; Tab Line
 ;;----------------------------------------------------------------------------
 (require 'sc-tab-line)
-;; (require 'sc-tabbar)
 
 ;;----------------------------------------------------------------------------
 ;; projectile
