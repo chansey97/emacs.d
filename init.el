@@ -733,7 +733,7 @@ re-downloaded in order to locate PACKAGE."
 (require-package 'counsel)
 (require-package 'swiper)
 (require-package 'expand-region)
-(require-package 'popwin)
+;; (require-package 'popwin)
 (require-package 'symbol-overlay)
 (require-package 'markdown-mode)
 (require-package 'smartparens)
