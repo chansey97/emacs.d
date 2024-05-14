@@ -662,6 +662,11 @@
   (interactive)
   ;; (switch-to-buffer-other-window "*Messages*")
   (pop-to-buffer "*Messages*"))
+;; pop-to-buffer still has problem, 
+;; if Message buffer in the some window' tab
+;; For example, if bottom window tab has messsage, but select a buffer that not message
+;; then click this button won't show Message at the botton！but display at the top!
+;; Message window is something like werie, because it will disappear when click other tab...but this bug has the same problem with init.el
 
 (tool-bar-add-item "show" 'open-messages-buffer 'open-messages-buffer :help "Open *Messages* buffer")
 
@@ -674,6 +679,8 @@
 
 ;; ICON can be found at emacs/share/emacs/28.2/etc/images
 (tool-bar-add-item "delete" 'erase-messages-buffer 'erase-messages-buffer :help "Erase *Messages* buffer")
+
+;; TODO: Open *scratch* buffer and *ielm* buffer
 
 ;; Redefine xref-find-references keybinding 
 ;; xref-find-references's keybinding should be M-?, I don't know why it be used by dabbrev-expand M-/
@@ -717,6 +724,8 @@ re-downloaded in order to locate PACKAGE."
       (progn
         (package-refresh-contents)
         (require-package package min-version t)))))
+
+;; Need package-refresh-contents first before installing
 
 (require-package 'avy)
 (require-package 'ivy)
@@ -888,6 +897,8 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; (require 'popwin)
 ;; (popwin-mode t)
+;; (add-to-list popwin:special-display-config '(help-mode 0.5 :position below))
+;; help-mode 的 window 会在底部弹出，是因为 popwin-mode 的关系，并非 help-mode 有什么特殊
 
 ;;----------------------------------------------------------------------------
 ;; symbol-overlay (highlight at cursor)
