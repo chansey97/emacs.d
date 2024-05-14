@@ -1451,16 +1451,18 @@ re-downloaded in order to locate PACKAGE."
             ))
 
 (defun sml--at-expression-paredit-space-for-delimiter-predicate (endp delimiter)
-  (if (and (memq major-mode '(sml-mode inferior-sml-mode))
-           (not endp))
-      nil
-    t))
+  (if (not endp) nil t))
 
-(eval-after-load 'paredit
-  '(add-hook 'paredit-space-for-delimiter-predicates
-             'sml--at-expression-paredit-space-for-delimiter-predicate))
+(add-hook 'sml-mode-hook
+          (lambda ()
+            (setq-local paredit-space-for-delimiter-predicates '(sml--at-expression-paredit-space-for-delimiter-predicate))
+            (enable-paredit-mode)))
 
-(add-hook 'sml-mode-hook 'enable-paredit-mode)
+(add-hook 'inferior-sml-mode-hook
+          (lambda ()
+            (setq-local paredit-space-for-delimiter-predicates '(sml--at-expression-paredit-space-for-delimiter-predicate))
+            (enable-paredit-mode)))
+
 
 ;;----------------------------------------------------------------------------
 ;; OCaml (tuareg)
@@ -1566,16 +1568,17 @@ re-downloaded in order to locate PACKAGE."
 (define-key prolog-mode-map [f8]  'ediprolog-kill)
 
 (defun prolog--at-expression-paredit-space-for-delimiter-predicate (endp delimiter)
-  (if (and (memq major-mode '(prolog-mode prolog-inferior-mode))
-           (not endp))
-      nil
-    t))
+  (if (not endp) nil t))
 
-(eval-after-load 'paredit
-  '(add-hook 'paredit-space-for-delimiter-predicates
-             'prolog--at-expression-paredit-space-for-delimiter-predicate))
+(add-hook 'prolog-mode-hook
+          (lambda ()
+            (setq-local paredit-space-for-delimiter-predicates '(prolog--at-expression-paredit-space-for-delimiter-predicate))
+            (enable-paredit-mode)))
 
-(add-hook 'prolog-mode-hook 'enable-paredit-mode)
+(add-hook 'prolog-inferior-mode-hook
+          (lambda ()
+            (setq-local paredit-space-for-delimiter-predicates '(prolog--at-expression-paredit-space-for-delimiter-predicate))
+            (enable-paredit-mode)))
 
 ;;----------------------------------------------------------------------------
 ;; SMT
