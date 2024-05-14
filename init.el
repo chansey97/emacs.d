@@ -983,6 +983,13 @@ re-downloaded in order to locate PACKAGE."
 (require 'sc-tab-line)
 
 ;;----------------------------------------------------------------------------
+;; Header Line
+;;----------------------------------------------------------------------------
+;; Header Line is originally used by tabbar.el, which can be dragged to resize
+;; window. Still want to use, because you can't drag Tab Line...
+;; (setq-default header-line-format "")
+
+;;----------------------------------------------------------------------------
 ;; projectile
 ;;----------------------------------------------------------------------------
 (require 'projectile)
@@ -1482,6 +1489,7 @@ re-downloaded in order to locate PACKAGE."
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
 (require 'haskell-process)
+
 (setq haskell-process-suggest-remove-import-lines t
       haskell-process-auto-import-loaded-modules t
       haskell-process-type 'ghci)
