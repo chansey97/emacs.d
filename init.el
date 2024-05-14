@@ -627,7 +627,8 @@
 (defun open-init-file()
   (interactive)
   (find-file "~/.emacs.d/init.el")
-  (treemacs--follow))
+  (when (fboundp 'treemacs--follow)
+    (treemacs--follow)))
 (global-set-key (kbd "<f2>") 'open-init-file)
 
 ;; Use F6 open *Messages* buffer for debugging

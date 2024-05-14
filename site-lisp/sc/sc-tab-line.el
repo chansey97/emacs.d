@@ -80,7 +80,9 @@
       (switch-to-buffer buffer)
       (force-mode-line-update))
     ;;(treemacs--follow-tag-at-point)
-    (treemacs--follow)))
+    (when (fboundp 'treemacs--follow)
+      (treemacs--follow))
+    ))
 
 (defun sc-tab-line-tab-open-folder-in-explorer (&optional event)
   (interactive (list last-nonmenu-event))
