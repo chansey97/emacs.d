@@ -1066,6 +1066,9 @@ re-downloaded in order to locate PACKAGE."
 ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 
+;; TODO: fast drag the vertical scroll bar would cause screen freezing
+;; Don't know what happen, but not the problem of cua-mode, back-button, and treemacs.
+
 ;;----------------------------------------------------------------------------
 ;; treemacs
 ;;----------------------------------------------------------------------------
