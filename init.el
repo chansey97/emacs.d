@@ -1164,18 +1164,19 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; emacs-lisp-mode
 ;;----------------------------------------------------------------------------
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'emacs-lisp-mode-hook (lambda () (local-set-key [f5] 'eval-last-sexp)))
-
 (defun emacs-lisp-describe-dwim ()
   (interactive)
   (describe-symbol (symbol-at-point)))
 
-(add-hook 'emacs-lisp-mode-hook (lambda () (local-set-key [f1] 'emacs-lisp-describe-dwim)))
+(define-key emacs-lisp-mode-map [f1] 'emacs-lisp-describe-dwim)
+(define-key help-mode-map [f1] 'emacs-lisp-describe-dwim)
+
+(define-key emacs-lisp-mode-map [f5] 'eval-last-sexp)
+
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 
 (add-hook 'lisp-interaction-mode 'enable-paredit-mode)
-
-(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
 
 ;;----------------------------------------------------------------------------
@@ -1350,16 +1351,14 @@ re-downloaded in order to locate PACKAGE."
         ((sc-current-line-empty-p) (racket-run-module-at-point))
         (t (racket-send-last-sexp))))
 
+(define-key racket-mode-map [f1] 'racket-xp-documentation)
+(define-key racket-mode-map [f5] 'racket-run-dwim)
+(define-key racket-mode-map [f6] 'racket-expand-last-sexp)
+(define-key racket-mode-map [f7] 'racket-run-with-debugging)
+(define-key racket-mode-map [f8] 'racket-debug-disable)
+
 (add-hook 'racket-mode-hook 'racket-xp-mode)
 (add-hook 'racket-mode-hook 'enable-paredit-mode)
-(add-hook 'racket-mode-hook
-          (lambda ()
-            (local-set-key [f1] 'racket-xp-documentation)
-            (local-set-key [f5] 'racket-run-dwim)
-            (local-set-key [f6] 'racket-expand-last-sexp)
-            (local-set-key [f7] 'racket-run-with-debugging)
-            (local-set-key [f8] 'racket-debug-disable)
-            ))
 
 ;; (setq racket-logger-config '((racket-mode . debug)
 ;;                             (cm-accomplice . warning)
@@ -1394,6 +1393,8 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; sml-mode
 ;;----------------------------------------------------------------------------
+(require 'sml-mode)
+
 (defun my-sml-rules (orig kind token)
   (pcase (cons kind token)
     (`(:before . "d=")
@@ -1428,6 +1429,12 @@ re-downloaded in order to locate PACKAGE."
         ((sc-current-line-empty-p) (call-interactively 'sml-prog-proc-load-file))
         (t (sml-prog-proc-send-line))))
 
+(define-key sml-mode-map [f5] 'run-sml-dwim)
+(define-key sml-mode-map (kbd "M-<up>") 'drag-stuff-up)
+(define-key sml-mode-map (kbd "M-<down>") 'drag-stuff-down)
+(define-key sml-mode-map (kbd "C-<down>") 'forward-paragraph)
+(define-key sml-mode-map (kbd "C-<up>") 'backward-paragraph)
+
 (add-hook 'sml-mode-hook
           (lambda ()
             ;; In SML, newline + auto-indentation works fine only if the statements
@@ -1435,14 +1442,12 @@ re-downloaded in order to locate PACKAGE."
             ;; So `electric-indent-mode  have to be disabled for this major mode.
             (electric-indent-local-mode -1)
             (setq-local company-backends company-backends-non-lisp)
+            ))
 
-            (local-set-key [f5] 'run-sml-dwim)
-
-            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
-            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
-            
-            (local-set-key (kbd "C-<down>") 'forward-paragraph)
-            (local-set-key (kbd "C-<up>")   'backward-paragraph)
+(add-hook 'inferior-sml-mode-hook
+          (lambda ()
+            (electric-indent-local-mode -1)
+            (setq-local company-backends company-backends-non-lisp)
             ))
 
 (defun sml--at-expression-paredit-space-for-delimiter-predicate (endp delimiter)
@@ -1464,12 +1469,9 @@ re-downloaded in order to locate PACKAGE."
 (setq tuareg-indent-align-with-first-arg t
       tuareg-match-patterns-aligned t)
 
-(add-hook 'tuareg-mode-hook
-          (lambda ()
-            (define-key tuareg-mode-map (kbd "<f8>") 'caml-types-show-type)
-            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
-            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
-            ))
+(define-key tuareg-mode-map [f8] 'caml-types-show-type)
+(define-key tuareg-mode-map (kbd "M-<up>") 'drag-stuff-up)
+(define-key tuareg-mode-map (kbd "M-<down>") 'drag-stuff-down)
 
 ;;----------------------------------------------------------------------------
 ;; haskell-mode
@@ -1485,6 +1487,11 @@ re-downloaded in order to locate PACKAGE."
 (define-key haskell-mode-map (kbd "M-.") 'haskell-mode-jump-to-def)
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 
+(define-key haskell-mode-map (kbd "M-<up>")   'drag-stuff-up)
+(define-key haskell-mode-map (kbd "M-<down>") 'drag-stuff-down)
+(define-key haskell-mode-map (kbd "C-<down>") 'forward-paragraph)
+(define-key haskell-mode-map (kbd "C-<up>")   'backward-paragraph)
+
 (defun haskell-process-toggle ()
   "Toggle GHCi process between cabal and ghci"
   (interactive)
@@ -1493,15 +1500,6 @@ re-downloaded in order to locate PACKAGE."
              (message "Using cabal repl"))
     (progn (setq haskell-process-type 'ghci)
            (message "Using GHCi"))))
-
-(add-hook 'haskell-mode-hook
-          (lambda ()
-            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
-            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
-            
-            (local-set-key (kbd "C-<down>") 'forward-paragraph)
-            (local-set-key (kbd "C-<up>")   'backward-paragraph)
-            ))
 
 ;;----------------------------------------------------------------------------
 ;; Prolog
@@ -1533,15 +1531,16 @@ re-downloaded in order to locate PACKAGE."
 (add-hook 'prolog-mode-hook
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
-            (local-set-key (kbd "C-M-c") 'comment-line)
-            (local-set-key (kbd "<f1>")   'prolog-help-on-predicate)
-            
-            (local-set-key (kbd "M-<up>")   'drag-stuff-up)
-            (local-set-key (kbd "M-<down>") 'drag-stuff-down)
-            
-            (local-set-key (kbd "C-<down>") 'prolog-end-of-clause)
-            (local-set-key (kbd "C-<up>")   'prolog-beginning-of-clause)
             ))
+
+(define-key prolog-mode-map (kbd "C-M-c")      'comment-line)
+(define-key prolog-mode-map (kbd "<f1>")       'prolog-help-on-predicate)
+
+(define-key prolog-mode-map (kbd "M-<up>")     'drag-stuff-up)
+(define-key prolog-mode-map (kbd "M-<down>")   'drag-stuff-down)
+
+(define-key prolog-mode-map (kbd "C-<down>")   'prolog-end-of-clause)
+(define-key prolog-mode-map (kbd "C-<up>")     'prolog-beginning-of-clause)
 
 (add-hook 'prolog-inferior-mode-hook
           (lambda ()
@@ -1559,14 +1558,12 @@ re-downloaded in order to locate PACKAGE."
   (let ((current-prefix-arg 0))
     (call-interactively 'ediprolog-dwim)))
 
-(add-hook 'prolog-mode-hook
-          (lambda ()
-            ;; press [f5] to query, when cursor at ?-, 
-            ;; press [f5] to consult file, when cursor at other position
-            ;; press C-0 [f5] to kill ediprog's process
-            (local-set-key [f5] 'ediprolog-dwim) ; when interaction block Emacs, press C-g to unblock
-            (local-set-key [f6] 'ediprolog-toplevel) ; press f6 to resume interaction 
-            (local-set-key [f8] 'ediprolog-kill)))
+;; press [f5] to query, when cursor at ?-, 
+;; press [f5] to consult file, when cursor at other position
+;; press C-0 [f5] to kill ediprog's process
+(define-key prolog-mode-map [f5]  'ediprolog-dwim)  ; when interaction block Emacs, press C-g to unblock
+(define-key prolog-mode-map [f6]  'ediprolog-toplevel)  ; press f6 to resume interaction 
+(define-key prolog-mode-map [f8]  'ediprolog-kill)
 
 (defun prolog--at-expression-paredit-space-for-delimiter-predicate (endp delimiter)
   (if (and (memq major-mode '(prolog-mode prolog-inferior-mode))
@@ -1587,11 +1584,8 @@ re-downloaded in order to locate PACKAGE."
 (add-to-list 'auto-mode-alist '("\\.smt\\'" . smt-mode))
 (add-to-list 'auto-mode-alist '("\\.smt2\\'" . smt-mode))
 
-(add-hook 'smt-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-<down>") 'forward-paragraph)
-            (local-set-key (kbd "C-<up>")   'backward-paragraph) 
-            ))
+(define-key smt-mode-map (kbd "C-<down>")  'forward-paragraph)
+(define-key smt-mode-map (kbd "C-<up>")  'backward-paragraph)
 
 ;;----------------------------------------------------------------------------
 ;; SQL Mode
@@ -1606,14 +1600,16 @@ re-downloaded in order to locate PACKAGE."
         (t (sql-send-line-and-next))
         ))
 
+(define-key sql-mode-map [f5]  'sql-send-dwim)
+(define-key sql-mode-map (kbd "C-M-c")  'comment-line)
+(define-key sql-mode-map (kbd "C-M-u")  'sql-upcase-buffer)
+
 (add-hook 'sql-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode)
 (add-hook 'sql-mode-hook (lambda ()
                            (setq-local company-backends company-backends-non-lisp)
-                           (local-set-key (kbd "C-M-c") 'comment-line)
-                           (local-set-key [f5] 'sql-send-dwim)
-                           (local-set-key (kbd "C-M-u") 'sql-upcase-buffer)
                            ))
+
 ;; sqlite
 ;; avoid conflicting with cygwin's sqlite3 
 (setq sql-sqlite-program "c:/env/sqlite/sqlite-win32-x86-3370000/sqlite3.exe")
