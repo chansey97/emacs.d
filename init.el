@@ -208,45 +208,43 @@
 (cua-mode 1)
 
 ;; standard keyboard shortcuts for {Open, Close, Save, Save As, Select All, …}
-(progn
-  ;; make emacs use standard keys
 
-  ;; Select All. was move-beginning-of-line
-  (global-set-key (kbd "C-a") 'mark-whole-buffer)
+;; make emacs use standard keys
 
-  ;; search forward with Ctrl-f. was forward-char
-  (global-set-key (kbd "C-f") 'isearch-forward)
-  (define-key isearch-mode-map [(control f)] (lookup-key isearch-mode-map "\C-s"))
-  (define-key minibuffer-local-isearch-map [(control f)]
-    (lookup-key minibuffer-local-isearch-map "\C-s"))
+;; Select All. was move-beginning-of-line
+(global-set-key (kbd "C-a") 'mark-whole-buffer)
 
-  ;; search backward with Alt-f. 
-  (global-set-key (kbd "M-f") 'isearch-backward)
-  (define-key isearch-mode-map [(meta f)] (lookup-key isearch-mode-map "\C-r"))
-  (define-key minibuffer-local-isearch-map [(meta f)]
-    (lookup-key minibuffer-local-isearch-map "\C-r"))
-  
-  (define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
-  
-  ;; Save. was isearch-forward
-  (global-set-key (kbd "C-s") 'save-buffer)
+;; search forward with Ctrl-f. was forward-char
+;; (global-set-key (kbd "C-f") 'isearch-forward)
+;; (define-key isearch-mode-map [(control f)] (lookup-key isearch-mode-map "\C-s"))
+;; (define-key minibuffer-local-isearch-map [(control f)]
+;;   (lookup-key minibuffer-local-isearch-map "\C-s"))
 
-  ;; Save As. was nil
-  (global-set-key (kbd "C-S-s") 'write-file)
+;; search backward with Alt-f. 
+;; (global-set-key (kbd "M-f") 'isearch-backward)
+;; (define-key isearch-mode-map [(meta f)] (lookup-key isearch-mode-map "\C-r"))
+;; (define-key minibuffer-local-isearch-map [(meta f)]
+;;   (lookup-key minibuffer-local-isearch-map "\C-r"))
 
-  ;; Paste. was scroll-up-command
-  (global-set-key (kbd "C-v") 'yank)
+;; (define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
 
-  ;; Close. was kill-region
-  (global-set-key (kbd "C-w") 'kill-buffer)
+;; Save. was isearch-forward
+(global-set-key (kbd "C-s") 'save-buffer)
 
-  ;; Redo. was yank
-  (global-set-key (kbd "C-y") 'redo)
+;; Save As. was nil
+;; (global-set-key (kbd "C-S-s") 'write-file)
 
-  ;; Undo. was suspend-frame
-  (global-set-key (kbd "C-z") 'undo)
-  ;;
-  )
+;; Paste. was scroll-up-command
+(global-set-key (kbd "C-v") 'yank)
+
+;; Close. was kill-region
+(global-set-key (kbd "C-w") 'kill-buffer)
+
+;; Redo. was yank
+(global-set-key (kbd "C-y") 'redo) ; undo-tree-redo
+
+;; Undo. was suspend-frame
+(global-set-key (kbd "C-z") 'undo)
 
 ;; make typing delete/overwrites selected text
 (delete-selection-mode 1)
@@ -325,7 +323,7 @@
 ;; when a file is updated outside emacs, make it update if it's already opened in emacs
 (global-auto-revert-mode 1)
 
-;; TODO: Trt 'kill-buffer-delete-auto-save-files' in Emacs 28.1
+;; TODO: Try 'kill-buffer-delete-auto-save-files' in Emacs 28.1
 ;; https://github.com/emacs-mirror/emacs/blob/8098ad9679c7f5ea19493bdae18227f7a81b3eb4/etc/NEWS.28#L316
 
 ;;----------------------------------------------------------------------------
@@ -369,29 +367,28 @@
 ;; (global-whitespace-newline-mode 1)
 
 ;; tab region like visual studio (means: use customized tab instead of emacs' tab)
-(defun indent-region-custom(numSpaces)
-  (progn
-    ;; default to start and end of current line
-    (setq regionStart (line-beginning-position))
-    (setq regionEnd (line-end-position))
+(defun indent-region-custom (numSpaces)
+  
+  ;; default to start and end of current line
+  (setq regionStart (line-beginning-position))
+  (setq regionEnd (line-end-position))
 
-    ;; if there's a selection, use that instead of the current line
-    (when (use-region-p)
-      (setq regionStart (region-beginning))
-      (setq regionEnd (region-end))
-      )
-
-    (save-excursion ; restore the position afterwards
-      (goto-char regionStart) ; go to the start of region
-      (setq start (line-beginning-position)) ; save the start of the line
-      (goto-char regionEnd) ; go to the end of region
-      (setq end (line-end-position)) ; save the end of the line
-
-      (indent-rigidly start end numSpaces) ; indent between start and end
-      (setq deactivate-mark nil) ; restore the selected region
-      )
+  ;; if there's a selection, use that instead of the current line
+  (when (use-region-p)
+    (setq regionStart (region-beginning))
+    (setq regionEnd (region-end))
     )
-  )
+  
+  ;; restore the position afterwards
+  (save-excursion
+    (goto-char regionStart) ; go to the start of region
+    (setq start (line-beginning-position)) ; save the start of the line
+    (goto-char regionEnd) ; go to the end of region
+    (setq end (line-end-position)) ; save the end of the line
+
+    (indent-rigidly start end numSpaces) ; indent between start and end
+    (setq deactivate-mark nil) ; restore the selected region
+    ))
 
 (defun untab-region (N)
   (interactive "p")
@@ -503,16 +500,15 @@
 ;; disable warnings
 ;;----------------------------------------------------------------------------
 
-(progn
-  ;; stop warning prompt for some commands. There's always undo.
-  (put 'narrow-to-region 'disabled nil)
-  (put 'narrow-to-page 'disabled nil)
-  (put 'upcase-region 'disabled nil)
-  (put 'downcase-region 'disabled nil)
-  (put 'erase-buffer 'disabled nil)
-  (put 'scroll-left 'disabled nil)
-  (put 'dired-find-alternate-file 'disabled nil)
-  )
+;; stop warning prompt for some commands. There's always undo.
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
 
 ;;----------------------------------------------------------------------------
 ;; minibuffer
@@ -583,7 +579,7 @@
 ;; (w32explore "c:/Users/Chansey/AppData/Roaming/.emacs.d/site-lisp/")
 
 (defun open-folder-in-explorer ()
-  "Call when editing a file in a buffer. Open windows explorer in the current directory and select the current file"  
+  "Open windows explorer in the current directory and select the current file"  
   (interactive)
   (w32explore (convert-standard-filename buffer-file-name)))
 
@@ -786,28 +782,18 @@ re-downloaded in order to locate PACKAGE."
 (require 'yasnippet)
 (yas-global-mode 1)
 
-(defconst yas-maybe-clear-field
-  '(menu-item "" yas-clear-field
-              :filter yas--maybe-clear-field-filter)
-  "A conditional key definition.
-This can be used as a key definition in keymaps to bind a key to
-`yas-clear-field' only when at the beginning of an
-unmodified snippet field.")
+;; (defconst yas-maybe-clear-field '(menu-item "" yas-clear-field :filter yas--maybe-clear-field-filter)
+;;   "A conditional key definition.
+;; This can be used as a key definition in keymaps to bind a key to
+;; `yas-clear-field' only when at the beginning of an
+;; unmodified snippet field.")
 
-(setq-default yas-keymap  (let ((map (make-sparse-keymap)))
-                            (define-key map [(tab)]       'yas-next-field-or-maybe-expand)
-                            (define-key map (kbd "TAB")   'yas-next-field-or-maybe-expand)
-                            (define-key map [(shift tab)] 'yas-prev-field)
-                            (define-key map [backtab]     'yas-prev-field)
-                            (define-key map (kbd "C-g")   'yas-abort-snippet)
-                            (define-key map (kbd "C-d")   yas-maybe-skip-and-clear-field)
-                            (define-key map (kbd "DEL")   yas-maybe-clear-field)
-                            map))
+;; (define-key yas-keymap (kbd "DEL")   yas-maybe-clear-field)
 
-(defun yas-clear-field (&optional field)
-  "Clears unmodified FIELD if at field start."
-  (interactive)
-  (yas--skip-and-clear (or field (yas-current-field))))
+;; (defun yas-clear-field (&optional field)
+;;   "Clears unmodified FIELD if at field start."
+;;   (interactive)
+;;   (yas--skip-and-clear (or field (yas-current-field))))
 
 ;;----------------------------------------------------------------------------
 ;; company
@@ -861,16 +847,21 @@ unmodified snippet field.")
 ;;----------------------------------------------------------------------------
 ;; ivy & counsel & swiper
 ;;----------------------------------------------------------------------------
+(setq enable-recursive-minibuffers t)
+
 (require 'ivy)
-(require 'counsel)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
+;; (setq ivy-re-builders-alist '((swiper . regexp-quote))) ;  disable wildcard when C-f
+
+(require 'swiper)
 (global-set-key (kbd "C-f") 'swiper)
+
+(require 'counsel)
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-h f") 'counsel-describe-function)
-(global-set-key (kbd "C-h v") 'counsel-describe-variable)
+;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;; (global-set-key (kbd "C-h f") 'counsel-describe-function)
+;; (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 
 ;; tab complete in counsel
 (define-key counsel-find-file-map (kbd "<tab>") #'ivy-insert-current)
@@ -879,11 +870,6 @@ unmodified snippet field.")
 ;; IDO-style directory navigation
 (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
 (define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
-
-;; ;; disable wildcard when C-f
-;; (setq ivy-re-builders-alist
-;;       '((swiper . regexp-quote)
-;;         ))
 
 ;;----------------------------------------------------------------------------
 ;; Selection expand-region
@@ -1048,6 +1034,8 @@ unmodified snippet field.")
 ;;----------------------------------------------------------------------------
 ;; smooth-scroll
 ;;----------------------------------------------------------------------------
+;; (pixel-scroll-mode 1) ; Doesn't see any difference...
+
 ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
 ;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
