@@ -250,6 +250,9 @@
 (delete-selection-mode 1)
 
 ;; keyboard selection:  C-.
+;; Note: I can't bind C-m as 'set-mark-command, because in default emacs C-m is the same as RET.
+;; When run in a terminal, return and C-m are not distinguishable. https://stackoverflow.com/questions/7235381/unbind-c-m-from-ret
+;; (global-set-key (kbd "C-m") 'set-mark-command)
 (global-set-key (kbd "C-.") 'set-mark-command)
 
 ;; mouse selection: shift selection
