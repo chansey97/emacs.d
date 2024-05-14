@@ -853,6 +853,7 @@ re-downloaded in order to locate PACKAGE."
 (require 'ivy)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
+(add-to-list 'ivy-re-builders-alist '(t . ivy--regex-ignore-order))
 ;; (setq ivy-re-builders-alist '((swiper . regexp-quote))) ;  disable wildcard when C-f
 
 (require 'swiper)
