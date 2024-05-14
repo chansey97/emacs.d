@@ -1012,7 +1012,9 @@ re-downloaded in order to locate PACKAGE."
     ("1" "rg" rg)
     ("2" "rg-project" rg-project)
     ("3" "rg-menu" rg-menu)
-    ("4" "projectile--find-file" projectile--find-file)]])
+    ("4" "projectile--find-file" projectile--find-file)
+    ("5" "counsel-find-file" counsel-find-file)
+    ]])
 (global-set-key (kbd "C-S-f") 'sc-search)
 
 ;; Just for debugging rg-w32-unicode feature, no need to exist after finish.
