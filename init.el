@@ -626,7 +626,7 @@
 ;; Use F2 open init.el
 (defun open-init-file()
   (interactive)
-  (find-file "~/.emacs.d/init.el")
+  (find-file (expand-file-name "init.el" user-emacs-directory))
   (when (fboundp 'treemacs--follow)
     (treemacs--follow)))
 (global-set-key (kbd "<f2>") 'open-init-file)
@@ -663,11 +663,8 @@
   (interactive)
   ;; (switch-to-buffer-other-window "*Messages*")
   (pop-to-buffer "*Messages*"))
-;; pop-to-buffer still has problem, 
-;; if Message buffer in the some window' tab
-;; For example, if bottom window tab has messsage, but select a buffer that not message
-;; then click this button won't show Message at the botton！but display at the top!
-;; Message window is something like werie, because it will disappear when click other tab...but this bug has the same problem with init.el
+
+
 
 (tool-bar-add-item "show" 'open-messages-buffer 'open-messages-buffer :help "Open *Messages* buffer")
 
@@ -1190,16 +1187,20 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 (defun emacs-lisp-describe-dwim ()
   (interactive)
-  (describe-symbol (symbol-at-point)))
+  (let ((s (symbol-at-point)))
+    (if s (describe-symbol s) (call-interactively 'describe-symbol))))
 
 (define-key emacs-lisp-mode-map [f1] 'emacs-lisp-describe-dwim)
 (define-key help-mode-map [f1] 'emacs-lisp-describe-dwim)
+(define-key lisp-interaction-mode-map [f1] 'emacs-lisp-describe-dwim)
 
 (define-key emacs-lisp-mode-map [f5] 'eval-last-sexp)
+(define-key lisp-interaction-mode-map [f5] 'eval-last-sexp)
 
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 
+;; *scratch* is a kind of lisp-interaction-mode buffer
 (add-hook 'lisp-interaction-mode 'enable-paredit-mode)
 (sp-local-pair 'lisp-interaction-mode "'" nil :actions nil)
 
