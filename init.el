@@ -241,6 +241,7 @@
 (global-set-key (kbd "C-w") 'kill-buffer)
 
 ;; Redo. was yank
+;; (global-set-key (kbd "C-y") 'undo-redo)
 (global-set-key (kbd "C-y") 'redo) ; undo-tree-redo
 
 ;; Undo. was suspend-frame
