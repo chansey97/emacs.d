@@ -39,6 +39,8 @@
 
 ;; tab-line tab context menu
 
+(setq tab-line-close-tab-function 'kill-buffer)
+
 (defvar sc-tab-line-tab-context-menu-last-window nil)
 (defvar sc-tab-line-tab-context-menu-last-tab nil)
 
@@ -136,7 +138,6 @@
 (defun sc-tab-line-tab-kill-all-but (&optional event)
   (interactive (list last-nonmenu-event))
   (let* ((window sc-tab-line-tab-context-menu-last-window)
-         (window (and posnp (posn-window posnp)))
          (tab sc-tab-line-tab-context-menu-last-tab)
          (tabs (funcall tab-line-tabs-function)))
     (mapc (lambda(x-tab)
