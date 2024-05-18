@@ -1079,12 +1079,18 @@ re-downloaded in order to locate PACKAGE."
 
 ;; If want to decrease font size in treemacs, use text-scale-decrease in treemacs buffer
 ;; current win-emacs has no magick support, so can not decrease icon
+;; TODO: might be use fontlock attribute
 ;; https://github.com/Alexander-Miller/treemacs/issues/652
 ;; https://github.com/Alexander-Miller/treemacs/issues/842
 (add-hook 'treemacs-mode-hook
           (lambda ()
             (message "treemacs-mode-hook `%s'" (current-buffer))
             (text-scale-increase -2)
+            ;; Disable line-numbers-mode on treemacs
+            ;; https://github.com/Alexander-Miller/treemacs/issues/137
+            (if (version< emacs-version "29.1")
+                (linum-mode -1)
+              (display-line-numbers-mode -1))
             ))
 
 ;; - Session Persistence
