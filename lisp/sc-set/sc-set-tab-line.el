@@ -1,7 +1,9 @@
 ;;----------------------------------------------------------------------------
+;; Tab Line
 ;; tab-line.el (new)
-;;----------------------------------------------------------------------------
 ;; (version<= "27.1" emacs-version)
+;;----------------------------------------------------------------------------
+(require 'w32-browser)
 
 ;; tab-line appearance
 
@@ -91,7 +93,7 @@
   (let* ((tab sc-tab-line-tab-context-menu-last-tab)
          (buffer (if (bufferp tab) tab (cdr (assq 'buffer tab))))
          (fn (buffer-file-name buffer)))
-    (cond ((eq system-type 'windows-nt) (w32explore fn))
+    (cond ((eq system-type 'windows-nt) (w32explore (convert-standard-filename fn)))
           (t (message "TODO: Not Implemented - open-folder-in-explorer")))))
 
 (defun --sc-tab-line-tab-close (window tab)
@@ -225,5 +227,3 @@
 ;;         ("Threads\\|Memory\\|Disassembly\\|Breakpoints\\|Frames\\|Locals\\|Registers\\|Inferior I/O\\|Debugger" . "GDB")
 ;;         ("Lisp" . "Lisp")))
 ;; 2. 设置 display-buffer-alist 把文件 buffer 放到 site-window 上面，非文件 buffer 放到 site-window 下面
-
-(provide 'sc-set-tab-line)

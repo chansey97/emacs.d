@@ -1,3 +1,13 @@
+;;----------------------------------------------------------------------------
+;; Face and Font
+;;----------------------------------------------------------------------------
+(setq inhibit-compacting-font-caches t)
+
+;; Resize font
+;; Use C-x C-0 to start text-scale-adjust, use + - 0 for further adjustment
+(setq text-scale-mode-step 1.1)         ;finer inc/dec than default 1.2
+
+
 
 ;; Tip: M-x describe-char can see the character info under cursor
 
@@ -485,7 +495,3 @@
 (set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil 'prepend)
 (set-fontset-font t 'chess-symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
-
-(provide 'sc-set-font)
-
-
