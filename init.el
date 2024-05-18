@@ -178,6 +178,7 @@
 ;;----------------------------------------------------------------------------
 ;; Tool Bar - Buttons
 ;;----------------------------------------------------------------------------
+(tool-bar-mode 1)
 
 ;; Back-button
 ;; press the plus sign in the toolbar to create a mark
@@ -664,8 +665,6 @@
   (interactive)
   ;; (switch-to-buffer-other-window "*Messages*")
   (pop-to-buffer "*Messages*"))
-
-
 
 (tool-bar-add-item "show" 'open-messages-buffer 'open-messages-buffer :help "Open *Messages* buffer")
 
