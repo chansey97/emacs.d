@@ -22,3 +22,6 @@
 (tool-bar-add-item "delete" 'erase-messages-buffer 'erase-messages-buffer :help "Erase *Messages* buffer")
 
 ;; TODO: Open *scratch* buffer and *ielm* buffer
+
+
+(provide 'sc-set-tool-bar)

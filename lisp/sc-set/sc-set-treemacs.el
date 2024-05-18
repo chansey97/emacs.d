@@ -99,3 +99,6 @@
 ;; (define-key global-map (kbd "C-x t B") 'treemacs-bookmark)
 ;; (define-key global-map (kbd "C-x t C-t") 'treemacs-find-file)
 ;; (define-key global-map (kbd "C-x t M-t") 'treemacs-find-tag)
+
+
+(provide 'sc-set-treemacs)

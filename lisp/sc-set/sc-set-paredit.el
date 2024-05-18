@@ -37,3 +37,6 @@
 
 ;; don't hijack \ please (eg: ^S\)
 (define-key paredit-mode-map (kbd "\\") nil)
+
+
+(provide 'sc-set-paredit)

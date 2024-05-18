@@ -8,3 +8,4 @@
 (define-key smt-mode-map (kbd "C-<down>")  'forward-paragraph)
 (define-key smt-mode-map (kbd "C-<up>")  'backward-paragraph)
 
+(provide 'sc-set-pl-smt)

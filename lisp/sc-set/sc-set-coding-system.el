@@ -56,3 +56,6 @@
 ;; w32-unicode-filenames
 ;; file-name-coding-system
 ;; DEFSYM (Qno_conversion, "no-conversion")
+
+
+(provide 'sc-set-coding-system)

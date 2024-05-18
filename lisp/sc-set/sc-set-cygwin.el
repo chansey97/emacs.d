@@ -32,3 +32,6 @@
 ;;            (getenv "PATH")))
 ;;   (require 'cygwin-mount)
 ;;   (cygwin-mount-activate))
+
+
+(provide 'sc-set-cygwin)

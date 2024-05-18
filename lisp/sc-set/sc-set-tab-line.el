@@ -227,3 +227,6 @@
 ;;         ("Threads\\|Memory\\|Disassembly\\|Breakpoints\\|Frames\\|Locals\\|Registers\\|Inferior I/O\\|Debugger" . "GDB")
 ;;         ("Lisp" . "Lisp")))
 ;; 2. 设置 display-buffer-alist 把文件 buffer 放到 site-window 上面，非文件 buffer 放到 site-window 下面
+
+
+(provide 'sc-set-tab-line)

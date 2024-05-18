@@ -14,3 +14,6 @@
   enable-symbol-overlay-mode)
 
 (global-symbol-overlay-mode)
+
+
+(provide 'sc-set-symbol-overlay)

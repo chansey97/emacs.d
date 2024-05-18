@@ -10,3 +10,5 @@
           (lambda ()
             (setq-local company-backends company-backends-non-lisp)
             ))
+
+(provide 'sc-set-shell)

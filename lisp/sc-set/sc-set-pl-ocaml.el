@@ -8,3 +8,5 @@
 (define-key tuareg-mode-map [f8] 'caml-types-show-type)
 (define-key tuareg-mode-map (kbd "M-<up>") 'drag-stuff-up)
 (define-key tuareg-mode-map (kbd "M-<down>") 'drag-stuff-down)
+
+(provide 'sc-set-pl-ocaml)

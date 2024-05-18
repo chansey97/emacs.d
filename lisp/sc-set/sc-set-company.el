@@ -46,3 +46,7 @@
 ;;----------------------------------------------------------------------------
 (require 'company-quickhelp)
 (company-quickhelp-mode)
+
+
+
+(provide 'sc-set-company)

@@ -16,3 +16,6 @@
 ;;   "Clears unmodified FIELD if at field start."
 ;;   (interactive)
 ;;   (yas--skip-and-clear (or field (yas-current-field))))
+
+
+(provide 'sc-set-yasnippet)

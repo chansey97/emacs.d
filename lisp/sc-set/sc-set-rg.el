@@ -41,3 +41,5 @@
 ;; Note 2:
 ;; The args of cmdproxy.exe are list item
 ;; The args of rg-w32-ripgrep-proxy.bat are substring, i.e. "c:/.../rg-w32-ripgrep-proxy.bat new-args"
+
+(provide 'sc-set-rg)

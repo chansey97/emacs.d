@@ -495,3 +495,5 @@
 (set-fontset-font t 'chess-symbol (font-spec :family "Noto Sans Symbols 2" :size 20) nil 'prepend)
 (set-fontset-font t 'chess-symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
+
+(provide 'sc-set-font)

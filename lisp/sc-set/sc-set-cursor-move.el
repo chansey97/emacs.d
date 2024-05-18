@@ -8,3 +8,6 @@
 (global-set-key (kbd "C-<left>")  'sc-backward)
 (global-set-key (kbd "C-<down>")  'sc-forward-up)
 (global-set-key (kbd "C-<up>")    'sc-backward-up)
+
+
+(provide 'sc-set-cursor-move)

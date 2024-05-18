@@ -15,3 +15,5 @@
 
 (global-set-key (kbd "M-<down>") 'drag-prev-sexp-forward)
 (global-set-key (kbd "M-<up>") 'drag-prev-sexp-backward)
+
+(provide 'sc-set-drag-sexp)

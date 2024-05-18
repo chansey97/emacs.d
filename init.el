@@ -26,7 +26,7 @@
 ;; (setq gc-cons-percentage 0.5)
 ;; (run-with-idle-timer 30 t #'garbage-collect)
 
-;; Profiling variables
+;; Profiling variables:
 ;; gcs-done
 ;; (emacs-init-time)
 
@@ -53,7 +53,7 @@
 ;; Emacs Configurations
 ;;----------------------------------------------------------------------------
 
-(load "sc-set-cygwin")
+;; (require 'sc-set-cygwin)
 
 ;;----------------------------------------------------------------------------
 ;; Graphics
@@ -65,9 +65,9 @@
 
 (require 'sc-set-server)
 
-(load "sc-set-coding-system")
+(require 'sc-set-coding-system)
 
-(load "sc-set-font")
+(require 'sc-set-font)
 
 ;;----------------------------------------------------------------------------
 ;; Recycle Bin
@@ -81,9 +81,9 @@
 (when (version<= "28.1" emacs-version)
   (context-menu-mode 1))
 
-(load "sc-set-tool-bar-back-button")
+(require 'sc-set-tool-bar-back-button)
 
-(load "sc-set-dired")
+(require 'sc-set-dired)
 
 ;;----------------------------------------------------------------------------
 ;; Text Editing
@@ -145,7 +145,7 @@
 ;; mouse selection: shift selection
 (define-key global-map (kbd "<S-down-mouse-1>") 'mouse-save-then-kill)
 
-(load "sc-set-select-current-line")
+(require 'sc-set-select-current-line)
 
 ;;----------------------------------------------------------------------------
 ;; Text Highlight
@@ -155,7 +155,7 @@
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#fef8df")
 
-(load "sc-set-paren")
+(require 'sc-set-paren)
 
 ;; remember cursor position, for emacs 25.1 or later
 (save-place-mode 1)
@@ -283,7 +283,7 @@
   (indent-region (point-min) (point-max)))
 
 (defun indent-region-or-buffer()
-  (interactive)
+  (interactive)
   (save-excursion
     (if (region-active-p)
         (progn
@@ -333,7 +333,7 @@
 (global-set-key (kbd "C-M-c") 'comment-or-uncomment-region-or-line)
 
 
-(load "sc-set-window-split")
+(require 'sc-set-window-split)
 
 ;;----------------------------------------------------------------------------
 ;; disable warnings
@@ -391,7 +391,7 @@
 ;; show menu
 (menu-bar-mode 1)
 
-(load "sc-set-hippie-exp")
+(require 'sc-set-hippie-exp)
 
 ;;----------------------------------------------------------------------------
 ;; page-break-lines
@@ -430,7 +430,7 @@
     (treemacs--follow)))
 (global-set-key (kbd "<f2>") 'open-init-file)
 
-(load "sc-set-menu")
+(require 'sc-set-menu)
 
 ;; TODO: add a mouse menu to copy, cut, paste, etc
 (global-set-key [mouse-3] 'mouse-buffer-menu)
@@ -448,7 +448,7 @@
 ;; Mark
 (setq global-mark-ring-max 500)
 
-(load "sc-set-tool-bar")
+(require 'sc-set-tool-bar)
 
 
 ;; Redefine xref-find-references keybinding 
@@ -523,39 +523,39 @@ re-downloaded in order to locate PACKAGE."
 
 
 
-(load "sc-set-drag-stuff")
-(load "sc-set-drag-sexp")
+(require 'sc-set-drag-stuff)
+(require 'sc-set-drag-sexp)
 
-(load "sc-set-yasnippet")
-(load "sc-set-company")
-(load "sc-set-ivy")
-(load "sc-set-expand-region")
-(load "sc-set-symbol-overlay")
-(load "sc-set-smartparens")
-(load "sc-set-paredit")
+(require 'sc-set-yasnippet)
+(require 'sc-set-company)
+(require 'sc-set-ivy)
+(require 'sc-set-expand-region)
+(require 'sc-set-symbol-overlay)
+(require 'sc-set-smartparens)
+(require 'sc-set-paredit)
 
-(load "sc-set-cursor-move")
+(require 'sc-set-cursor-move)
 
-(load "sc-set-window")
-(load "sc-set-undo-tree")
-(load "sc-set-tab-line")
-(load "sc-set-header-line")
-(load "sc-set-projectile")
-(load "sc-set-rg")
-(load "sc-set-treemacs")
-(load "sc-set-shell")
+(require 'sc-set-window)
+(require 'sc-set-undo-tree)
+(require 'sc-set-tab-line)
+(require 'sc-set-header-line)
+(require 'sc-set-projectile)
+(require 'sc-set-rg)
+(require 'sc-set-treemacs)
+(require 'sc-set-shell)
 
-(load "sc-set-pl-elisp")
-(load "sc-set-pl-scheme")
-(load "sc-set-pl-racket")
-(load "sc-set-pl-racket-pie")
-(load "sc-set-pl-cl")
-(load "sc-set-pl-sml")
-(load "sc-set-pl-ocaml")
-(load "sc-set-pl-haskell")
-(load "sc-set-pl-prolog")
-(load "sc-set-pl-smt")
-(load "sc-set-pl-sql")
+(require 'sc-set-pl-elisp)
+(require 'sc-set-pl-scheme)
+(require 'sc-set-pl-racket)
+(require 'sc-set-pl-racket-pie)
+(require 'sc-set-pl-cl)
+(require 'sc-set-pl-sml)
+(require 'sc-set-pl-ocaml)
+(require 'sc-set-pl-haskell)
+(require 'sc-set-pl-prolog)
+(require 'sc-set-pl-smt)
+(require 'sc-set-pl-sql)
 
 
 

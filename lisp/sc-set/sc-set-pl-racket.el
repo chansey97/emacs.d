@@ -50,3 +50,6 @@
 (put 'on 'racket-indent-function 1)
 (put 'π 'racket-indent-function 1)
 (put 'try 'racket-indent-function 1)
+
+
+(provide 'sc-set-pl-racket)

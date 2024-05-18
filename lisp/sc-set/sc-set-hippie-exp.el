@@ -14,3 +14,5 @@
         ;; try-expand-list
         ;; try-expand-line
         ))
+
+(provide 'sc-set-hippie-exp)

@@ -144,3 +144,6 @@
 	        (goto-char (- (point-max) pos))))))
 
 (add-hook 'scheme-mode-hook (lambda () (setq-local indent-line-function 'scheme-indent-line)))
+
+
+(provide 'sc-set-pl-scheme)

@@ -9,3 +9,5 @@
         (t (save-excursion
              (ignore-errors (backward-up-list))
              (funcall fn)))))
+
+(provide 'sc-set-paren)

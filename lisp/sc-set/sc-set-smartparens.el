@@ -2,3 +2,6 @@
 ;; smartparens
 ;;----------------------------------------------------------------------------
 (require 'smartparens-config)
+
+
+(provide 'sc-set-smartparens)

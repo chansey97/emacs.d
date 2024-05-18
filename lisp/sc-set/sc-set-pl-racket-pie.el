@@ -2,3 +2,6 @@
 ;; pie-mode (the little typer)
 ;;----------------------------------------------------------------------------
 (require 'pie-mode)
+
+
+(provide 'sc-set-pl-racket-pie)

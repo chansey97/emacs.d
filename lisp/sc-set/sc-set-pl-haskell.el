@@ -27,3 +27,6 @@
              (message "Using cabal repl"))
     (progn (setq haskell-process-type 'ghci)
            (message "Using GHCi"))))
+
+
+(provide 'sc-set-pl-haskell)

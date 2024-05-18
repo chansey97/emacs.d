@@ -36,3 +36,5 @@
 ;; postgres
 (setq sql-postgres-program "C:/PROGRA~1/PostgreSQL/12/bin/psql.exe")
 (setenv "PGPASSWORD" "")
+
+(provide 'sc-set-pl-sql)

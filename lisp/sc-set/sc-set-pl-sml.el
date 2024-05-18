@@ -71,3 +71,6 @@
           (lambda ()
             (setq-local paredit-space-for-delimiter-predicates '(sml--at-expression-paredit-space-for-delimiter-predicate))
             (enable-paredit-mode)))
+
+
+(provide 'sc-set-pl-sml)

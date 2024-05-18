@@ -18,3 +18,5 @@
 (advice-add 'cua-cancel :before #'sc-select-current-line-cancel)
 
 (global-set-key (kbd "C--") 'sc-select-current-line)
+
+(provide 'sc-set-select-current-line)

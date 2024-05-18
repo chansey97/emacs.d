@@ -23,3 +23,5 @@
 ;; https://stackoverflow.com/questions/9433013/can-i-make-emacs-grep-windows-just-use-the-other-window-to-open-files-in
 (setq split-height-threshold nil)
 (setq split-width-threshold nil)
+
+(provide 'sc-set-window-split)

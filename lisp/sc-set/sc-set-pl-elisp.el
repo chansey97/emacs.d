@@ -78,3 +78,6 @@
 				                                 :vert-only t)
           map))
   )
+
+
+(provide 'sc-set-pl-elisp)

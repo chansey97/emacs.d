@@ -6,3 +6,6 @@
 (when (eq system-type 'windows-nt)
   (require 'back-button)
   (back-button-mode 1))
+
+
+(provide 'sc-set-tool-bar-back-button)
