@@ -37,7 +37,8 @@
   (let ((default-directory (file-name-as-directory dir)))
     (add-to-list 'load-path dir)
     (normal-top-level-add-subdirs-to-load-path)))
-(add-subdirs-to-load-path (concat user-emacs-directory "site-lisp"))
+(add-subdirs-to-load-path (expand-file-name "site-lisp" user-emacs-directory))
+(add-subdirs-to-load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;;----------------------------------------------------------------------------
 ;; Cygwin
