@@ -1,18 +1,20 @@
-;; (setq debug-on-error t)
-
-;; (defun print-post-command ()
-;;   (message "this-command: %s" this-command))
-;; (add-hook 'post-command-hook 'print-post-command)
-;; (remove-hook 'post-command-hook 'print-post-command)
-
-(let ((minver "24.3"))
+;;----------------------------------------------------------------------------
+;; Emacs Version
+;;----------------------------------------------------------------------------
+(let ((minver "27.2"))
   (when (version< emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
-(when (version< emacs-version "24.5")
-  (message "Your Emacs is old, and some functionality in this config will be disabled. Please upgrade if possible."))
 
+;;----------------------------------------------------------------------------
+;; Debug
+;;----------------------------------------------------------------------------
+;; (setq debug-on-error t)
 
-
+;; Check which command uses.
+;; (defun --print-post-command ()
+;;   (message "--print-post-command: %s" this-command))
+;; (add-hook 'post-command-hook '--print-post-command)
+;; (remove-hook 'post-command-hook '--print-post-command)
 
 ;;----------------------------------------------------------------------------
 ;; Adjust garbage collection
