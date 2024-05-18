@@ -1,4 +1,6 @@
-
+;;----------------------------------------------------------------------------
+;; Emacs Lite
+;;----------------------------------------------------------------------------
 
 
 ;;----------------------------------------------------------------------------
@@ -13,3 +15,7 @@
 
 ;; TODO: fast drag the vertical scroll bar would cause screen freezing
 ;; Don't know what happen, but not the problem of cua-mode, back-button, and treemacs.
+
+
+
+(provide 'sc-set-emacs-lite)

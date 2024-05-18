@@ -1,5 +1,5 @@
 ;;----------------------------------------------------------------------------
-;; Debug Stuff
+;; Debug
 ;;----------------------------------------------------------------------------
 ;; (setq debug-on-error t)
 
@@ -41,8 +41,17 @@
 (add-subdirs-to-load-path (expand-file-name "site-lisp" user-emacs-directory))
 (add-subdirs-to-load-path (expand-file-name "lisp" user-emacs-directory))
 
-(load "sc-set-emacs-lite")
+;;----------------------------------------------------------------------------
+;; Emacs Lite
+;;----------------------------------------------------------------------------
+;; The minimal portable configuration, for debug purpose.
+(require 'sc-set-emacs-lite)
 
+
+
+;;----------------------------------------------------------------------------
+;; Emacs Configurations
+;;----------------------------------------------------------------------------
 
 (load "sc-set-cygwin")
 
@@ -54,13 +63,7 @@
            (version<= "28.1" emacs-version))
   (setq w32-use-native-image-API t))
 
-;;----------------------------------------------------------------------------
-;; Server
-;;----------------------------------------------------------------------------
-(require 'server)
-(unless (server-running-p)
-  (server-start))
-
+(require 'sc-set-server)
 
 (load "sc-set-coding-system")
 
