@@ -212,41 +212,10 @@
 ;;       (force-mode-line-update)
 ;;       )))
 
-
-;; (setq my-tab-line-buffer-list ())
-;;
-;; ;; Filter special buffers from tab-line while maintaining current order
-;; (setq tab-line-tabs-function
-;;       (lambda ()
-;;         (let* ((current-tabs (--select (buffer-file-name it) (buffer-list)))
-;;                (intersect-tabs (--select (member it current-tabs) my-tab-line-buffer-list))
-;;                (new-tabs (--select (not (member it my-tab-line-buffer-list)) current-tabs)))
-;;           (setq my-tab-line-buffer-list (append intersect-tabs new-tabs)))))
-
-
-;; tab-line-tabs-window-buffers 默认行为
-;; (setq tab-line-tabs-function 'tab-line-tabs-window-buffers)
-
-;; tab-line-tabs-mode-buffers 每个 major mode 一个 window
-;; 这显然不是很好的做法，导致需要很多 window 但一个屏幕里的 window 有限
-;; 注意：+ New Tab 符号没了，好在可以用右键
-;; (setq tab-line-tabs-function 'tab-line-tabs-mode-buffers)
-
-;; tab-line-tabs-buffer-groups
-;; 类似 tab-line-tabs-mode-buffers，但是允许多个 mode 分在一个组（左上角显示分组和选择分组）
-;; 理论上，如果只分两个组，应该是不错的
-;; 注意：+ New Tab 符号没了，好在可以用右键
-;; 注意：此方法也并不能修正 Back-button 问题，另外当前 select 的 buffer 会被还到首位..
-;; (setq tab-line-tabs-function 'tab-line-tabs-buffer-groups)
-;; (setq tab-line-tabs-buffer-group-function
-;;       (lambda (buf)
-;;         (cond ((string-match-p "Info\\|Help\\|Apropos\\|Man\\|Message" buf) "Misc")
-;;               (t "MainGroup"))
-;;         ))
-
+;; TODO:
+;; 1. Try tab-line-tabs-buffer-groups? not good though...
 ;; (setq tab-line-tabs-buffer-groups
 ;;       '(("Info\\|Help\\|Apropos\\|Man\\|Message\\|rg\\|" . "Misc")
-
 ;;         ("\\<C\\>" . "C")
 ;;         ("ObjC" . "C")
 ;;         ("Text" . "Text")
@@ -255,32 +224,6 @@
 ;;         ("\\blog\\b\\|diff\\|\\bvc\\b\\|cvs\\|Git\\|Annotate" . "Version Control")
 ;;         ("Threads\\|Memory\\|Disassembly\\|Breakpoints\\|Frames\\|Locals\\|Registers\\|Inferior I/O\\|Debugger" . "GDB")
 ;;         ("Lisp" . "Lisp")))
-
-;; (string-match-p "Info\\|Help\\|Apropos\\|Man" "Man")
-
-
-
-
-;;---  new tab button 定制?
-
-;;无法修改，因为 menu 的内容会动态改变（比如：根据大小什么的。。。感觉 emacs 有点过度设计了），没有固定格式，问减少的时候不会group as submenu
-;;但是有一个 mouse-buffer-menu-mode-groups 可以分类倒是能做做，因为 emacs 默认情况下并没有分类
-;;可以增加一些分类的
-
-;; 可以设置 major-mode 变量来决定创建哪种文件
-
-;;(defun sc-mouse-buffer-menu-map (menu)
-;;  (let ((subdivided-menus (cdr menu))
-;;        (new-item (concat "temp_" (symbol-name (cl-gensym)))))
-;;    (cons "Buffer Menu"
-;;          (cons (cons "New" (list `("temp" . ,new-item)))
-;;                subdivided-menus))
-;;    ))
-;;(advice-add 'mouse-buffer-menu-map :filter-return #'sc-mouse-buffer-menu-map)
-;;(advice-remove 'mouse-buffer-menu-map #'sc-mouse-buffer-menu-map)
-
-
-;;tab-line-tabs-function
-;;这个是否应该分文件和非文件 buffer，一个在上面一个在下面？需要研究
+;; 2. 设置 display-buffer-alist 把文件 buffer 放到 site-window 上面，非文件 buffer 放到 site-window 下面
 
 (provide 'sc-set-tab-line)
