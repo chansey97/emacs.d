@@ -1198,6 +1198,7 @@ re-downloaded in order to locate PACKAGE."
 
 (define-key emacs-lisp-mode-map [f1] 'emacs-lisp-describe-dwim)
 (define-key help-mode-map [f1] 'emacs-lisp-describe-dwim)
+(define-key Info-mode-map [f1] 'emacs-lisp-describe-dwim)
 (define-key lisp-interaction-mode-map [f1] 'emacs-lisp-describe-dwim)
 
 (define-key emacs-lisp-mode-map [f5] 'eval-last-sexp)
