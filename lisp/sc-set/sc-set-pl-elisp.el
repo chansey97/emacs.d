@@ -1,9 +1,11 @@
 ;;----------------------------------------------------------------------------
 ;; eldoc, pos-tip
 ;;----------------------------------------------------------------------------
+;; TODO: performance check
+;; eldoc with pos-tip seems to affect buffer scrolling performance,
+;; but it is very useful, so I have to enable.
 (defun eldoc-pos-tip-message (format-string &rest args)
   "Display eldoc message near point."
-  (message "eldoc-pos-tip-message asd")
   (when format-string
     (pos-tip-show (format format-string args))))
 
