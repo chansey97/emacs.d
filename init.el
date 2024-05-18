@@ -1,12 +1,5 @@
 ;;----------------------------------------------------------------------------
-;; Emacs Version
-;;----------------------------------------------------------------------------
-(let ((minver "27.2"))
-  (when (version< emacs-version minver)
-    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
-
-;;----------------------------------------------------------------------------
-;; Debug
+;; Debug Stuff
 ;;----------------------------------------------------------------------------
 ;; (setq debug-on-error t)
 
@@ -17,18 +10,25 @@
 ;; (remove-hook 'post-command-hook '--print-post-command)
 
 ;;----------------------------------------------------------------------------
+;; Emacs Version
+;;----------------------------------------------------------------------------
+(let ((minver "27.2"))
+  (when (version< emacs-version minver)
+    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
+
+;;----------------------------------------------------------------------------
 ;; Adjust garbage collection
 ;;----------------------------------------------------------------------------
+(setq garbage-collection-messages t)
+;; The default value of gc-cons-threshold is 800000 - just 7.6MiB,
+;; but I didn't see any remarkable effect when setting the these variables. 
+;; (setq gc-cons-threshold (* gc-cons-threshold 2))
+;; (setq gc-cons-percentage 0.5)
+;; (run-with-idle-timer 30 t #'garbage-collect)
 
-(when (eq system-type 'windows-nt)
-  (setq gc-cons-threshold 80000000) ;; original value *100 = 80MB
-  ;; (setq gc-cons-threshold (* 512 1024 1024))
-  ;;   (setq gc-cons-percentage 0.5)
-  ;;   (run-with-idle-timer 30 t #'garbage-collect)
-  ;;   ;; show gc info for debugging
-  ;;   (setq garbage-collection-messages t)
-  )
-
+;; Profiling variables
+;; gcs-done
+;; (emacs-init-time)
 
 ;;----------------------------------------------------------------------------
 ;; Path
