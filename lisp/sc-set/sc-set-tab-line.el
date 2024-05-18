@@ -283,4 +283,4 @@
 ;;tab-line-tabs-function
 ;;这个是否应该分文件和非文件 buffer，一个在上面一个在下面？需要研究
 
-(provide 'sc-tab-line)
+(provide 'sc-set-tab-line)

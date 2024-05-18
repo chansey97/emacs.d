@@ -486,9 +486,6 @@
 (set-fontset-font t 'chess-symbol (font-spec :family "Segoe UI Emoji" :size 20) nil 'prepend)
 ;; chess-symbol: 🨀🨁🨂🨃🨄🨅🩠🩡🩢🩣🩤🩥🩦
 
-(provide 'sc-font-settings)
-
-
-
+(provide 'sc-set-font)
 
 

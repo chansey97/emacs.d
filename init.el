@@ -158,7 +158,7 @@
 ;; Face and Font
 ;;----------------------------------------------------------------------------
 (setq inhibit-compacting-font-caches t)
-(require 'sc-font-settings)
+(require 'sc-set-font)
 
 ;; Resize font
 ;; Use C-x C-0 to start text-scale-adjust, use + - 0 for further adjustment
@@ -993,7 +993,7 @@ re-downloaded in order to locate PACKAGE."
 ;;----------------------------------------------------------------------------
 ;; Tab Line
 ;;----------------------------------------------------------------------------
-(require 'sc-tab-line)
+(require 'sc-set-tab-line)
 
 ;;----------------------------------------------------------------------------
 ;; Header Line
